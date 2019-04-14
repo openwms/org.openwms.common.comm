@@ -78,8 +78,8 @@
         <core.version>1.3.0</core.version>
         <logstash-logback-encoder.version>4.9</logstash-logback-encoder.version>
         <guava.version>19.0</guava.version>
-        <sonar.java.binaries>target/classes</sonar.java.binaries>
-        <sonar.java.libraries>target/dependency/*.jar</sonar.java.libraries>
+
+
     </properties>
 
     <reporting>
