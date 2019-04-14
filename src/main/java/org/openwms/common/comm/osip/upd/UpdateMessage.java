@@ -16,7 +16,7 @@
 package org.openwms.common.comm.osip.upd;
 
 import org.openwms.common.comm.osip.Payload;
-import org.openwms.common.comm.osip.upd.spi.UpdateFieldLengthProvider;
+import org.openwms.common.comm.spi.FieldLengthProvider;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -26,8 +26,8 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 /**
- * A UpdateMessage reflects the OSIP UPD telegram type and is used to change the state of
- * a {@code LocationGroup}.
+ * A UpdateMessage reflects the OSIP UPD telegram type and is used to book a {@code TransportUnit}
+ * on a {@code Location}.
  *
  * @author <a href="mailto:hscherrer@openwms.org">Heiko Scherrer</a>
  */
@@ -42,6 +42,9 @@ public class UpdateMessage extends Payload implements Serializable {
     private UpdateMessage(Builder builder) {
         barcode = builder.barcode;
         actualLocation = builder.actualLocation;
+    }
+
+    protected UpdateMessage() {
     }
 
     /*~------------ Accessors ------------*/
@@ -75,34 +78,22 @@ public class UpdateMessage extends Payload implements Serializable {
      */
     @Override
     public boolean isWithoutReply() {
-        return false;
+        return true;
     }
 
     /*~------------ Builders ------------*/
-    /**
-     * {@code UpdateMessage} builder static inner class.
-     */
     public static final class Builder {
 
         private String barcode;
         private String actualLocation;
         private String errorCode;
         private Date created;
-        private final UpdateFieldLengthProvider provider;
+        private final FieldLengthProvider provider;
 
-        /**
-         * Create a new RequestMessage.Builder.
-         */
-        public Builder(UpdateFieldLengthProvider provider) {
+        public Builder(FieldLengthProvider provider) {
             this.provider = provider;
         }
 
-        /**
-         * Add an {@code Barcode} to the message.
-         *
-         * @param barcode The barcode
-         * @return The builder
-         */
         public Builder withBarcode(String barcode) {
             this.barcode = barcode;
             return this;
@@ -114,24 +105,11 @@ public class UpdateMessage extends Payload implements Serializable {
             return this;
         }
 
-        /**
-         * Add an error code.
-         *
-         * @param errorCode The error code
-         * @return The builder
-         */
         public Builder withErrorCode(String errorCode) {
             this.errorCode = errorCode;
             return this;
         }
 
-        /**
-         * Add the date of creation in an expected format.
-         *
-         * @param createDate The creation date
-         * @param pattern The datetime pattern used for the date
-         * @return The builder
-         */
         public Builder withCreateDate(String createDate, String pattern) throws ParseException {
             this.created = new SimpleDateFormat(pattern).parse(createDate);
             return this;

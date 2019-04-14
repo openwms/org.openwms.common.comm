@@ -13,35 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.comm.osip.res.spi;
+package org.openwms.common.comm.osip.ack.tcp;
 
+import org.openwms.common.comm.config.Driver;
 import org.openwms.common.comm.osip.OSIPComponent;
+import org.openwms.common.comm.osip.OSIPSerializer;
+import org.openwms.common.comm.osip.ack.AckMessage;
+
+import java.text.SimpleDateFormat;
 
 /**
- * A ResponseFieldLengthProviderImpl.
+ * A AckMessageSerializer.
  *
  * @author <a href="mailto:hscherrer@openwms.org">Heiko Scherrer</a>
  */
 @OSIPComponent
-class ResponseFieldLengthProviderImpl implements ResponseFieldLengthProvider {
+class AckMessageSerializer extends OSIPSerializer<AckMessage> {
 
-    @Override
-    public int barcodeLength() {
-        return 20;
+    public AckMessageSerializer(Driver driver) {
+        super(driver);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public int locationIdLength() {
-        return 20;
+    public String getMessageIdentifier() {
+        return AckMessage.IDENTIFIER;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public int noLocationIdFields() {
-        return 5;
-    }
-
-    @Override
-    public int locationGroupNameLength() {
-        return 21;
+    protected String convert(AckMessage message) {
+        return getMessageIdentifier() +
+                message.getErrorCode() +
+                new SimpleDateFormat(getDriver().getOsip().getDatePattern()).format(message.getCreated());
     }
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.comm.osip.res;
+package org.openwms.common.comm.osip.res.tcp;
 
 import org.openwms.common.comm.MessageMismatchException;
 import org.openwms.common.comm.ParserUtils;
@@ -21,6 +21,7 @@ import org.openwms.common.comm.config.Driver;
 import org.openwms.common.comm.osip.OSIPComponent;
 import org.openwms.common.comm.osip.OSIPHeader;
 import org.openwms.common.comm.osip.OSIPSerializer;
+import org.openwms.common.comm.osip.res.ResponseMessage;
 
 import java.text.SimpleDateFormat;
 
@@ -33,7 +34,7 @@ import static org.openwms.common.comm.ParserUtils.padRight;
  * @author <a href="mailto:hscherrer@openwms.org">Heiko Scherrer</a>
  */
 @OSIPComponent
-public class ResponseMessageSerializer extends OSIPSerializer<ResponseMessage> {
+class ResponseMessageSerializer extends OSIPSerializer<ResponseMessage> {
 
     public ResponseMessageSerializer(Driver driver) {
         super(driver);

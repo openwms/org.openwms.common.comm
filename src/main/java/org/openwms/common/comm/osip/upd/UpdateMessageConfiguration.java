@@ -40,10 +40,22 @@ class UpdateMessageConfiguration {
         return new DirectChannel();
     }
 
+    @Bean(name = UpdateXServiceActivator.INPUT_CHANNEL_NAME)
+    public MessageChannel getMessageChannelX() {
+        return new DirectChannel();
+    }
+
     @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
     @Bean
     TopicExchange updExchange(
             @Value("${owms.driver.osip.upd.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
+    }
+
+    @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+    @Bean
+    TopicExchange updxExchange(
+            @Value("${owms.driver.osip.updx.exchange-name}") String exchangeName) {
         return new TopicExchange(exchangeName, true, false);
     }
 }

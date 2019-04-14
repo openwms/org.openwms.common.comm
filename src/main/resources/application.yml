@@ -41,3 +41,6 @@ owms:
       upd:
         exchange-name: osip
         routing-key-out: osip.upd.ss
+      updx:
+        exchange-name: osip
+        routing-key-out: osip.updx.ss

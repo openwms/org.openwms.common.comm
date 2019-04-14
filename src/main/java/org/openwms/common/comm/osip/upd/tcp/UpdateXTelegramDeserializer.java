@@ -22,6 +22,7 @@ import org.openwms.common.comm.config.Driver;
 import org.openwms.common.comm.osip.CommonMessageFactory;
 import org.openwms.common.comm.osip.OSIPComponent;
 import org.openwms.common.comm.osip.upd.UpdateMessage;
+import org.openwms.common.comm.osip.upd.UpdateXMessage;
 import org.openwms.common.comm.spi.FieldLengthProvider;
 import org.openwms.common.comm.tcp.TelegramDeserializer;
 import org.slf4j.Logger;
@@ -38,21 +39,21 @@ import static org.openwms.common.comm.osip.Payload.DATE_LENGTH;
 import static org.openwms.common.comm.osip.Payload.ERROR_CODE_LENGTH;
 
 /**
- * A UpdateTelegramDeserializer deserializes OSIP UPD telegram String into
- * {@link UpdateMessage}s.
+ * A UpdateXTelegramDeserializer deserializes OSIP UPDX telegram String into
+ * {@link UpdateXMessage}s.
  *
  * @author <a href="mailto:hscherrer@openwms.org">Heiko Scherrer</a>
- * @see UpdateMessage
+ * @see UpdateXMessage
  */
 @OSIPComponent
-class UpdateTelegramDeserializer implements TelegramDeserializer<UpdateMessage> {
+class UpdateXTelegramDeserializer implements TelegramDeserializer<UpdateXMessage> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateTelegramDeserializer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateXTelegramDeserializer.class);
     private static final Logger TELEGRAM_LOGGER = LoggerFactory.getLogger(CommConstants.CORE_INTEGRATION_MESSAGING);
     private final FieldLengthProvider provider;
     private final Driver driver;
 
-    UpdateTelegramDeserializer(FieldLengthProvider provider, Driver driver) {
+    UpdateXTelegramDeserializer(FieldLengthProvider provider, Driver driver) {
         this.provider = provider;
         this.driver = driver;
     }
@@ -61,7 +62,7 @@ class UpdateTelegramDeserializer implements TelegramDeserializer<UpdateMessage> 
      * {@inheritDoc}
      */
     @Override
-    public Message<UpdateMessage> deserialize(String telegram, Map<String, Object> headers) {
+    public Message<UpdateXMessage> deserialize(String telegram, Map<String, Object> headers) {
         if (TELEGRAM_LOGGER.isDebugEnabled()) {
             TELEGRAM_LOGGER.debug("Incoming: [{}]", telegram);
         }
@@ -74,9 +75,9 @@ class UpdateTelegramDeserializer implements TelegramDeserializer<UpdateMessage> 
         int startCreateDate = startErrorCode + ERROR_CODE_LENGTH;
 
         try {
-            GenericMessage<UpdateMessage> result =
+            GenericMessage<UpdateXMessage> result =
                 new GenericMessage<>(
-                    new UpdateMessage.Builder(provider)
+                    new UpdateXMessage.Builder(provider)
                         .withBarcode(telegram.substring(startBarcode, startActualLocation))
                         .withActualLocation(telegram.substring(startActualLocation, startErrorCode))
                         .withErrorCode(telegram.substring(startErrorCode, startCreateDate))
@@ -88,7 +89,7 @@ class UpdateTelegramDeserializer implements TelegramDeserializer<UpdateMessage> 
                 );
 
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Transformed telegram into UpdateMessage message: [{}]", result);
+                LOGGER.debug("Transformed telegram into UpdateXMessage message: [{}]", result);
             }
             return result;
         } catch (ParseException e) {
@@ -101,6 +102,6 @@ class UpdateTelegramDeserializer implements TelegramDeserializer<UpdateMessage> 
      */
     @Override
     public String forType() {
-        return UpdateMessage.IDENTIFIER;
+        return UpdateXMessage.IDENTIFIER;
     }
 }

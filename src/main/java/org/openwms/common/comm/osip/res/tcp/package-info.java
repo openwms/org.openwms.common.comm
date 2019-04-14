@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
- * Contains types and default implementations to extend the RES_ telegram handling.
+ * Contains types for {@code ResponseMessage} handling specific to tcp/ip.
  */
-package org.openwms.common.comm.osip.res.spi;
+package org.openwms.common.comm.osip.res.tcp;
 
