@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 /**
- * A AmqpUpdateMessageHandler.
+ * A AmqpUpdateXMessageHandler.
  *
  * @author <a href="mailto:hscherrer@openwms.org">Heiko Scherrer</a>
  */
@@ -62,7 +62,7 @@ class AmqpUpdateXMessageHandler implements Function<GenericMessage<UpdateXMessag
         header.setSender((String) msg.getHeaders().get(OSIPHeader.SENDER_FIELD_NAME));
         header.setSequenceNo((Short) msg.getHeaders().get(OSIPHeader.SEQUENCE_FIELD_NAME));
 
-        amqpTemplate.convertAndSend(exchangeName, routingKey, msg.getPayload());
+        amqpTemplate.convertAndSend(exchangeName, routingKey, UpdateMessageHelper.getXRequest(msg));
 
         AckMessage ackMessage = AckMessage
                 .newBuilder()

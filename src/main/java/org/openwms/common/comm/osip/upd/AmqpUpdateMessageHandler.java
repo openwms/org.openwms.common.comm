@@ -26,8 +26,6 @@ import org.springframework.messaging.support.GenericMessage;
 
 import java.util.function.Function;
 
-import static org.openwms.common.comm.osip.upd.HttpUpdateMessageHandler.getRequest;
-
 /**
  * A AmqpUpdateMessageHandler.
  *
@@ -59,7 +57,7 @@ class AmqpUpdateMessageHandler implements Function<GenericMessage<UpdateMessage>
         msg.getPayload().getHeader().setReceiver((String) msg.getHeaders().get(OSIPHeader.RECEIVER_FIELD_NAME));
         msg.getPayload().getHeader().setSender((String) msg.getHeaders().get(OSIPHeader.SENDER_FIELD_NAME));
         msg.getPayload().getHeader().setSequenceNo((Short) msg.getHeaders().get(OSIPHeader.SEQUENCE_FIELD_NAME));
-        amqpTemplate.convertAndSend(exchangeName, routingKey, getRequest(msg));
+        amqpTemplate.convertAndSend(exchangeName, routingKey, UpdateMessageHelper.getRequest(msg));
         return null;
     }
 }

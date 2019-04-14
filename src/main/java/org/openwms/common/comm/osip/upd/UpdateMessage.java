@@ -16,6 +16,7 @@
 package org.openwms.common.comm.osip.upd;
 
 import org.openwms.common.comm.osip.Payload;
+import org.openwms.common.comm.osip.ResponseHeader;
 import org.openwms.common.comm.spi.FieldLengthProvider;
 
 import java.io.Serializable;
@@ -83,7 +84,7 @@ public class UpdateMessage extends Payload implements Serializable {
 
     /*~------------ Builders ------------*/
     public static final class Builder {
-
+        private ResponseHeader header;
         private String barcode;
         private String actualLocation;
         private String errorCode;
@@ -92,6 +93,11 @@ public class UpdateMessage extends Payload implements Serializable {
 
         public Builder(FieldLengthProvider provider) {
             this.provider = provider;
+        }
+
+        public UpdateMessage.Builder withHeader(ResponseHeader header) {
+            this.header = header;
+            return this;
         }
 
         public Builder withBarcode(String barcode) {
@@ -117,6 +123,7 @@ public class UpdateMessage extends Payload implements Serializable {
 
         public UpdateMessage build() {
             UpdateMessage res = new UpdateMessage(this);
+            res.setHeader(this.header);
             res.setBarcode(this.barcode);
             res.setActualLocation(this.actualLocation);
             res.setErrorCode(this.errorCode);
@@ -126,16 +133,6 @@ public class UpdateMessage extends Payload implements Serializable {
     }
 
     /*~------------ Overrides ------------*/
-    /**
-     * {@inheritDoc}
-     *
-     * Include all fields.
-     */
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", UpdateMessage.class.getSimpleName() + "[", "]").add("barcode='" + barcode + "'").add("actualLocation='" + actualLocation + "'").toString();
-    }
-
     /**
      * {@inheritDoc}
      *
@@ -161,5 +158,15 @@ public class UpdateMessage extends Payload implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), barcode, actualLocation);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Include all fields.
+     */
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", UpdateMessage.class.getSimpleName() + "[", "]").add("barcode='" + barcode + "'").add("actualLocation='" + actualLocation + "'").toString();
     }
 }

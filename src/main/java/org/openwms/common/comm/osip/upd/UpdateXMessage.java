@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.StringJoiner;
 
 /**
  * A UpdateXMessage reflects the OSIP UPDX telegram type and is used to book a {@code TransportUnit}
@@ -111,5 +112,10 @@ public class UpdateXMessage extends UpdateMessage implements Serializable {
             res.setCreated(this.created);
             return res;
         }
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", UpdateXMessage.class.getSimpleName() + "[", "]").toString();
     }
 }

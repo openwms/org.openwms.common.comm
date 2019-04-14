@@ -16,7 +16,6 @@
 package org.openwms.common.comm.osip.upd;
 
 import org.openwms.common.comm.osip.OSIPComponent;
-import org.openwms.common.comm.osip.OSIPHeader;
 import org.openwms.core.SecurityUtils;
 import org.openwms.core.SpringProfiles;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,21 +57,6 @@ class HttpUpdateMessageHandler implements Function<GenericMessage<UpdateMessage>
         this.routingServicePassword = routingServicePassword;
     }
 
-    static UpdateVO getRequest(GenericMessage<UpdateMessage> msg) {
-        return new UpdateVO.Builder()
-                .type("UPD_")
-                .barcode(msg.getPayload().getBarcode())
-                .actualLocation(msg.getPayload().getActualLocation())
-                .errorCode(msg.getPayload().getErrorCode())
-                .created(msg.getPayload().getCreated())
-                .header(new UpdateVO.UpdateHeaderVO.Builder()
-                        .receiver(msg.getHeaders().get(OSIPHeader.RECEIVER_FIELD_NAME, String.class))
-                        .sender(msg.getHeaders().get(OSIPHeader.SENDER_FIELD_NAME, String.class))
-                        .sequenceNo(""+msg.getHeaders().get(OSIPHeader.SEQUENCE_FIELD_NAME, Short.class))
-                        .build())
-                .build();
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -81,7 +65,7 @@ class HttpUpdateMessageHandler implements Function<GenericMessage<UpdateMessage>
         restTemplate.exchange(
                 routingServiceProtocol+"://"+routingServiceName+"/upd",
                 HttpMethod.POST,
-                new HttpEntity<>(getRequest(msg), SecurityUtils.createHeaders(routingServiceUsername, routingServicePassword)),
+                new HttpEntity<>(UpdateMessageHelper.getRequest(msg), SecurityUtils.createHeaders(routingServiceUsername, routingServicePassword)),
                 Void.class
         );
         return null;
