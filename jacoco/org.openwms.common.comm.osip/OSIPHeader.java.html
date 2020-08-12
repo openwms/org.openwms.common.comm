@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OSIPHeader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: OSIP TCP/IP Driver</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.comm.osip</a> &gt; <span class="el_source">OSIPHeader.java</span></div><h1>OSIPHeader.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.comm.osip;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import static org.openwms.common.comm.ParserUtils.padLeft;
+
+/**
+ * A OSIPHeader represents the header part of a OSIP telegram message.
+ *
+ * @author Heiko Scherrer
+ */
+public class OSIPHeader implements Serializable {
+
+    public static final String PREFIX = &quot;osip_&quot;;
+    private String sync;
+    private short messageLength;
+    private String sender;
+    private String receiver;
+    private short sequenceNo;
+
+    public static final String SYNC_FIELD_NAME = PREFIX + &quot;sync_field&quot;;
+    public static final short LENGTH_SYNC_FIELD = 3;
+    public static final String MSG_LENGTH_FIELD_NAME = PREFIX + &quot;msg_length&quot;;
+    public static final short LENGTH_MESSAGE_LENGTH_FIELD = 5;
+    public static final String SENDER_FIELD_NAME = PREFIX + &quot;sender&quot;;
+    public static final short LENGTH_SENDER_FIELD = 5;
+    public static final String RECEIVER_FIELD_NAME = PREFIX + &quot;receiver&quot;;
+    public static final short LENGTH_RECEIVER_FIELD = 5;
+    public static final String SEQUENCE_FIELD_NAME = PREFIX + &quot;sequenceno&quot;;
+    public static final short LENGTH_SEQUENCE_NO_FIELD = 5;
+    public static final String TENANT_FIELD_NAME = PREFIX + &quot;tenant&quot;;
+
+    public static final short LENGTH_HEADER =
+                    LENGTH_SYNC_FIELD +
+                    LENGTH_MESSAGE_LENGTH_FIELD +
+                    LENGTH_RECEIVER_FIELD +
+                    LENGTH_SENDER_FIELD +
+                    LENGTH_SEQUENCE_NO_FIELD;
+
+<span class="fc" id="L59">    private OSIPHeader(Builder builder) {</span>
+<span class="fc" id="L60">        sync = builder.sync;</span>
+<span class="fc" id="L61">        messageLength = builder.messageLength;</span>
+<span class="fc" id="L62">        setSender(builder.sender);</span>
+<span class="fc" id="L63">        setReceiver(builder.receiver);</span>
+<span class="fc" id="L64">        sequenceNo = builder.sequenceNo;</span>
+<span class="fc" id="L65">    }</span>
+
+    public Iterable&lt;Map.Entry&lt;String, Object&gt;&gt; getAll() {
+<span class="nc" id="L68">        return Arrays.asList(</span>
+                new HashMap.SimpleEntry&lt;&gt;(SYNC_FIELD_NAME, sync),
+<span class="nc" id="L70">                new HashMap.SimpleEntry&lt;&gt;(MSG_LENGTH_FIELD_NAME, messageLength),</span>
+                new HashMap.SimpleEntry&lt;&gt;(SENDER_FIELD_NAME, sender),
+                new HashMap.SimpleEntry&lt;&gt;(RECEIVER_FIELD_NAME, receiver),
+<span class="nc" id="L73">                new HashMap.SimpleEntry&lt;&gt;(SEQUENCE_FIELD_NAME, sequenceNo)</span>
+        );
+    }
+
+    /**
+     * Get the sync.
+     *
+     * @return the sync.
+     */
+    public String getSync() {
+<span class="nc" id="L83">        return sync;</span>
+    }
+
+    /**
+     * Get the messageLength.
+     *
+     * @return the messageLength.
+     */
+    public short getMessageLength() {
+<span class="nc" id="L92">        return messageLength;</span>
+    }
+
+    /**
+     * Get the sender.
+     *
+     * @return the sender.
+     */
+    public String getSender() {
+<span class="nc" id="L101">        return sender;</span>
+    }
+
+    /**
+     * Set the sender.
+     *
+     * @param sender The sender to set.
+     */
+    public void setSender(String sender) {
+<span class="fc" id="L110">        this.sender = sender;</span>
+<span class="fc" id="L111">    }</span>
+
+    /**
+     * Get the receiver.
+     *
+     * @return the receiver.
+     */
+    public String getReceiver() {
+<span class="nc" id="L119">        return receiver;</span>
+    }
+
+    /**
+     * Set the receiver.
+     *
+     * @param receiver The receiver to set.
+     */
+    public void setReceiver(String receiver) {
+<span class="fc" id="L128">        this.receiver = receiver;</span>
+<span class="fc" id="L129">    }</span>
+
+    /**
+     * Get the sequenceNo.
+     *
+     * @return the sequenceNo.
+     */
+    public short getSequenceNo() {
+<span class="nc" id="L137">        return sequenceNo;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L147">        final int prime = 31;</span>
+<span class="nc" id="L148">        int result = 1;</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        result = prime * result + ((receiver == null) ? 0 : receiver.hashCode());</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        result = prime * result + ((sender == null) ? 0 : sender.hashCode());</span>
+<span class="nc" id="L151">        result = prime * result + sequenceNo;</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">        result = prime * result + ((sync == null) ? 0 : sync.hashCode());</span>
+<span class="nc" id="L153">        result = prime * result + messageLength;</span>
+<span class="nc" id="L154">        return result;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if (this == o)</span>
+<span class="nc" id="L165">            return true;</span>
+<span class="nc bnc" id="L166" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass())</span>
+<span class="nc" id="L167">            return false;</span>
+<span class="nc" id="L168">        OSIPHeader that = (OSIPHeader) o;</span>
+<span class="nc bnc" id="L169" title="All 10 branches missed.">        return messageLength == that.messageLength &amp;&amp; sequenceNo == that.sequenceNo &amp;&amp; Objects.equals(sync, that.sync) &amp;&amp; Objects.equals(sender, that.sender) &amp;&amp; Objects.equals(receiver, that.receiver);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L174">        return sync + padLeft(String.valueOf(messageLength), OSIPHeader.LENGTH_MESSAGE_LENGTH_FIELD, &quot;0&quot;) + sender + receiver + padLeft(String.valueOf(sequenceNo), LENGTH_SEQUENCE_NO_FIELD, &quot;0&quot;);</span>
+    }
+
+<span class="fc" id="L177">    public static final class Builder {</span>
+        private String sync;
+        private short messageLength;
+        private String sender;
+        private String receiver;
+        private short sequenceNo;
+
+        public Builder sync(String val) {
+<span class="fc" id="L185">            sync = val;</span>
+<span class="fc" id="L186">            return this;</span>
+        }
+
+        public Builder messageLength(short val) {
+<span class="fc" id="L190">            messageLength = val;</span>
+<span class="fc" id="L191">            return this;</span>
+        }
+
+        public Builder sender(String val) {
+<span class="fc" id="L195">            sender = val;</span>
+<span class="fc" id="L196">            return this;</span>
+        }
+
+        public Builder receiver(String val) {
+<span class="fc" id="L200">            receiver = val;</span>
+<span class="fc" id="L201">            return this;</span>
+        }
+
+        public Builder sequenceNo(short val) {
+<span class="fc" id="L205">            sequenceNo = val;</span>
+<span class="fc" id="L206">            return this;</span>
+        }
+
+        public OSIPHeader build() {
+<span class="fc" id="L210">            return new OSIPHeader(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

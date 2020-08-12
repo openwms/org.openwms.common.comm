@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ErrorTelegramDeserializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: OSIP TCP/IP Driver</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.comm.osip.err.tcp</a> &gt; <span class="el_source">ErrorTelegramDeserializer.java</span></div><h1>ErrorTelegramDeserializer.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.comm.osip.err.tcp;
+
+import org.openwms.common.comm.CommConstants;
+import org.openwms.common.comm.MessageMismatchException;
+import org.openwms.common.comm.ParserUtils;
+import org.openwms.common.comm.config.Driver;
+import org.openwms.common.comm.osip.CommonMessageFactory;
+import org.openwms.common.comm.osip.OSIPComponent;
+import org.openwms.common.comm.osip.err.ErrorMessage;
+import org.openwms.common.comm.spi.FieldLengthProvider;
+import org.openwms.common.comm.tcp.TelegramDeserializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.GenericMessage;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Map;
+
+import static org.openwms.common.comm.osip.OSIPHeader.LENGTH_HEADER;
+import static org.openwms.common.comm.osip.Payload.DATE_LENGTH;
+import static org.openwms.common.comm.osip.Payload.ERROR_CODE_LENGTH;
+
+/**
+ * A ErrorTelegramDeserializer deserializes OSIP ERR telegram String into
+ * {@link ErrorMessage}s.
+ *
+ * @author Heiko Scherrer
+ * @see ErrorMessage
+ */
+@OSIPComponent
+class ErrorTelegramDeserializer implements TelegramDeserializer&lt;ErrorMessage&gt; {
+
+<span class="fc" id="L50">    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorTelegramDeserializer.class);</span>
+<span class="fc" id="L51">    private static final Logger TELEGRAM_LOGGER = LoggerFactory.getLogger(CommConstants.CORE_INTEGRATION_MESSAGING);</span>
+    private final Driver driver;
+    private final FieldLengthProvider lengthProvider;
+
+<span class="fc" id="L55">    ErrorTelegramDeserializer(Driver driver, FieldLengthProvider lengthProvider) {</span>
+<span class="fc" id="L56">        this.driver = driver;</span>
+<span class="fc" id="L57">        this.lengthProvider = lengthProvider;</span>
+<span class="fc" id="L58">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Message&lt;ErrorMessage&gt; deserialize(String telegram, Map&lt;String, Object&gt; headers) {
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (TELEGRAM_LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L66">            TELEGRAM_LOGGER.debug(&quot;Incoming: [{}]&quot;, telegram);</span>
+        }
+<span class="nc" id="L68">        int startLocationGroup = LENGTH_HEADER + forType().length();</span>
+<span class="nc" id="L69">        int startErrorCode = startLocationGroup + lengthProvider.lengthLocationGroupName();</span>
+<span class="nc" id="L70">        int startCreateDate = startErrorCode + ERROR_CODE_LENGTH;</span>
+        try {
+<span class="nc" id="L72">            GenericMessage&lt;ErrorMessage&gt; result =</span>
+                new GenericMessage&lt;&gt;(
+<span class="nc" id="L74">                    ErrorMessage.newBuilder()</span>
+<span class="nc" id="L75">                        .errorCode(telegram.substring(startErrorCode, startCreateDate))</span>
+<span class="nc" id="L76">                        .locationGroupName(ParserUtils.trimRight(telegram.substring(startLocationGroup, startErrorCode), '*'))</span>
+<span class="nc" id="L77">                        .created(</span>
+                            new SimpleDateFormat(driver
+<span class="nc" id="L79">                                .getOsip().getDatePattern())</span>
+<span class="nc" id="L80">                                .parse(telegram.substring(startCreateDate, startCreateDate + DATE_LENGTH))</span>
+                        )
+<span class="nc" id="L82">                        .build(),</span>
+<span class="nc" id="L83">                        CommonMessageFactory.createHeaders(telegram, headers)</span>
+                );
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L86">                LOGGER.debug(&quot;Transformed telegram into ErrorMessage message: [{}]&quot;, result);</span>
+            }
+<span class="nc" id="L88">            return result;</span>
+<span class="nc" id="L89">        } catch (ParseException e) {</span>
+<span class="nc" id="L90">            throw new MessageMismatchException(e.getMessage(), e);</span>
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String forType() {
+<span class="fc" id="L99">        return ErrorMessage.IDENTIFIER;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

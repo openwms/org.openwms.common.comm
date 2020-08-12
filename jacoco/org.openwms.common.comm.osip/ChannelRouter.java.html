@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChannelRouter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: OSIP TCP/IP Driver</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.comm.osip</a> &gt; <span class="el_source">ChannelRouter.java</span></div><h1>ChannelRouter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.comm.osip;
+
+import org.openwms.common.comm.Channels;
+import org.openwms.common.comm.MessageProcessingException;
+import org.springframework.integration.annotation.MessageEndpoint;
+import org.springframework.integration.annotation.Router;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+
+import static java.lang.String.format;
+
+/**
+ * A ChannelRouter.
+ *
+ * @author Heiko Scherrer
+ */
+@MessageEndpoint
+class ChannelRouter {
+
+    private final Channels channels;
+
+<span class="fc" id="L37">    ChannelRouter(Channels channels) {</span>
+<span class="fc" id="L38">        this.channels = channels;</span>
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * Routing method, tries to map an incoming {@link Payload} to a MessageChannel.
+     *
+     * @param message
+     *            The message to process
+     * @return The MessageChannel where to put the message
+     */
+    @Router(inputChannel = &quot;outboundChannel&quot;, defaultOutputChannel = &quot;commonExceptionChannel&quot;)
+    public MessageChannel resolve(Message&lt;Payload&gt; message) {
+<span class="nc" id="L50">        MessageChannel result = channels.getOutboundChannel(message.getPayload().getHeader().getReceiver());</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (result == null) {</span>
+<span class="nc" id="L52">            throw new MessageProcessingException(format(&quot;No processor registered for message [%s]&quot;, message));</span>
+        }
+<span class="nc" id="L54">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

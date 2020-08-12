@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TimesyncHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: OSIP TCP/IP Driver</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.comm.osip.synq</a> &gt; <span class="el_source">TimesyncHandler.java</span></div><h1>TimesyncHandler.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.comm.osip.synq;
+
+import org.openwms.common.comm.Channels;
+import org.openwms.common.comm.TimeProvider;
+import org.openwms.common.comm.osip.CommonMessageFactory;
+import org.openwms.common.comm.osip.OSIPComponent;
+import org.openwms.common.comm.osip.OSIPHeader;
+import org.openwms.common.comm.osip.ResponseHeader;
+import org.openwms.common.comm.tcp.ConnectionHolder;
+import org.springframework.integration.core.MessagingTemplate;
+import org.springframework.integration.ip.IpHeaders;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.integration.support.MutableMessageHeaders;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.support.GenericMessage;
+
+import java.util.function.Function;
+
+/**
+ * A TimesyncHandler.
+ *
+ * @author Heiko Scherrer
+ */
+@OSIPComponent
+class TimesyncHandler implements Function&lt;GenericMessage&lt;TimesyncRequest&gt;, Void&gt; {
+
+    private final Channels channels;
+    private final ConnectionHolder connectionHolder;
+    private final TimeProvider timeProvider;
+
+<span class="fc" id="L47">    TimesyncHandler(Channels channels, ConnectionHolder connectionHolder, TimeProvider timeProvider) {</span>
+<span class="fc" id="L48">        this.channels = channels;</span>
+<span class="fc" id="L49">        this.connectionHolder = connectionHolder;</span>
+<span class="fc" id="L50">        this.timeProvider = timeProvider;</span>
+<span class="fc" id="L51">    }</span>
+
+    /**
+     * Builds response message with the current time and the same request header to preserve header information (seq. number etc.) in post
+     * transformation steps.
+     *
+     * @param timesyncRequest the generic technology agnostic message object
+     * @return the response
+     */
+    @Override
+    public Void apply(GenericMessage&lt;TimesyncRequest&gt; timesyncRequest) {
+
+<span class="nc" id="L63">        TimesyncResponse payload =</span>
+                new TimesyncResponse.Builder()
+<span class="nc" id="L65">                        .senderTime(timeProvider.now())</span>
+<span class="nc" id="L66">                        .header(ResponseHeader.newBuilder()</span>
+<span class="nc" id="L67">                                .receiver((String) timesyncRequest.getHeaders().get(OSIPHeader.SENDER_FIELD_NAME))</span>
+<span class="nc" id="L68">                                .sender((String) timesyncRequest.getHeaders().get(OSIPHeader.RECEIVER_FIELD_NAME))</span>
+<span class="nc" id="L69">                                .sequenceNo(Short.valueOf(String.valueOf(timesyncRequest.getHeaders().get(OSIPHeader.SEQUENCE_FIELD_NAME))))</span>
+<span class="nc" id="L70">                                .build()</span>
+                        )
+<span class="nc" id="L72">                        .build();</span>
+
+<span class="nc" id="L74">        MessageHeaders headers = new MutableMessageHeaders(CommonMessageFactory.getOSIPHeaders(timesyncRequest));</span>
+<span class="nc" id="L75">        String sender = headers.get(OSIPHeader.SENDER_FIELD_NAME, String.class);</span>
+<span class="nc" id="L76">        headers.put(OSIPHeader.SENDER_FIELD_NAME, headers.get(OSIPHeader.RECEIVER_FIELD_NAME));</span>
+<span class="nc" id="L77">        headers.put(OSIPHeader.RECEIVER_FIELD_NAME, sender);</span>
+<span class="nc" id="L78">        headers.put(IpHeaders.CONNECTION_ID, connectionHolder.getConnectionId(sender));</span>
+
+<span class="nc" id="L80">        Message&lt;TimesyncResponse&gt; result =</span>
+                MessageBuilder
+<span class="nc" id="L82">                        .withPayload(payload)</span>
+<span class="nc" id="L83">                        .setReplyChannelName(&quot;inboundChannel&quot;)</span>
+<span class="nc" id="L84">                        .copyHeaders(headers)</span>
+<span class="nc" id="L85">                        .build();</span>
+
+<span class="nc" id="L87">        new MessagingTemplate(channels.getOutboundChannel((String) headers.get(OSIPHeader.RECEIVER_FIELD_NAME)))</span>
+<span class="nc" id="L88">                .send(result);</span>
+<span class="nc" id="L89">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

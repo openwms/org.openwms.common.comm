@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommonMessageFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: OSIP TCP/IP Driver</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.comm.osip</a> &gt; <span class="el_source">CommonMessageFactory.java</span></div><h1>CommonMessageFactory.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.comm.osip;
+
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.openwms.common.comm.osip.OSIPHeader.PREFIX;
+
+/**
+ * A CommonMessageFactory.
+ *
+ * @author Heiko Scherrer
+ */
+public final class CommonMessageFactory {
+
+    private CommonMessageFactory() {
+    }
+
+    /**
+     * Create a {@link OSIPHeader} from a passed telegram structure.
+     *
+     * @param telegram The telegram
+     * @return A {@link OSIPHeader} instance
+     */
+    public static OSIPHeader createHeader(String telegram) {
+<span class="nc" id="L44">        String sync = telegram.substring(0, OSIPHeader.LENGTH_SYNC_FIELD);</span>
+
+<span class="nc" id="L46">        int start = sync.length();</span>
+<span class="nc" id="L47">        int end = start + OSIPHeader.LENGTH_MESSAGE_LENGTH_FIELD;</span>
+<span class="nc" id="L48">        short messageLength = Short.parseShort(telegram.substring(start, end));</span>
+
+<span class="nc" id="L50">        start = end;</span>
+<span class="nc" id="L51">        end += OSIPHeader.LENGTH_SENDER_FIELD;</span>
+<span class="nc" id="L52">        String sender = telegram.substring(start, end);</span>
+
+<span class="nc" id="L54">        start = end;</span>
+<span class="nc" id="L55">        end += OSIPHeader.LENGTH_RECEIVER_FIELD;</span>
+<span class="nc" id="L56">        String receiver = telegram.substring(start, end);</span>
+
+<span class="nc" id="L58">        start = end;</span>
+<span class="nc" id="L59">        end += OSIPHeader.LENGTH_SEQUENCE_NO_FIELD;</span>
+<span class="nc" id="L60">        short sequenceNo = Short.parseShort(telegram.substring(start, end));</span>
+<span class="nc" id="L61">        return new OSIPHeader.Builder()</span>
+<span class="nc" id="L62">                .sync(sync)</span>
+<span class="nc" id="L63">                .messageLength(messageLength)</span>
+<span class="nc" id="L64">                .sender(sender)</span>
+<span class="nc" id="L65">                .receiver(receiver)</span>
+<span class="nc" id="L66">                .sequenceNo(sequenceNo)</span>
+<span class="nc" id="L67">                .build();</span>
+    }
+
+    public static MessageHeaders createHeaders(String telegram, Map&lt;String, Object&gt; headers) {
+<span class="fc" id="L71">        String sync = telegram.substring(0, OSIPHeader.LENGTH_SYNC_FIELD);</span>
+
+<span class="fc" id="L73">        int start = sync.length();</span>
+<span class="fc" id="L74">        int end = start + OSIPHeader.LENGTH_MESSAGE_LENGTH_FIELD;</span>
+<span class="fc" id="L75">        short messageLength = Short.parseShort(telegram.substring(start, end));</span>
+
+<span class="fc" id="L77">        start = end;</span>
+<span class="fc" id="L78">        end += OSIPHeader.LENGTH_SENDER_FIELD;</span>
+<span class="fc" id="L79">        String sender = telegram.substring(start, end);</span>
+
+<span class="fc" id="L81">        start = end;</span>
+<span class="fc" id="L82">        end += OSIPHeader.LENGTH_RECEIVER_FIELD;</span>
+<span class="fc" id="L83">        String receiver = telegram.substring(start, end);</span>
+
+<span class="fc" id="L85">        start = end;</span>
+<span class="fc" id="L86">        end += OSIPHeader.LENGTH_SEQUENCE_NO_FIELD;</span>
+<span class="fc" id="L87">        short sequenceNo = Short.parseShort(telegram.substring(start, end));</span>
+<span class="fc" id="L88">        Map&lt;String, Object&gt; h = new HashMap&lt;&gt;(headers);</span>
+<span class="fc" id="L89">        h.put(OSIPHeader.SYNC_FIELD_NAME, sync);</span>
+<span class="fc" id="L90">        h.put(OSIPHeader.MSG_LENGTH_FIELD_NAME, messageLength);</span>
+<span class="fc" id="L91">        h.put(OSIPHeader.SENDER_FIELD_NAME, sender);</span>
+<span class="fc" id="L92">        h.put(OSIPHeader.RECEIVER_FIELD_NAME, receiver);</span>
+<span class="fc" id="L93">        h.put(OSIPHeader.SEQUENCE_FIELD_NAME, sequenceNo);</span>
+<span class="fc" id="L94">        return new MessageHeaders(h);</span>
+    }
+
+    public static &lt;T extends Payload&gt; MessageHeaders getOSIPHeaders(Message&lt;T&gt; message) {
+<span class="nc" id="L98">        return new MessageHeaders(message.getHeaders().entrySet().stream().filter(e -&gt; e.getKey().startsWith(PREFIX)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

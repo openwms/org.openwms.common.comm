@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RequestVO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: OSIP TCP/IP Driver</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.comm.osip.req</a> &gt; <span class="el_source">RequestVO.java</span></div><h1>RequestVO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.comm.osip.req;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * A RequestVO.
+ *
+ * @author Heiko Scherrer
+ */
+public class RequestVO implements Serializable {
+
+    @JsonProperty
+    String type;
+    @JsonProperty
+    String actualLocation;
+    @JsonProperty
+    String targetLocation;
+    @JsonProperty
+    String targetLocationGroup;
+    @JsonProperty
+    String barcode;
+    @JsonProperty
+    RequestHeaderVO header;
+    @JsonProperty
+    String errorCode;
+    @JsonProperty
+    Date created;
+
+<span class="fc" id="L47">    private RequestVO(Builder builder) {</span>
+<span class="fc" id="L48">        setType(builder.type);</span>
+<span class="fc" id="L49">        setActualLocation(builder.actualLocation);</span>
+<span class="fc" id="L50">        setTargetLocation(builder.targetLocation);</span>
+<span class="fc" id="L51">        setTargetLocationGroup(builder.targetLocationGroup);</span>
+<span class="fc" id="L52">        setBarcode(builder.barcode);</span>
+<span class="fc" id="L53">        setHeader(builder.header);</span>
+<span class="fc" id="L54">        setErrorCode(builder.errorCode);</span>
+<span class="fc" id="L55">        setCreated(builder.created);</span>
+<span class="fc" id="L56">    }</span>
+
+    public String getType() {
+<span class="nc" id="L59">        return type;</span>
+    }
+
+    public void setType(String type) {
+<span class="fc" id="L63">        this.type = type;</span>
+<span class="fc" id="L64">    }</span>
+
+    public String getActualLocation() {
+<span class="nc" id="L67">        return actualLocation;</span>
+    }
+
+    public void setActualLocation(String actualLocation) {
+<span class="fc" id="L71">        this.actualLocation = actualLocation;</span>
+<span class="fc" id="L72">    }</span>
+
+    public String getTargetLocation() {
+<span class="nc" id="L75">        return targetLocation;</span>
+    }
+
+    public void setTargetLocation(String targetLocation) {
+<span class="fc" id="L79">        this.targetLocation = targetLocation;</span>
+<span class="fc" id="L80">    }</span>
+
+    public String getTargetLocationGroup() {
+<span class="nc" id="L83">        return targetLocationGroup;</span>
+    }
+
+    public void setTargetLocationGroup(String targetLocationGroup) {
+<span class="fc" id="L87">        this.targetLocationGroup = targetLocationGroup;</span>
+<span class="fc" id="L88">    }</span>
+
+    public String getBarcode() {
+<span class="nc" id="L91">        return barcode;</span>
+    }
+
+    public void setBarcode(String barcode) {
+<span class="fc" id="L95">        this.barcode = barcode;</span>
+<span class="fc" id="L96">    }</span>
+
+    public RequestHeaderVO getHeader() {
+<span class="nc" id="L99">        return header;</span>
+    }
+
+    public void setHeader(RequestHeaderVO header) {
+<span class="fc" id="L103">        this.header = header;</span>
+<span class="fc" id="L104">    }</span>
+
+    public String getErrorCode() {
+<span class="nc" id="L107">        return errorCode;</span>
+    }
+
+    public void setErrorCode(String errorCode) {
+<span class="fc" id="L111">        this.errorCode = errorCode;</span>
+<span class="fc" id="L112">    }</span>
+
+    public Date getCreated() {
+<span class="nc" id="L115">        return created;</span>
+    }
+
+    public void setCreated(Date created) {
+<span class="fc" id="L119">        this.created = created;</span>
+<span class="fc" id="L120">    }</span>
+
+    public static class RequestHeaderVO implements Serializable {
+        @JsonProperty
+        String sender;
+        @JsonProperty
+        String receiver;
+        @JsonProperty
+        String sequenceNo;
+
+<span class="fc" id="L130">        private RequestHeaderVO(Builder builder) {</span>
+<span class="fc" id="L131">            setSender(builder.sender);</span>
+<span class="fc" id="L132">            setReceiver(builder.receiver);</span>
+<span class="fc" id="L133">            setSequenceNo(builder.sequenceNo);</span>
+<span class="fc" id="L134">        }</span>
+
+        public String getSender() {
+<span class="nc" id="L137">            return sender;</span>
+        }
+
+        public void setSender(String sender) {
+<span class="fc" id="L141">            this.sender = sender;</span>
+<span class="fc" id="L142">        }</span>
+
+        public String getReceiver() {
+<span class="nc" id="L145">            return receiver;</span>
+        }
+
+        public void setReceiver(String receiver) {
+<span class="fc" id="L149">            this.receiver = receiver;</span>
+<span class="fc" id="L150">        }</span>
+
+        public String getSequenceNo() {
+<span class="nc" id="L153">            return sequenceNo;</span>
+        }
+
+        public void setSequenceNo(String sequenceNo) {
+<span class="fc" id="L157">            this.sequenceNo = sequenceNo;</span>
+<span class="fc" id="L158">        }</span>
+
+<span class="fc" id="L160">        public static final class Builder {</span>
+            private String sender;
+            private String receiver;
+            private String sequenceNo;
+
+            public Builder sender(String val) {
+<span class="fc" id="L166">                sender = val;</span>
+<span class="fc" id="L167">                return this;</span>
+            }
+
+            public Builder receiver(String val) {
+<span class="fc" id="L171">                receiver = val;</span>
+<span class="fc" id="L172">                return this;</span>
+            }
+
+            public Builder sequenceNo(String val) {
+<span class="fc" id="L176">                sequenceNo = val;</span>
+<span class="fc" id="L177">                return this;</span>
+            }
+
+            public RequestHeaderVO build() {
+<span class="fc" id="L181">                return new RequestHeaderVO(this);</span>
+            }
+        }
+    }
+
+<span class="fc" id="L186">    public static final class Builder {</span>
+        private String type;
+        private String actualLocation;
+        private String targetLocation;
+        private String targetLocationGroup;
+        private String barcode;
+        private RequestHeaderVO header;
+        private String errorCode;
+        private Date created;
+
+        public Builder type(String val) {
+<span class="fc" id="L197">            type = val;</span>
+<span class="fc" id="L198">            return this;</span>
+        }
+
+        public Builder actualLocation(String val) {
+<span class="fc" id="L202">            actualLocation = val;</span>
+<span class="fc" id="L203">            return this;</span>
+        }
+
+        public Builder targetLocation(String val) {
+<span class="fc" id="L207">            targetLocation = val;</span>
+<span class="fc" id="L208">            return this;</span>
+        }
+
+        public Builder targetLocationGroup(String val) {
+<span class="nc" id="L212">            targetLocationGroup = val;</span>
+<span class="nc" id="L213">            return this;</span>
+        }
+
+        public Builder barcode(String val) {
+<span class="fc" id="L217">            barcode = val;</span>
+<span class="fc" id="L218">            return this;</span>
+        }
+
+        public Builder header(RequestHeaderVO val) {
+<span class="fc" id="L222">            header = val;</span>
+<span class="fc" id="L223">            return this;</span>
+        }
+
+        public Builder errorCode(String val) {
+<span class="fc" id="L227">            errorCode = val;</span>
+<span class="fc" id="L228">            return this;</span>
+        }
+
+        public Builder created(Date val) {
+<span class="fc" id="L232">            created = val;</span>
+<span class="fc" id="L233">            return this;</span>
+        }
+
+        public RequestVO build() {
+<span class="fc" id="L237">            return new RequestVO(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

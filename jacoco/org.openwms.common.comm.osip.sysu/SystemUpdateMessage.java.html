@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SystemUpdateMessage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: OSIP TCP/IP Driver</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.comm.osip.sysu</a> &gt; <span class="el_source">SystemUpdateMessage.java</span></div><h1>SystemUpdateMessage.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.comm.osip.sysu;
+
+import org.openwms.common.comm.CommConstants;
+import org.openwms.common.comm.osip.Payload;
+import org.springframework.util.StringUtils;
+
+import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
+
+/**
+ * A SystemUpdateMessage reflects the OSIP SYSU telegram type and is used to change the state of a {@code LocationGroup}.
+ *
+ * @author Heiko Scherrer
+ */
+public class SystemUpdateMessage extends Payload implements Serializable {
+
+    /** Message identifier {@value} . */
+    public static final String IDENTIFIER = &quot;SYSU&quot;;
+    private String locationGroupName;
+
+    /*~------------ Constructors ------------*/
+<span class="nc" id="L41">    private SystemUpdateMessage(Builder builder) {</span>
+<span class="nc" id="L42">        locationGroupName = builder.locationGroupName;</span>
+<span class="nc" id="L43">    }</span>
+
+    /*~------------ Accessors ------------*/
+    public String getType() {
+<span class="nc" id="L47">        return IDENTIFIER;</span>
+    }
+
+    String getLocationGroupName() {
+<span class="nc" id="L51">        return locationGroupName;</span>
+    }
+
+    /*~------------ Builders ------------*/
+<span class="nc" id="L55">    public static final class Builder {</span>
+
+        private String locationGroupName;
+        private String errorCode;
+        private Date created;
+
+        public Builder withLocationGroupName(String locationGroupName) {
+<span class="nc" id="L62">            this.locationGroupName = StringUtils.trimTrailingCharacter(locationGroupName, CommConstants.LOCGROUP_FILLER_CHARACTER);</span>
+<span class="nc" id="L63">            return this;</span>
+        }
+
+        public Builder withErrorCode(String errorCode) {
+<span class="nc" id="L67">            this.errorCode = errorCode;</span>
+<span class="nc" id="L68">            return this;</span>
+        }
+
+        public Builder withCreateDate(String createDate, String pattern) throws ParseException {
+<span class="nc" id="L72">            this.created = new SimpleDateFormat(pattern).parse(createDate);</span>
+<span class="nc" id="L73">            return this;</span>
+        }
+
+        public SystemUpdateMessage build() {
+<span class="nc" id="L77">            SystemUpdateMessage res = new SystemUpdateMessage(this);</span>
+<span class="nc" id="L78">            res.setErrorCode(this.errorCode);</span>
+<span class="nc" id="L79">            res.setCreated(this.created);</span>
+<span class="nc" id="L80">            return res;</span>
+        }
+    }
+
+    /*~------------ Overrides ------------*/
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getMessageIdentifier() {
+<span class="nc" id="L90">        return IDENTIFIER;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isWithoutReply() {
+<span class="nc" id="L98">        return true;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Include all fields.
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L108">        return new StringJoiner(&quot;, &quot;, SystemUpdateMessage.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;locationGroupName='&quot; + locationGroupName + &quot;'&quot;).toString();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Include all fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if (this == o)</span>
+<span class="nc" id="L119">            return true;</span>
+<span class="nc bnc" id="L120" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass())</span>
+<span class="nc" id="L121">            return false;</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        if (!super.equals(o))</span>
+<span class="nc" id="L123">            return false;</span>
+<span class="nc" id="L124">        SystemUpdateMessage that = (SystemUpdateMessage) o;</span>
+<span class="nc" id="L125">        return Objects.equals(locationGroupName, that.locationGroupName);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L130">        return Objects.hash(super.hashCode(), locationGroupName);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ParserUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: OSIP TCP/IP Driver</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.comm</a> &gt; <span class="el_source">ParserUtils.java</span></div><h1>ParserUtils.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.comm;
+
+/**
+ * A ParserUtils.
+ *
+ * @author Heiko Scherrer
+ */
+public final class ParserUtils {
+
+    private ParserUtils() {
+    }
+
+    /**
+     * Pad the given String {@code s} with a number {@code n} of characters {@code chr}.
+     *
+     * @param s The String to pad
+     * @param n Number of digits in sum
+     * @param chr The actual padding character
+     * @return A new padded String instance
+     */
+    public static String padRight(String s, int n, String chr) {
+<span class="fc" id="L37">        return String.format(&quot;%1$-&quot; + n + &quot;s&quot;, s).replace(&quot; &quot;, chr);</span>
+    }
+
+    /**
+     * Trim the given String {@code s} about the character {@code chr}.
+     *
+     * @param s The String to analyse
+     * @param chr The character to remove from the right end sid
+     * @return A new trimmed String instance
+     */
+    public static String trimRight(String s, char chr) {
+<span class="nc" id="L48">        return s.substring(0, s.indexOf(chr));</span>
+    }
+
+    /**
+     * Pad a String {@code s} with a number {@code n} of characters {@code chr}.
+     *
+     * @param s The String to pad
+     * @param n Number of digits in sum
+     * @param chr The actual padding character
+     * @return A new padded String instance
+     */
+    public static String padLeft(String s, int n, String chr) {
+<span class="fc" id="L60">        return String.format(&quot;%1$&quot; + n + &quot;s&quot;, s).replace(&quot; &quot;, chr);</span>
+    }
+
+    /**
+     * Return the standard telegram representation (???..) if the {@code barcode} is {@literal null}.
+     *
+     * @param barcode The Barcode to translate
+     * @return The barcode or ????????????????????
+     */
+    public static String nullableBarcode(String barcode) {
+<span class="pc bpc" id="L70" title="2 of 4 branches missed.">        if (barcode == null || barcode.isEmpty()) {</span>
+<span class="nc" id="L71">            return padLeft(&quot;&quot;, 20, &quot;?&quot;);</span>
+        }
+<span class="fc" id="L73">        return barcode;</span>
+    }
+
+    /**
+     * Return the standard telegram representation (***..) if the {@code locationId} is
+     * {@literal null}.
+     *
+     * @param locationId The LocationId to translate
+     * @return The normalized LocationId or ********************
+     */
+    public static String nullableLocation(String locationId) {
+<span class="pc bpc" id="L84" title="2 of 4 branches missed.">        if (locationId == null || locationId.isEmpty()) {</span>
+<span class="nc" id="L85">            return padLeft(&quot;&quot;, 20, &quot;*&quot;);</span>
+        }
+<span class="fc" id="L87">        return locationId.replace(&quot;/&quot;, &quot;&quot;);</span>
+    }
+
+    /**
+     * Return the standard telegram representation (***..) if the {@code locationGroup} is
+     * {@literal null}.
+     *
+     * @param locationGroup The name of the LocationGroup to analyse
+     * @return The normalized name or ********************
+     */
+    public static String nullableLocationGroup(String locationGroup) {
+<span class="pc bpc" id="L98" title="3 of 4 branches missed.">        if (locationGroup == null || locationGroup.isEmpty()) {</span>
+<span class="fc" id="L99">            return padLeft(&quot;&quot;, 20, &quot;*&quot;);</span>
+        }
+<span class="nc" id="L101">        return locationGroup;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

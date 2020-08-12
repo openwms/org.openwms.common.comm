@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResponseMessageSerializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: OSIP TCP/IP Driver</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.comm.osip.res</a> &gt; <span class="el_source">ResponseMessageSerializer.java</span></div><h1>ResponseMessageSerializer.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.comm.osip.res;
+
+import org.openwms.common.comm.MessageMismatchException;
+import org.openwms.common.comm.ParserUtils;
+import org.openwms.common.comm.config.Driver;
+import org.openwms.common.comm.osip.OSIPComponent;
+import org.openwms.common.comm.osip.OSIPHeader;
+import org.openwms.common.comm.osip.OSIPSerializer;
+
+import java.text.SimpleDateFormat;
+
+import static java.lang.String.format;
+
+/**
+ * A ResponseMessageSerializer.
+ *
+ * @author Heiko Scherrer
+ */
+@OSIPComponent
+public class ResponseMessageSerializer extends OSIPSerializer&lt;ResponseMessage&gt; {
+
+    public ResponseMessageSerializer(Driver driver) {
+<span class="fc" id="L38">        super(driver);</span>
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getMessageIdentifier() {
+<span class="fc" id="L46">        return ResponseMessage.IDENTIFIER;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String serialize(ResponseMessage obj) {
+<span class="fc" id="L54">        short maxTelegramLength = getDriver().getOsip().getTelegramLength();</span>
+<span class="fc" id="L55">        OSIPHeader header = new OSIPHeader.Builder()</span>
+<span class="fc" id="L56">                .sync(getDriver().getOsip().getSyncField())</span>
+<span class="fc" id="L57">                .messageLength(maxTelegramLength)</span>
+<span class="fc" id="L58">                .sender(obj.getHeader().getSender())</span>
+<span class="fc" id="L59">                .receiver(obj.getHeader().getReceiver())</span>
+<span class="fc" id="L60">                .sequenceNo((short) (obj.getHeader().getSequenceNo() + 1))</span>
+<span class="fc" id="L61">                .build();</span>
+<span class="fc" id="L62">        String s = header + convert(obj);</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (s.length() &gt; maxTelegramLength) {</span>
+<span class="nc" id="L64">            throw new MessageMismatchException(format(&quot;Defined telegram length exceeds configured size of owms.driver.osip.telegram-length=[%d]. Actual length is [%d]&quot;, maxTelegramLength, s.length()));</span>
+        }
+<span class="fc" id="L66">        return s;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String convert(ResponseMessage message) {
+<span class="fc" id="L74">        return getMessageIdentifier() +</span>
+<span class="fc" id="L75">                ParserUtils.nullableBarcode(message.getBarcode()) +</span>
+<span class="fc" id="L76">                ParserUtils.nullableLocation(message.getActualLocation()) +</span>
+<span class="fc" id="L77">                ParserUtils.nullableLocation(message.getTargetLocation()) +</span>
+<span class="fc" id="L78">                ParserUtils.nullableLocationGroup(message.getTargetLocationGroup()) +</span>
+<span class="fc" id="L79">                message.getErrorCode() +</span>
+<span class="fc" id="L80">                new SimpleDateFormat(getDriver().getOsip().getDatePattern()).format(message.getCreated());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
