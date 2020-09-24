@@ -104,39 +104,38 @@ import static org.openwms.common.comm.CommConstants.SUFFIX_OUTBOUND;
             Subsystem subsystem, MessageChannel inboundChannel,
             AbstractConnectionFactory connectionFactory) {
 <span class="fc" id="L106">        TcpReceivingChannelAdapter channelAdapter = tcpReceivingChannelAdapter(connectionFactory, inboundChannel);</span>
-
-<span class="fc" id="L108">        registerBean(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_INBOUND, connectionFactory);</span>
-<span class="fc" id="L109">        registerBean(PREFIX_CHANNEL_ADAPTER + subsystem.getName() + SUFFIX_INBOUND, channelAdapter);</span>
-<span class="fc" id="L110">    }</span>
+<span class="fc" id="L107">        registerBean(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_INBOUND, connectionFactory);</span>
+<span class="fc" id="L108">        registerBean(PREFIX_CHANNEL_ADAPTER + subsystem.getName() + SUFFIX_INBOUND, channelAdapter);</span>
+<span class="fc" id="L109">    }</span>
 
     private TcpSendingMessageHandler createSendingMessageHandler(
             AbstractConnectionFactory connectionFactory) {
-<span class="fc" id="L114">        TcpSendingMessageHandler handler = new TcpSendingMessageHandler();</span>
-<span class="fc" id="L115">        handler.setConnectionFactory(connectionFactory);</span>
-<span class="fc" id="L116">        handler.setClientMode(true);</span>
-<span class="fc" id="L117">        return handler;</span>
+<span class="fc" id="L113">        TcpSendingMessageHandler handler = new TcpSendingMessageHandler();</span>
+<span class="fc" id="L114">        handler.setConnectionFactory(connectionFactory);</span>
+<span class="fc" id="L115">        handler.setClientMode(true);</span>
+<span class="fc" id="L116">        return handler;</span>
     }
 
     private AbstractClientConnectionFactory createClientConnectionFactory(
             String clientHostname, int clientPort, Serializer serializer,
             Deserializer deserializer, Integer soTimeout, Integer soReceiveBufferSize, Integer soSendBufferSize) {
 
-<span class="fc" id="L124">        TcpNetClientConnectionFactory connectionFactory = new TcpNetClientConnectionFactory(clientHostname, clientPort);</span>
-<span class="fc" id="L125">        connectionFactory.setSerializer(serializer);</span>
-<span class="fc" id="L126">        connectionFactory.setDeserializer(deserializer);</span>
-<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        if (soTimeout != null) {</span>
-<span class="fc" id="L128">            connectionFactory.setSoTimeout(soTimeout);</span>
+<span class="fc" id="L123">        TcpNetClientConnectionFactory connectionFactory = new TcpNetClientConnectionFactory(clientHostname, clientPort);</span>
+<span class="fc" id="L124">        connectionFactory.setSerializer(serializer);</span>
+<span class="fc" id="L125">        connectionFactory.setDeserializer(deserializer);</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">        if (soTimeout != null) {</span>
+<span class="fc" id="L127">            connectionFactory.setSoTimeout(soTimeout);</span>
         }
-<span class="pc bpc" id="L130" title="1 of 2 branches missed.">        if (soReceiveBufferSize != null) {</span>
-<span class="nc" id="L131">            connectionFactory.setSoReceiveBufferSize(soReceiveBufferSize);</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">        if (soReceiveBufferSize != null) {</span>
+<span class="nc" id="L130">            connectionFactory.setSoReceiveBufferSize(soReceiveBufferSize);</span>
         }
-<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        if (soSendBufferSize != null) {</span>
-<span class="fc" id="L134">            connectionFactory.setSoSendBufferSize(soSendBufferSize);</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        if (soSendBufferSize != null) {</span>
+<span class="fc" id="L133">            connectionFactory.setSoSendBufferSize(soSendBufferSize);</span>
         }
-<span class="fc" id="L136">        LOGGER.debug(&quot;Hostname [{}], Port [{}], SoTimeout [{}], SoReceiveBufferSize [{}], SoSendBufferSize [{}]&quot;,</span>
-<span class="fc" id="L137">                clientHostname, clientPort, soTimeout, soReceiveBufferSize, soSendBufferSize);</span>
-<span class="fc" id="L138">        connectionFactory.start();</span>
-<span class="fc" id="L139">        return connectionFactory;</span>
+<span class="fc" id="L135">        LOGGER.debug(&quot;Hostname [{}], Port [{}], SoTimeout [{}], SoReceiveBufferSize [{}], SoSendBufferSize [{}]&quot;,</span>
+<span class="fc" id="L136">                clientHostname, clientPort, soTimeout, soReceiveBufferSize, soSendBufferSize);</span>
+<span class="fc" id="L137">        connectionFactory.start();</span>
+<span class="fc" id="L138">        return connectionFactory;</span>
     }
 
     private AbstractServerConnectionFactory createInboundServerConnectionFactory(
@@ -145,29 +144,29 @@ import static org.openwms.common.comm.CommConstants.SUFFIX_OUTBOUND;
             TcpMessageMapper tcpMessageMapper, Serializer serializer,
             Deserializer deserializer) {
 
-<span class="fc" id="L148">        Subsystem.Inbound inbound = subsystem.getInbound();</span>
-<span class="pc" id="L149">        int port = Optional.ofNullable(inbound.getPort()).orElseThrow(() -&gt; new ConfigurationException(format(&quot;Port not configured for outbound connection server [%s]&quot;, subsystem.getName())));</span>
+<span class="fc" id="L147">        Subsystem.Inbound inbound = subsystem.getInbound();</span>
+<span class="pc" id="L148">        int port = Optional.ofNullable(inbound.getPort()).orElseThrow(() -&gt; new ConfigurationException(format(&quot;Port not configured for outbound connection server [%s]&quot;, subsystem.getName())));</span>
 
-<span class="fc" id="L151">        TcpNetServerConnectionFactory connectionFactory = new TcpNetServerConnectionFactory(port);</span>
-<span class="fc" id="L152">        connectionFactory.setHost(inbound.getHostname());</span>
-<span class="fc" id="L153">        connectionFactory.setLeaveOpen(true);</span>
-<span class="fc" id="L154">        connectionFactory.setSerializer(serializer);</span>
-<span class="fc" id="L155">        connectionFactory.setDeserializer(deserializer);</span>
-<span class="fc" id="L156">        connectionFactory.setMapper(tcpMessageMapper);</span>
-<span class="fc" id="L157">        connectionFactory.setApplicationEventPublisher(applicationEventPublisher);</span>
+<span class="fc" id="L150">        TcpNetServerConnectionFactory connectionFactory = new TcpNetServerConnectionFactory(port);</span>
+<span class="fc" id="L151">        connectionFactory.setHost(inbound.getHostname());</span>
+<span class="fc" id="L152">        connectionFactory.setLeaveOpen(true);</span>
+<span class="fc" id="L153">        connectionFactory.setSerializer(serializer);</span>
+<span class="fc" id="L154">        connectionFactory.setDeserializer(deserializer);</span>
+<span class="fc" id="L155">        connectionFactory.setMapper(tcpMessageMapper);</span>
+<span class="fc" id="L156">        connectionFactory.setApplicationEventPublisher(applicationEventPublisher);</span>
 
-<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        Integer soTimeout = inbound.getSoTimeout() == null ? connections.getSoTimeout() : inbound.getSoTimeout();</span>
-<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        if (soTimeout != null) {</span>
-<span class="fc" id="L161">            connectionFactory.setSoTimeout(soTimeout);</span>
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">        Integer soTimeout = inbound.getSoTimeout() == null ? connections.getSoTimeout() : inbound.getSoTimeout();</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        if (soTimeout != null) {</span>
+<span class="fc" id="L160">            connectionFactory.setSoTimeout(soTimeout);</span>
         }
 
-<span class="fc bfc" id="L164" title="All 2 branches covered.">        Integer soReceiveBufferSize = inbound.getSoReceiveBufferSize() == null ? connections.getSoReceiveBufferSize() : inbound.getSoReceiveBufferSize();</span>
-<span class="pc bpc" id="L165" title="1 of 2 branches missed.">        if (soReceiveBufferSize != null) {</span>
-<span class="fc" id="L166">            connectionFactory.setSoReceiveBufferSize(soReceiveBufferSize);</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">        Integer soReceiveBufferSize = inbound.getSoReceiveBufferSize() == null ? connections.getSoReceiveBufferSize() : inbound.getSoReceiveBufferSize();</span>
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">        if (soReceiveBufferSize != null) {</span>
+<span class="fc" id="L165">            connectionFactory.setSoReceiveBufferSize(soReceiveBufferSize);</span>
         }
-<span class="fc" id="L168">        LOGGER.debug(&quot;Hostname [{}], Port [{}], SoTimeout [{}], SoReceiveBufferSize [{}]&quot;,</span>
-<span class="fc" id="L169">                inbound.getHostname(), port, soTimeout, soReceiveBufferSize);</span>
-<span class="fc" id="L170">        return connectionFactory;</span>
+<span class="fc" id="L167">        LOGGER.debug(&quot;Hostname [{}], Port [{}], SoTimeout [{}], SoReceiveBufferSize [{}]&quot;,</span>
+<span class="fc" id="L168">                inbound.getHostname(), port, soTimeout, soReceiveBufferSize);</span>
+<span class="fc" id="L169">        return connectionFactory;</span>
     }
 
     private AbstractServerConnectionFactory createOutboundServerConnectionFactory (
@@ -177,30 +176,30 @@ import static org.openwms.common.comm.CommConstants.SUFFIX_OUTBOUND;
             TcpMessageMapper tcpMessageMapper, Serializer serializer,
             Deserializer deserializer) {
 
-<span class="pc" id="L180">        int port = Optional.ofNullable(outbound.getPort()).orElseThrow(() -&gt; new ConfigurationException(format(&quot;Port not configured for outbound connection server [%s]&quot;, subsystemName)));</span>
+<span class="pc" id="L179">        int port = Optional.ofNullable(outbound.getPort()).orElseThrow(() -&gt; new ConfigurationException(format(&quot;Port not configured for outbound connection server [%s]&quot;, subsystemName)));</span>
 
-<span class="fc" id="L182">        TcpNetServerConnectionFactory connectionFactory = new TcpNetServerConnectionFactory(port);</span>
-<span class="pc bpc" id="L183" title="1 of 2 branches missed.">        if (outbound.getHostname() != null) {</span>
-<span class="nc" id="L184">            connectionFactory.setHost(outbound.getHostname());</span>
+<span class="fc" id="L181">        TcpNetServerConnectionFactory connectionFactory = new TcpNetServerConnectionFactory(port);</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">        if (outbound.getHostname() != null) {</span>
+<span class="nc" id="L183">            connectionFactory.setHost(outbound.getHostname());</span>
         }
-<span class="fc" id="L186">        connectionFactory.setLeaveOpen(true);</span>
-<span class="fc" id="L187">        connectionFactory.setSerializer(serializer);</span>
-<span class="fc" id="L188">        connectionFactory.setDeserializer(deserializer);</span>
-<span class="fc" id="L189">        connectionFactory.setMapper(tcpMessageMapper);</span>
-<span class="fc" id="L190">        connectionFactory.setApplicationEventPublisher(applicationEventPublisher);</span>
+<span class="fc" id="L185">        connectionFactory.setLeaveOpen(true);</span>
+<span class="fc" id="L186">        connectionFactory.setSerializer(serializer);</span>
+<span class="fc" id="L187">        connectionFactory.setDeserializer(deserializer);</span>
+<span class="fc" id="L188">        connectionFactory.setMapper(tcpMessageMapper);</span>
+<span class="fc" id="L189">        connectionFactory.setApplicationEventPublisher(applicationEventPublisher);</span>
 
-<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        Integer soTimeout = outbound.getSoTimeout() == null ? connections.getSoTimeout() : outbound.getSoTimeout();</span>
-<span class="pc bpc" id="L193" title="1 of 2 branches missed.">        if (soTimeout != null) {</span>
-<span class="fc" id="L194">            connectionFactory.setSoTimeout(soTimeout);</span>
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">        Integer soTimeout = outbound.getSoTimeout() == null ? connections.getSoTimeout() : outbound.getSoTimeout();</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        if (soTimeout != null) {</span>
+<span class="fc" id="L193">            connectionFactory.setSoTimeout(soTimeout);</span>
         }
 
-<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        Integer soSendBufferSize = outbound.getSoSendBufferSize() == null ? connections.getSoSendBufferSize() : outbound.getSoSendBufferSize();</span>
-<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        if (soSendBufferSize != null) {</span>
-<span class="fc" id="L199">            connectionFactory.setSoSendBufferSize(soSendBufferSize);</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">        Integer soSendBufferSize = outbound.getSoSendBufferSize() == null ? connections.getSoSendBufferSize() : outbound.getSoSendBufferSize();</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        if (soSendBufferSize != null) {</span>
+<span class="fc" id="L198">            connectionFactory.setSoSendBufferSize(soSendBufferSize);</span>
         }
-<span class="fc" id="L201">        LOGGER.debug(&quot;Hostname [{}], Port [{}], SoTimeout [{}], SoSendBufferSize [{}]&quot;,</span>
-<span class="fc" id="L202">                outbound.getHostname(), port, soTimeout, soSendBufferSize);</span>
-<span class="fc" id="L203">        return connectionFactory;</span>
+<span class="fc" id="L200">        LOGGER.debug(&quot;Hostname [{}], Port [{}], SoTimeout [{}], SoSendBufferSize [{}]&quot;,</span>
+<span class="fc" id="L201">                outbound.getHostname(), port, soTimeout, soSendBufferSize);</span>
+<span class="fc" id="L202">        return connectionFactory;</span>
     }
 
     private AbstractConnectionFactory createOutboundConnectionFactory (
@@ -211,36 +210,36 @@ import static org.openwms.common.comm.CommConstants.SUFFIX_OUTBOUND;
             TcpMessageMapper tcpMessageMapper, Serializer serializer,
             Deserializer deserializer) {
 
-<span class="fc bfc" id="L214" title="All 2 branches covered.">        String host = duplex.getHostname() == null ? connections.getHostname() : duplex.getHostname();</span>
-<span class="pc" id="L215">        int port = Optional.ofNullable(duplex.getPort()).orElseThrow(() -&gt; new ConfigurationException(format(&quot;Port not configured for duplex connection server [%s]&quot;, subsystemName)));</span>
-<span class="fc bfc" id="L216" title="All 2 branches covered.">        AbstractConnectionFactory connectionFactory = mode == Subsystem.MODE.server</span>
-<span class="fc" id="L217">                ? new TcpNetServerConnectionFactory(port)</span>
-<span class="fc" id="L218">                : new TcpNetClientConnectionFactory(host, port);</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">        String host = duplex.getHostname() == null ? connections.getHostname() : duplex.getHostname();</span>
+<span class="pc" id="L214">        int port = Optional.ofNullable(duplex.getPort()).orElseThrow(() -&gt; new ConfigurationException(format(&quot;Port not configured for duplex connection server [%s]&quot;, subsystemName)));</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">        AbstractConnectionFactory connectionFactory = mode == Subsystem.MODE.server</span>
+<span class="fc" id="L216">                ? new TcpNetServerConnectionFactory(port)</span>
+<span class="fc" id="L217">                : new TcpNetClientConnectionFactory(host, port);</span>
 
-<span class="fc" id="L220">        connectionFactory.setHost(</span>
-<span class="fc bfc" id="L221" title="All 2 branches covered.">                duplex.getHostname() == null ? connections.getHostname() : duplex.getHostname()</span>
+<span class="fc" id="L219">        connectionFactory.setHost(</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">                duplex.getHostname() == null ? connections.getHostname() : duplex.getHostname()</span>
         );
 
-<span class="fc" id="L224">        connectionFactory.setSoTimeout(</span>
-<span class="fc bfc" id="L225" title="All 2 branches covered.">                duplex.getSoTimeout() == null ? connections.getSoTimeout() : duplex.getSoTimeout()</span>
+<span class="fc" id="L223">        connectionFactory.setSoTimeout(</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">                duplex.getSoTimeout() == null ? connections.getSoTimeout() : duplex.getSoTimeout()</span>
         );
 
-<span class="fc" id="L228">        connectionFactory.setSoSendBufferSize(</span>
-<span class="fc bfc" id="L229" title="All 2 branches covered.">                duplex.getSoSendBufferSize() == null ? connections.getSoSendBufferSize() : duplex.getSoSendBufferSize()</span>
+<span class="fc" id="L227">        connectionFactory.setSoSendBufferSize(</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">                duplex.getSoSendBufferSize() == null ? connections.getSoSendBufferSize() : duplex.getSoSendBufferSize()</span>
         );
 
-<span class="fc" id="L232">        connectionFactory.setSoReceiveBufferSize(</span>
-<span class="fc bfc" id="L233" title="All 2 branches covered.">                duplex.getSoReceiveBufferSize() == null ? connections.getSoReceiveBufferSize() : duplex.getSoReceiveBufferSize()</span>
+<span class="fc" id="L231">        connectionFactory.setSoReceiveBufferSize(</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">                duplex.getSoReceiveBufferSize() == null ? connections.getSoReceiveBufferSize() : duplex.getSoReceiveBufferSize()</span>
         );
 
-<span class="fc" id="L236">        connectionFactory.setSerializer(serializer);</span>
-<span class="fc" id="L237">        connectionFactory.setDeserializer(deserializer);</span>
-<span class="fc" id="L238">        connectionFactory.setMapper(tcpMessageMapper);</span>
-<span class="fc" id="L239">        connectionFactory.setApplicationEventPublisher(applicationEventPublisher);</span>
-<span class="fc" id="L240">        LOGGER.debug(&quot;Hostname [{}], Port [{}], SoTimeout [{}], SoReceiveBufferSize [{}], SoSendBufferSize [{}]&quot;,</span>
-<span class="fc" id="L241">                host, port, connectionFactory.getSoTimeout(), connectionFactory.getSoReceiveBufferSize(), connectionFactory.getSoSendBufferSize()</span>
+<span class="fc" id="L235">        connectionFactory.setSerializer(serializer);</span>
+<span class="fc" id="L236">        connectionFactory.setDeserializer(deserializer);</span>
+<span class="fc" id="L237">        connectionFactory.setMapper(tcpMessageMapper);</span>
+<span class="fc" id="L238">        connectionFactory.setApplicationEventPublisher(applicationEventPublisher);</span>
+<span class="fc" id="L239">        LOGGER.debug(&quot;Hostname [{}], Port [{}], SoTimeout [{}], SoReceiveBufferSize [{}], SoSendBufferSize [{}]&quot;,</span>
+<span class="fc" id="L240">                host, port, connectionFactory.getSoTimeout(), connectionFactory.getSoReceiveBufferSize(), connectionFactory.getSoSendBufferSize()</span>
         );
-<span class="fc" id="L243">        return connectionFactory;</span>
+<span class="fc" id="L242">        return connectionFactory;</span>
     }
 
     private void setupInbound(
@@ -249,48 +248,48 @@ import static org.openwms.common.comm.CommConstants.SUFFIX_OUTBOUND;
             TaskScheduler taskScheduler, Serializer serializer,
             Deserializer deserializer) {
 
-<span class="fc" id="L252">        Subsystem.Inbound inbound = subsystem.getInbound();</span>
-<span class="pc bpc" id="L253" title="1 of 2 branches missed.">        if (inbound.getMode() == Subsystem.MODE.server) {</span>
+<span class="fc" id="L251">        Subsystem.Inbound inbound = subsystem.getInbound();</span>
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">        if (inbound.getMode() == Subsystem.MODE.server) {</span>
 
-<span class="fc" id="L255">            AbstractServerConnectionFactory connectionFactory = createInboundServerConnectionFactory(connections, subsystem, tcpMessageMapper, serializer, deserializer);</span>
-<span class="fc" id="L256">            connectionFactory.setBeanName(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_INBOUND);</span>
-<span class="fc" id="L257">            connectionFactory.setInterceptorFactoryChain(createInterceptorChain());</span>
-<span class="fc" id="L258">            attachReceivingChannelAdapter(subsystem, inboundChannel, connectionFactory);</span>
-<span class="fc" id="L259">            BOOT_LOGGER.info(&quot;[{}] Inbound  TCP/IP connection configured as server: Port [{}]&quot;, subsystem.getName(), inbound.getPort());</span>
-<span class="pc bnc" id="L260" title="All 2 branches missed.">        } else if (inbound.getMode() == Subsystem.MODE.client) {</span>
+<span class="fc" id="L254">            AbstractServerConnectionFactory connectionFactory = createInboundServerConnectionFactory(connections, subsystem, tcpMessageMapper, serializer, deserializer);</span>
+<span class="fc" id="L255">            connectionFactory.setBeanName(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_INBOUND);</span>
+<span class="fc" id="L256">            connectionFactory.setInterceptorFactoryChain(createInterceptorChain());</span>
+<span class="fc" id="L257">            attachReceivingChannelAdapter(subsystem, inboundChannel, connectionFactory);</span>
+<span class="fc" id="L258">            BOOT_LOGGER.info(&quot;[{}] Inbound  TCP/IP connection configured as server: Port [{}]&quot;, subsystem.getName(), inbound.getPort());</span>
+<span class="pc bnc" id="L259" title="All 2 branches missed.">        } else if (inbound.getMode() == Subsystem.MODE.client) {</span>
 
-<span class="nc bnc" id="L262" title="All 2 branches missed.">            String hostname = inbound.getHostname() == null ? connections.getHostname() : inbound.getHostname();</span>
-<span class="nc bnc" id="L263" title="All 2 branches missed.">            Integer soTimeout = inbound.getSoTimeout() == null ? connections.getSoTimeout() : inbound.getSoTimeout();</span>
-<span class="nc bnc" id="L264" title="All 2 branches missed.">            Integer soReceiveBufferSize = inbound.getSoReceiveBufferSize() == null ? connections.getSoReceiveBufferSize() : inbound.getSoReceiveBufferSize();</span>
-<span class="nc" id="L265">            AbstractClientConnectionFactory connectionFactory = createClientConnectionFactory(</span>
-<span class="nc" id="L266">                    hostname, inbound.getPort(), serializer, deserializer, soTimeout, soReceiveBufferSize, null</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">            String hostname = inbound.getHostname() == null ? connections.getHostname() : inbound.getHostname();</span>
+<span class="nc bnc" id="L262" title="All 2 branches missed.">            Integer soTimeout = inbound.getSoTimeout() == null ? connections.getSoTimeout() : inbound.getSoTimeout();</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">            Integer soReceiveBufferSize = inbound.getSoReceiveBufferSize() == null ? connections.getSoReceiveBufferSize() : inbound.getSoReceiveBufferSize();</span>
+<span class="nc" id="L264">            AbstractClientConnectionFactory connectionFactory = createClientConnectionFactory(</span>
+<span class="nc" id="L265">                    hostname, inbound.getPort(), serializer, deserializer, soTimeout, soReceiveBufferSize, null</span>
             );
-<span class="nc" id="L268">            connectionFactory.setBeanName(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_INBOUND);</span>
-<span class="nc" id="L269">            connectionFactory.setComponentName(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_INBOUND);</span>
-<span class="nc" id="L270">            connectionFactory.setSingleUse(false);</span>
-<span class="nc" id="L271">            connectionFactory.setApplicationEventPublisher(applicationEventPublisher);</span>
-<span class="nc" id="L272">            connectionFactory.setInterceptorFactoryChain(createInterceptorChain());</span>
-<span class="nc" id="L273">            registerBean(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_INBOUND, connectionFactory);</span>
+<span class="nc" id="L267">            connectionFactory.setBeanName(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_INBOUND);</span>
+<span class="nc" id="L268">            connectionFactory.setComponentName(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_INBOUND);</span>
+<span class="nc" id="L269">            connectionFactory.setSingleUse(false);</span>
+<span class="nc" id="L270">            connectionFactory.setApplicationEventPublisher(applicationEventPublisher);</span>
+<span class="nc" id="L271">            connectionFactory.setInterceptorFactoryChain(createInterceptorChain());</span>
+<span class="nc" id="L272">            registerBean(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_INBOUND, connectionFactory);</span>
 
-<span class="nc" id="L275">            TcpReceivingChannelAdapter adapter = new TcpReceivingChannelAdapter();</span>
-<span class="nc" id="L276">            adapter.setOutputChannel(inboundChannel);</span>
-<span class="nc" id="L277">            adapter.setConnectionFactory(connectionFactory);</span>
-<span class="nc" id="L278">            adapter.setTaskScheduler(taskScheduler);</span>
-<span class="nc" id="L279">            adapter.setClientMode(true);</span>
-<span class="nc" id="L280">            adapter.setRetryInterval(10000);</span>
-<span class="nc" id="L281">            adapter.start();</span>
-<span class="nc" id="L282">            registerBean(PREFIX_CHANNEL_ADAPTER + subsystem.getName() + SUFFIX_INBOUND, adapter);</span>
+<span class="nc" id="L274">            TcpReceivingChannelAdapter adapter = new TcpReceivingChannelAdapter();</span>
+<span class="nc" id="L275">            adapter.setOutputChannel(inboundChannel);</span>
+<span class="nc" id="L276">            adapter.setConnectionFactory(connectionFactory);</span>
+<span class="nc" id="L277">            adapter.setTaskScheduler(taskScheduler);</span>
+<span class="nc" id="L278">            adapter.setClientMode(true);</span>
+<span class="nc" id="L279">            adapter.setRetryInterval(10000);</span>
+<span class="nc" id="L280">            adapter.start();</span>
+<span class="nc" id="L281">            registerBean(PREFIX_CHANNEL_ADAPTER + subsystem.getName() + SUFFIX_INBOUND, adapter);</span>
 
-<span class="nc" id="L284">            BOOT_LOGGER.info(&quot;[{}] Inbound  TCP/IP connection configured as client: Hostname [{}], port [{}]&quot;, subsystem.getName(), inbound.getHostname(), inbound.getPort());</span>
-<span class="nc" id="L285">        } else {</span>
-<span class="nc" id="L286">            throw new ConfigurationException(format(&quot;Mode [%s] for subsystem [%s] inbound not supported. Please use [server] or [client]&quot;, inbound.getMode(), subsystem.getName()));</span>
+<span class="nc" id="L283">            BOOT_LOGGER.info(&quot;[{}] Inbound  TCP/IP connection configured as client: Hostname [{}], port [{}]&quot;, subsystem.getName(), inbound.getHostname(), inbound.getPort());</span>
+<span class="nc" id="L284">        } else {</span>
+<span class="nc" id="L285">            throw new ConfigurationException(format(&quot;Mode [%s] for subsystem [%s] inbound not supported. Please use [server] or [client]&quot;, inbound.getMode(), subsystem.getName()));</span>
         }
-<span class="fc" id="L288">    }</span>
+<span class="fc" id="L287">    }</span>
 
     private TcpConnectionInterceptorFactoryChain createInterceptorChain() {
-<span class="fc" id="L291">        TcpConnectionInterceptorFactoryChain chain = new TcpConnectionInterceptorFactoryChain();</span>
-<span class="fc" id="L292">        chain.setInterceptors(new TcpConnectionInterceptorFactory[]{() -&gt; new TenantInterception(applicationEventPublisher)});</span>
-<span class="fc" id="L293">        return chain;</span>
+<span class="fc" id="L290">        TcpConnectionInterceptorFactoryChain chain = new TcpConnectionInterceptorFactoryChain();</span>
+<span class="fc" id="L291">        chain.setInterceptors(new TcpConnectionInterceptorFactory[]{() -&gt; new TenantInterception(applicationEventPublisher)});</span>
+<span class="fc" id="L292">        return chain;</span>
     }
 
     private void setupOutbound(
@@ -299,74 +298,74 @@ import static org.openwms.common.comm.CommConstants.SUFFIX_OUTBOUND;
             TaskScheduler taskScheduler, Serializer serializer,
             Deserializer deserializer) {
 
-<span class="fc" id="L302">        Subsystem.Outbound outbound = subsystem.getOutbound();</span>
-<span class="fc bfc" id="L303" title="All 2 branches covered.">        if (outbound.getMode() == Subsystem.MODE.server) {</span>
+<span class="fc" id="L301">        Subsystem.Outbound outbound = subsystem.getOutbound();</span>
+<span class="fc bfc" id="L302" title="All 2 branches covered.">        if (outbound.getMode() == Subsystem.MODE.server) {</span>
 
-<span class="fc" id="L305">            AbstractServerConnectionFactory connectionFactory =</span>
-<span class="fc" id="L306">                    createOutboundServerConnectionFactory(</span>
-<span class="fc" id="L307">                            connections, subsystem.getName(), outbound, tcpMessageMapper,</span>
+<span class="fc" id="L304">            AbstractServerConnectionFactory connectionFactory =</span>
+<span class="fc" id="L305">                    createOutboundServerConnectionFactory(</span>
+<span class="fc" id="L306">                            connections, subsystem.getName(), outbound, tcpMessageMapper,</span>
                             serializer, deserializer);
-<span class="fc" id="L309">            connectionFactory.setBeanName(PREFIX_CONNECTION_FACTORY + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
-<span class="fc" id="L310">            connectionFactory.setComponentName(PREFIX_CONNECTION_FACTORY + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
+<span class="fc" id="L308">            connectionFactory.setBeanName(PREFIX_CONNECTION_FACTORY + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
+<span class="fc" id="L309">            connectionFactory.setComponentName(PREFIX_CONNECTION_FACTORY + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
 
-<span class="fc" id="L312">            TcpSendingMessageHandler sendingMessageHandler = createSendingMessageHandler(connectionFactory);</span>
-<span class="fc" id="L313">            sendingMessageHandler.setTaskScheduler(taskScheduler);</span>
-<span class="fc" id="L314">            DirectChannel channel = createEnrichedOutboundChannel(sendingMessageHandler);</span>
+<span class="fc" id="L311">            TcpSendingMessageHandler sendingMessageHandler = createSendingMessageHandler(connectionFactory);</span>
+<span class="fc" id="L312">            sendingMessageHandler.setTaskScheduler(taskScheduler);</span>
+<span class="fc" id="L313">            DirectChannel channel = createEnrichedOutboundChannel(sendingMessageHandler);</span>
 
             // This adapter is only required to let the SCF work as a CCF!!
-<span class="fc" id="L317">            TcpReceivingChannelAdapter adapter = new TcpReceivingChannelAdapter();</span>
-<span class="fc" id="L318">            adapter.setConnectionFactory(connectionFactory);</span>
-<span class="fc" id="L319">            adapter.setOutputChannel(channel);</span>
-<span class="fc" id="L320">            adapter.setClientMode(false);</span>
-<span class="fc" id="L321">            adapter.setTaskScheduler(taskScheduler);</span>
-<span class="fc" id="L322">            adapter.setRetryInterval(10000);</span>
-<span class="fc" id="L323">            adapter.start();</span>
+<span class="fc" id="L316">            TcpReceivingChannelAdapter adapter = new TcpReceivingChannelAdapter();</span>
+<span class="fc" id="L317">            adapter.setConnectionFactory(connectionFactory);</span>
+<span class="fc" id="L318">            adapter.setOutputChannel(channel);</span>
+<span class="fc" id="L319">            adapter.setClientMode(false);</span>
+<span class="fc" id="L320">            adapter.setTaskScheduler(taskScheduler);</span>
+<span class="fc" id="L321">            adapter.setRetryInterval(10000);</span>
+<span class="fc" id="L322">            adapter.start();</span>
 
-<span class="fc" id="L325">            channels.addOutboundChannel(PREFIX_ENRICHED_OUTBOUND_CHANNEL + outbound.getIdentifiedByValue(), channel);</span>
-<span class="fc" id="L326">            registerBean(PREFIX_CONNECTION_FACTORY + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND, connectionFactory);</span>
-<span class="fc" id="L327">            registerBean(PREFIX_CHANNEL_ADAPTER + subsystem.getName() + SUFFIX_OUTBOUND, adapter);</span>
-<span class="fc" id="L328">            registerBean(PREFIX_SENDING_MESSAGE_HANDLER + subsystem.getName() + SUFFIX_OUTBOUND, sendingMessageHandler);</span>
-<span class="fc" id="L329">            registerBean(PREFIX_ENRICHED_OUTBOUND_CHANNEL + outbound.getIdentifiedByValue(), channel);</span>
+<span class="fc" id="L324">            channels.addOutboundChannel(PREFIX_ENRICHED_OUTBOUND_CHANNEL + outbound.getIdentifiedByValue(), channel);</span>
+<span class="fc" id="L325">            registerBean(PREFIX_CONNECTION_FACTORY + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND, connectionFactory);</span>
+<span class="fc" id="L326">            registerBean(PREFIX_CHANNEL_ADAPTER + subsystem.getName() + SUFFIX_OUTBOUND, adapter);</span>
+<span class="fc" id="L327">            registerBean(PREFIX_SENDING_MESSAGE_HANDLER + subsystem.getName() + SUFFIX_OUTBOUND, sendingMessageHandler);</span>
+<span class="fc" id="L328">            registerBean(PREFIX_ENRICHED_OUTBOUND_CHANNEL + outbound.getIdentifiedByValue(), channel);</span>
 
-<span class="fc" id="L331">            BOOT_LOGGER.info(&quot;[{}] Outbound TCP/IP connection configured as server: Port [{}]&quot;, subsystem.getName(), outbound.getPort());</span>
-<span class="pc bpc" id="L332" title="1 of 2 branches missed.">        } else if (outbound.getMode() == Subsystem.MODE.client) {</span>
+<span class="fc" id="L330">            BOOT_LOGGER.info(&quot;[{}] Outbound TCP/IP connection configured as server: Port [{}]&quot;, subsystem.getName(), outbound.getPort());</span>
+<span class="pc bpc" id="L331" title="1 of 2 branches missed.">        } else if (outbound.getMode() == Subsystem.MODE.client) {</span>
 
-<span class="pc bpc" id="L334" title="1 of 2 branches missed.">            String hostname = outbound.getHostname() == null ? connections.getHostname() : outbound.getHostname();</span>
-<span class="pc bpc" id="L335" title="1 of 2 branches missed.">            Integer soTimeout = outbound.getSoTimeout() == null ? connections.getSoTimeout() : outbound.getSoTimeout();</span>
-<span class="pc bpc" id="L336" title="1 of 2 branches missed.">            Integer soSendBufferSize = outbound.getSoSendBufferSize() == null ? connections.getSoSendBufferSize() : outbound.getSoSendBufferSize();</span>
-<span class="fc" id="L337">            AbstractClientConnectionFactory connectionFactory = createClientConnectionFactory(</span>
-<span class="fc" id="L338">                    hostname, outbound.getPort(), serializer, deserializer, soTimeout, null, soSendBufferSize</span>
+<span class="pc bpc" id="L333" title="1 of 2 branches missed.">            String hostname = outbound.getHostname() == null ? connections.getHostname() : outbound.getHostname();</span>
+<span class="pc bpc" id="L334" title="1 of 2 branches missed.">            Integer soTimeout = outbound.getSoTimeout() == null ? connections.getSoTimeout() : outbound.getSoTimeout();</span>
+<span class="pc bpc" id="L335" title="1 of 2 branches missed.">            Integer soSendBufferSize = outbound.getSoSendBufferSize() == null ? connections.getSoSendBufferSize() : outbound.getSoSendBufferSize();</span>
+<span class="fc" id="L336">            AbstractClientConnectionFactory connectionFactory = createClientConnectionFactory(</span>
+<span class="fc" id="L337">                    hostname, outbound.getPort(), serializer, deserializer, soTimeout, null, soSendBufferSize</span>
             );
-<span class="fc" id="L340">            connectionFactory.setBeanName(PREFIX_CONNECTION_FACTORY + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
-<span class="fc" id="L341">            connectionFactory.setComponentName(PREFIX_CONNECTION_FACTORY + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
-<span class="fc" id="L342">            connectionFactory.setSingleUse(false);</span>
-<span class="fc" id="L343">            connectionFactory.setApplicationEventPublisher(applicationEventPublisher);</span>
-<span class="fc" id="L344">            registerBean(PREFIX_CONNECTION_FACTORY + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND, connectionFactory);</span>
+<span class="fc" id="L339">            connectionFactory.setBeanName(PREFIX_CONNECTION_FACTORY + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
+<span class="fc" id="L340">            connectionFactory.setComponentName(PREFIX_CONNECTION_FACTORY + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
+<span class="fc" id="L341">            connectionFactory.setSingleUse(false);</span>
+<span class="fc" id="L342">            connectionFactory.setApplicationEventPublisher(applicationEventPublisher);</span>
+<span class="fc" id="L343">            registerBean(PREFIX_CONNECTION_FACTORY + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND, connectionFactory);</span>
 
-<span class="fc" id="L346">            TcpSendingMessageHandler sendingMessageHandler = createSendingMessageHandler(connectionFactory);</span>
-<span class="fc" id="L347">            sendingMessageHandler.setClientMode(true);</span>
-<span class="fc" id="L348">            sendingMessageHandler.setTaskScheduler(taskScheduler);</span>
-<span class="fc" id="L349">            registerBean(PREFIX_SENDING_MESSAGE_HANDLER + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND, sendingMessageHandler);</span>
+<span class="fc" id="L345">            TcpSendingMessageHandler sendingMessageHandler = createSendingMessageHandler(connectionFactory);</span>
+<span class="fc" id="L346">            sendingMessageHandler.setClientMode(true);</span>
+<span class="fc" id="L347">            sendingMessageHandler.setTaskScheduler(taskScheduler);</span>
+<span class="fc" id="L348">            registerBean(PREFIX_SENDING_MESSAGE_HANDLER + outbound.getIdentifiedByValue() + SUFFIX_OUTBOUND, sendingMessageHandler);</span>
 
-<span class="fc" id="L351">            DirectChannel channel = createEnrichedOutboundChannel(sendingMessageHandler);</span>
-<span class="fc" id="L352">            registerBean(PREFIX_ENRICHED_OUTBOUND_CHANNEL + outbound.getIdentifiedByValue(), channel);</span>
+<span class="fc" id="L350">            DirectChannel channel = createEnrichedOutboundChannel(sendingMessageHandler);</span>
+<span class="fc" id="L351">            registerBean(PREFIX_ENRICHED_OUTBOUND_CHANNEL + outbound.getIdentifiedByValue(), channel);</span>
 
-<span class="fc" id="L354">            channels.addOutboundChannel(PREFIX_ENRICHED_OUTBOUND_CHANNEL + outbound.getIdentifiedByValue(), channel);</span>
+<span class="fc" id="L353">            channels.addOutboundChannel(PREFIX_ENRICHED_OUTBOUND_CHANNEL + outbound.getIdentifiedByValue(), channel);</span>
 
-<span class="fc" id="L356">            TcpReceivingChannelAdapter adapter = new TcpReceivingChannelAdapter();</span>
-<span class="fc" id="L357">            adapter.setConnectionFactory(connectionFactory);</span>
-<span class="fc" id="L358">            adapter.setClientMode(true);</span>
-<span class="fc" id="L359">            adapter.setOutputChannel(channel);</span>
-<span class="fc" id="L360">            adapter.setTaskScheduler(taskScheduler);</span>
-<span class="fc" id="L361">            adapter.setRetryInterval(10000);</span>
-<span class="fc" id="L362">            adapter.start();</span>
-<span class="fc" id="L363">            registerBean(PREFIX_CHANNEL_ADAPTER + subsystem.getName() + SUFFIX_OUTBOUND, adapter);</span>
+<span class="fc" id="L355">            TcpReceivingChannelAdapter adapter = new TcpReceivingChannelAdapter();</span>
+<span class="fc" id="L356">            adapter.setConnectionFactory(connectionFactory);</span>
+<span class="fc" id="L357">            adapter.setClientMode(true);</span>
+<span class="fc" id="L358">            adapter.setOutputChannel(channel);</span>
+<span class="fc" id="L359">            adapter.setTaskScheduler(taskScheduler);</span>
+<span class="fc" id="L360">            adapter.setRetryInterval(10000);</span>
+<span class="fc" id="L361">            adapter.start();</span>
+<span class="fc" id="L362">            registerBean(PREFIX_CHANNEL_ADAPTER + subsystem.getName() + SUFFIX_OUTBOUND, adapter);</span>
 
-<span class="fc" id="L365">            BOOT_LOGGER.info(&quot;[{}] Outbound TCP/IP connection configured as client: Hostname [{}], port [{}]&quot;, subsystem.getName(), hostname, outbound.getPort());</span>
-<span class="fc" id="L366">        } else {</span>
-<span class="nc" id="L367">            throw new ConfigurationException(format(&quot;Mode [%s] for outbound not supported. Please use [server] or [client]&quot;, outbound.getMode()));</span>
+<span class="fc" id="L364">            BOOT_LOGGER.info(&quot;[{}] Outbound TCP/IP connection configured as client: Hostname [{}], port [{}]&quot;, subsystem.getName(), hostname, outbound.getPort());</span>
+<span class="fc" id="L365">        } else {</span>
+<span class="nc" id="L366">            throw new ConfigurationException(format(&quot;Mode [%s] for outbound not supported. Please use [server] or [client]&quot;, outbound.getMode()));</span>
         }
-<span class="fc" id="L369">    }</span>
+<span class="fc" id="L368">    }</span>
 
     @Bean
     @DependsOn(&quot;connections&quot;)
@@ -378,28 +377,25 @@ import static org.openwms.common.comm.CommConstants.SUFFIX_OUTBOUND;
             TaskScheduler taskScheduler,
             @Value(&quot;${owms.driver.type:NA}&quot;) String type
             ) {
-<span class="pc bpc" id="L381" title="1 of 2 branches missed.">        BOOT_LOGGER.info(&quot;Driver instantiated in [{}] mode&quot;, &quot;NA&quot;.equals(type) ? &quot;N/A&quot; : type);</span>
-<span class="fc" id="L382">        Channels channels =  new Channels();</span>
-<span class="fc bfc" id="L383" title="All 2 branches covered.">        for(Subsystem subsystem : connections.getSubsystems()) {</span>
-<span class="fc bfc" id="L384" title="All 2 branches covered.">            if (subsystem.getDuplex() != null) {</span>
-<span class="fc" id="L385">                setupDuplex(connections, subsystem, tcpMessageMapper, inboundChannel, channels, taskScheduler, serializer, deserializer);</span>
+<span class="pc bpc" id="L380" title="1 of 2 branches missed.">        BOOT_LOGGER.info(&quot;Driver instantiated in [{}] mode&quot;, &quot;NA&quot;.equals(type) ? &quot;N/A&quot; : type);</span>
+<span class="fc" id="L381">        Channels channels =  new Channels();</span>
+<span class="fc bfc" id="L382" title="All 2 branches covered.">        for(Subsystem subsystem : connections.getSubsystems()) {</span>
+<span class="fc bfc" id="L383" title="All 2 branches covered.">            if (subsystem.getDuplex() != null) {</span>
+<span class="fc" id="L384">                setupDuplex(connections, subsystem, tcpMessageMapper, inboundChannel, channels, taskScheduler, serializer, deserializer);</span>
             } else {
-<span class="fc" id="L387">                setupInbound(connections, subsystem, tcpMessageMapper, inboundChannel, taskScheduler, serializer, deserializer);</span>
-<span class="fc" id="L388">                setupOutbound(connections, subsystem, tcpMessageMapper, channels, taskScheduler, serializer, deserializer);</span>
+<span class="fc" id="L386">                setupInbound(connections, subsystem, tcpMessageMapper, inboundChannel, taskScheduler, serializer, deserializer);</span>
+<span class="fc" id="L387">                setupOutbound(connections, subsystem, tcpMessageMapper, channels, taskScheduler, serializer, deserializer);</span>
             }
-<span class="fc" id="L390">        }</span>
-
-<span class="fc" id="L392">        return channels;</span>
+<span class="fc" id="L389">        }</span>
+<span class="fc" id="L390">        return channels;</span>
     }
 
     @Bean
     public ThreadPoolTaskScheduler threadPoolTaskScheduler(){
-<span class="fc" id="L397">        ThreadPoolTaskScheduler threadPoolTaskScheduler</span>
-                = new ThreadPoolTaskScheduler();
-<span class="fc" id="L399">        threadPoolTaskScheduler.setPoolSize(5);</span>
-<span class="fc" id="L400">        threadPoolTaskScheduler.setThreadNamePrefix(</span>
-                &quot;ThreadPoolTaskScheduler&quot;);
-<span class="fc" id="L402">        return threadPoolTaskScheduler;</span>
+<span class="fc" id="L395">        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();</span>
+<span class="fc" id="L396">        threadPoolTaskScheduler.setPoolSize(5);</span>
+<span class="fc" id="L397">        threadPoolTaskScheduler.setThreadNamePrefix(&quot;ThreadPoolTaskScheduler&quot;);</span>
+<span class="fc" id="L398">        return threadPoolTaskScheduler;</span>
     }
 
     private void setupDuplex(Connections connections, Subsystem subsystem,
@@ -407,140 +403,140 @@ import static org.openwms.common.comm.CommConstants.SUFFIX_OUTBOUND;
             Channels channels, TaskScheduler taskScheduler,
             Serializer serializer, Deserializer deserializer) {
 
-<span class="fc" id="L410">        Subsystem.Duplex duplex = subsystem.getDuplex();</span>
+<span class="fc" id="L406">        Subsystem.Duplex duplex = subsystem.getDuplex();</span>
 
-<span class="fc bfc" id="L412" title="All 2 branches covered.">        if (subsystem.getDuplex().getMode() == Subsystem.MODE.client) {</span>
+<span class="fc bfc" id="L408" title="All 2 branches covered.">        if (subsystem.getDuplex().getMode() == Subsystem.MODE.client) {</span>
 
             // Duplex mode !!!
-<span class="fc" id="L415">            AbstractConnectionFactory clientConnectionFactory =</span>
-<span class="fc" id="L416">                    createOutboundConnectionFactory(</span>
+<span class="fc" id="L411">            AbstractConnectionFactory clientConnectionFactory =</span>
+<span class="fc" id="L412">                    createOutboundConnectionFactory(</span>
                             Subsystem.MODE.client,
-<span class="fc" id="L418">                            subsystem.getName(),</span>
-<span class="fc" id="L419">                            connections, subsystem.getDuplex(),</span>
+<span class="fc" id="L414">                            subsystem.getName(),</span>
+<span class="fc" id="L415">                            connections, subsystem.getDuplex(),</span>
                             tcpMessageMapper, serializer, deserializer);
 
-<span class="fc" id="L422">            clientConnectionFactory.setBeanName(PREFIX_CONNECTION_FACTORY + subsystem.getDuplex().getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
-<span class="fc" id="L423">            clientConnectionFactory.setComponentName(PREFIX_CONNECTION_FACTORY + subsystem.getDuplex().getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
-<span class="fc" id="L424">            clientConnectionFactory.setSingleUse(false);</span>
-<span class="fc" id="L425">            clientConnectionFactory.setInterceptorFactoryChain(createInterceptorChain());</span>
-<span class="fc" id="L426">            registerBean(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_OUTBOUND, clientConnectionFactory);</span>
+<span class="fc" id="L418">            clientConnectionFactory.setBeanName(PREFIX_CONNECTION_FACTORY + subsystem.getDuplex().getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
+<span class="fc" id="L419">            clientConnectionFactory.setComponentName(PREFIX_CONNECTION_FACTORY + subsystem.getDuplex().getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
+<span class="fc" id="L420">            clientConnectionFactory.setSingleUse(false);</span>
+<span class="fc" id="L421">            clientConnectionFactory.setInterceptorFactoryChain(createInterceptorChain());</span>
+<span class="fc" id="L422">            registerBean(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_OUTBOUND, clientConnectionFactory);</span>
 
             // This adapter is only required to let the SCF work as a CCF!!
-<span class="fc" id="L429">            TcpReceivingChannelAdapter adapter = new TcpReceivingChannelAdapter();</span>
-<span class="fc" id="L430">            adapter.setConnectionFactory(clientConnectionFactory);</span>
-<span class="fc" id="L431">            adapter.setOutputChannel(inboundChannel);</span>
-<span class="fc" id="L432">            adapter.setTaskScheduler(taskScheduler);</span>
-<span class="fc" id="L433">            adapter.setClientMode(true);</span>
-<span class="fc" id="L434">            adapter.setRetryInterval(10000);</span>
-<span class="fc" id="L435">            adapter.start();</span>
-<span class="fc" id="L436">            registerBean(PREFIX_CHANNEL_ADAPTER + subsystem.getName() + SUFFIX_OUTBOUND, adapter);</span>
+<span class="fc" id="L425">            TcpReceivingChannelAdapter adapter = new TcpReceivingChannelAdapter();</span>
+<span class="fc" id="L426">            adapter.setConnectionFactory(clientConnectionFactory);</span>
+<span class="fc" id="L427">            adapter.setOutputChannel(inboundChannel);</span>
+<span class="fc" id="L428">            adapter.setTaskScheduler(taskScheduler);</span>
+<span class="fc" id="L429">            adapter.setClientMode(true);</span>
+<span class="fc" id="L430">            adapter.setRetryInterval(10000);</span>
+<span class="fc" id="L431">            adapter.start();</span>
+<span class="fc" id="L432">            registerBean(PREFIX_CHANNEL_ADAPTER + subsystem.getName() + SUFFIX_OUTBOUND, adapter);</span>
 
             // ---- Sending part
-<span class="fc" id="L439">            TcpSendingMessageHandler sendingMessageHandler = createSendingMessageHandler(clientConnectionFactory);</span>
-<span class="fc" id="L440">            sendingMessageHandler.setClientMode(true);</span>
-<span class="fc" id="L441">            sendingMessageHandler.setRetryInterval(10000);</span>
-<span class="fc" id="L442">            sendingMessageHandler.setLoggingEnabled(true);</span>
-<span class="fc" id="L443">            sendingMessageHandler.setTaskScheduler(taskScheduler);</span>
-<span class="fc" id="L444">            registerBean(PREFIX_SENDING_MESSAGE_HANDLER + subsystem.getName() + SUFFIX_OUTBOUND, sendingMessageHandler);</span>
-<span class="fc" id="L445">            sendingMessageHandler.start();</span>
+<span class="fc" id="L435">            TcpSendingMessageHandler sendingMessageHandler = createSendingMessageHandler(clientConnectionFactory);</span>
+<span class="fc" id="L436">            sendingMessageHandler.setClientMode(true);</span>
+<span class="fc" id="L437">            sendingMessageHandler.setRetryInterval(10000);</span>
+<span class="fc" id="L438">            sendingMessageHandler.setLoggingEnabled(true);</span>
+<span class="fc" id="L439">            sendingMessageHandler.setTaskScheduler(taskScheduler);</span>
+<span class="fc" id="L440">            registerBean(PREFIX_SENDING_MESSAGE_HANDLER + subsystem.getName() + SUFFIX_OUTBOUND, sendingMessageHandler);</span>
+<span class="fc" id="L441">            sendingMessageHandler.start();</span>
 
-<span class="fc" id="L447">            DirectChannel channel = createEnrichedOutboundChannel(sendingMessageHandler);</span>
-<span class="fc" id="L448">            registerBean(PREFIX_ENRICHED_OUTBOUND_CHANNEL + duplex.getIdentifiedByValue(), channel);</span>
+<span class="fc" id="L443">            DirectChannel channel = createEnrichedOutboundChannel(sendingMessageHandler);</span>
+<span class="fc" id="L444">            registerBean(PREFIX_ENRICHED_OUTBOUND_CHANNEL + duplex.getIdentifiedByValue(), channel);</span>
 
-<span class="fc" id="L450">            channels.addOutboundChannel(PREFIX_ENRICHED_OUTBOUND_CHANNEL + duplex.getIdentifiedByValue(), channel);</span>
-<span class="pc bpc" id="L451" title="1 of 2 branches missed.">            String host = duplex.getHostname() == null ? connections.getHostname() : duplex.getHostname();</span>
-<span class="fc" id="L452">            BOOT_LOGGER.info(&quot;[{}] Duplex   TCP/IP connection configured with client: Hostname [{}], port [{}]&quot;, subsystem.getName(), host, duplex.getPort());</span>
-<span class="fc" id="L453">        } else {</span>
-<span class="fc" id="L454">            AbstractConnectionFactory connectionFactory =</span>
-<span class="fc" id="L455">                    createOutboundConnectionFactory(</span>
+<span class="fc" id="L446">            channels.addOutboundChannel(PREFIX_ENRICHED_OUTBOUND_CHANNEL + duplex.getIdentifiedByValue(), channel);</span>
+<span class="pc bpc" id="L447" title="1 of 2 branches missed.">            String host = duplex.getHostname() == null ? connections.getHostname() : duplex.getHostname();</span>
+<span class="fc" id="L448">            BOOT_LOGGER.info(&quot;[{}] Duplex   TCP/IP connection configured with client: Hostname [{}], port [{}]&quot;, subsystem.getName(), host, duplex.getPort());</span>
+<span class="fc" id="L449">        } else {</span>
+<span class="fc" id="L450">            AbstractConnectionFactory connectionFactory =</span>
+<span class="fc" id="L451">                    createOutboundConnectionFactory(</span>
                             Subsystem.MODE.server,
-<span class="fc" id="L457">                            subsystem.getName(),</span>
-<span class="fc" id="L458">                            connections, subsystem.getDuplex(),</span>
+<span class="fc" id="L453">                            subsystem.getName(),</span>
+<span class="fc" id="L454">                            connections, subsystem.getDuplex(),</span>
                             tcpMessageMapper, serializer, deserializer);
-<span class="fc" id="L460">            connectionFactory.setInterceptorFactoryChain(createInterceptorChain());</span>
-<span class="fc" id="L461">            connectionFactory.setBeanName(PREFIX_CONNECTION_FACTORY + subsystem.getDuplex().getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
-<span class="fc" id="L462">            connectionFactory.setComponentName(PREFIX_CONNECTION_FACTORY + subsystem.getDuplex().getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
-<span class="fc" id="L463">            registerBean(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_OUTBOUND, connectionFactory);</span>
+<span class="fc" id="L456">            connectionFactory.setInterceptorFactoryChain(createInterceptorChain());</span>
+<span class="fc" id="L457">            connectionFactory.setBeanName(PREFIX_CONNECTION_FACTORY + subsystem.getDuplex().getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
+<span class="fc" id="L458">            connectionFactory.setComponentName(PREFIX_CONNECTION_FACTORY + subsystem.getDuplex().getIdentifiedByValue() + SUFFIX_OUTBOUND);</span>
+<span class="fc" id="L459">            registerBean(PREFIX_CONNECTION_FACTORY + subsystem.getName() + SUFFIX_OUTBOUND, connectionFactory);</span>
 
             // This adapter is only required to let the SCF work as a CCF!!
-<span class="fc" id="L466">            TcpReceivingChannelAdapter adapter = new TcpReceivingChannelAdapter();</span>
-<span class="fc" id="L467">            adapter.setConnectionFactory(connectionFactory);</span>
-<span class="fc" id="L468">            adapter.setOutputChannel(inboundChannel);</span>
-<span class="fc" id="L469">            adapter.setTaskScheduler(taskScheduler);</span>
-<span class="fc" id="L470">            adapter.setClientMode(false);</span>
-<span class="fc" id="L471">            adapter.setRetryInterval(10000);</span>
-<span class="fc" id="L472">            registerBean(PREFIX_CHANNEL_ADAPTER + subsystem.getName() + SUFFIX_OUTBOUND, adapter);</span>
-<span class="fc" id="L473">            adapter.start();</span>
+<span class="fc" id="L462">            TcpReceivingChannelAdapter adapter = new TcpReceivingChannelAdapter();</span>
+<span class="fc" id="L463">            adapter.setConnectionFactory(connectionFactory);</span>
+<span class="fc" id="L464">            adapter.setOutputChannel(inboundChannel);</span>
+<span class="fc" id="L465">            adapter.setTaskScheduler(taskScheduler);</span>
+<span class="fc" id="L466">            adapter.setClientMode(false);</span>
+<span class="fc" id="L467">            adapter.setRetryInterval(10000);</span>
+<span class="fc" id="L468">            registerBean(PREFIX_CHANNEL_ADAPTER + subsystem.getName() + SUFFIX_OUTBOUND, adapter);</span>
+<span class="fc" id="L469">            adapter.start();</span>
 
-<span class="fc" id="L475">            TcpSendingMessageHandler sendingMessageHandler = new TcpSendingMessageHandler();</span>
-<span class="fc" id="L476">            sendingMessageHandler.setConnectionFactory(connectionFactory);</span>
-<span class="fc" id="L477">            sendingMessageHandler.setClientMode(false);</span>
-<span class="fc" id="L478">            registerBean(PREFIX_SENDING_MESSAGE_HANDLER + subsystem.getName() + SUFFIX_OUTBOUND, sendingMessageHandler);</span>
+<span class="fc" id="L471">            TcpSendingMessageHandler sendingMessageHandler = new TcpSendingMessageHandler();</span>
+<span class="fc" id="L472">            sendingMessageHandler.setConnectionFactory(connectionFactory);</span>
+<span class="fc" id="L473">            sendingMessageHandler.setClientMode(false);</span>
+<span class="fc" id="L474">            registerBean(PREFIX_SENDING_MESSAGE_HANDLER + subsystem.getName() + SUFFIX_OUTBOUND, sendingMessageHandler);</span>
             //TcpSendingMessageHandler sendingMessageHandler = createSendingMessageHandler(connectionFactory);
-<span class="fc" id="L480">            sendingMessageHandler.start();</span>
+<span class="fc" id="L476">            sendingMessageHandler.start();</span>
 
-<span class="fc" id="L482">            DirectChannel channel = createEnrichedOutboundChannel(sendingMessageHandler);</span>
-<span class="fc" id="L483">            registerBean(PREFIX_ENRICHED_OUTBOUND_CHANNEL + duplex.getIdentifiedByValue(), channel);</span>
+<span class="fc" id="L478">            DirectChannel channel = createEnrichedOutboundChannel(sendingMessageHandler);</span>
+<span class="fc" id="L479">            registerBean(PREFIX_ENRICHED_OUTBOUND_CHANNEL + duplex.getIdentifiedByValue(), channel);</span>
 
-<span class="fc" id="L485">            channels.addOutboundChannel(PREFIX_ENRICHED_OUTBOUND_CHANNEL + duplex.getIdentifiedByValue(), channel);</span>
-<span class="fc" id="L486">            BOOT_LOGGER.info(&quot;[{}] Outbound TCP/IP connection configured as server: Port [{}]&quot;, subsystem.getName(), duplex.getPort());</span>
+<span class="fc" id="L481">            channels.addOutboundChannel(PREFIX_ENRICHED_OUTBOUND_CHANNEL + duplex.getIdentifiedByValue(), channel);</span>
+<span class="fc" id="L482">            BOOT_LOGGER.info(&quot;[{}] Outbound TCP/IP connection configured as server: Port [{}]&quot;, subsystem.getName(), duplex.getPort());</span>
         }
-<span class="fc" id="L488">    }</span>
+<span class="fc" id="L484">    }</span>
 
     /*~ --------------- MessageChannels ------------ */
     @Bean
     MessageChannel commonExceptionChannel() {
-<span class="fc" id="L493">        return MessageChannels.executor(Executors.newCachedThreadPool()).get();</span>
+<span class="fc" id="L489">        return MessageChannels.executor(Executors.newCachedThreadPool()).get();</span>
     }
 
     @Bean
     MessageChannel transformerOutputChannel() {
-<span class="fc" id="L498">        return MessageChannels.executor(Executors.newCachedThreadPool()).get();</span>
+<span class="fc" id="L494">        return MessageChannels.executor(Executors.newCachedThreadPool()).get();</span>
     }
 
     @Bean
     MessageChannel inboundChannel() {
-<span class="fc" id="L503">        return MessageChannels.executor(Executors.newCachedThreadPool()).get();</span>
+<span class="fc" id="L499">        return MessageChannels.executor(Executors.newCachedThreadPool()).get();</span>
     }
 
     @Bean
     MessageChannel outboundChannel() {
-<span class="fc" id="L508">        return MessageChannels.direct().get();</span>
+<span class="fc" id="L504">        return MessageChannels.direct().get();</span>
     }
 
     private DirectChannel createEnrichedOutboundChannel(
             AbstractMessageHandler messageHandler) {
-<span class="fc" id="L513">        DirectChannel channel = MessageChannels.direct().get();</span>
-<span class="fc" id="L514">        channel.subscribe(messageHandler);</span>
-<span class="fc" id="L515">        return channel;</span>
+<span class="fc" id="L509">        DirectChannel channel = MessageChannels.direct().get();</span>
+<span class="fc" id="L510">        channel.subscribe(messageHandler);</span>
+<span class="fc" id="L511">        return channel;</span>
     }
 
     /*~ --------- Serializer / Deserializer -------- */
     @Bean
     Serializer serializer() {
-<span class="fc" id="L521">        return new ByteArrayLfSerializer();</span>
+<span class="fc" id="L517">        return new ByteArrayLfSerializer();</span>
     }
 
     @Bean
     Deserializer deserializer() {
-<span class="fc" id="L526">        return new ByteArrayLfSerializer();</span>
+<span class="fc" id="L522">        return new ByteArrayLfSerializer();</span>
     }
 
     /*~ ----------------   Converter---------------- */
     @Bean
     TcpMessageMapper tcpMessageMapper() {
-<span class="fc" id="L532">        return new TcpMessageMapper();</span>
+<span class="fc" id="L528">        return new TcpMessageMapper();</span>
     }
 
     @Bean
     ByteArrayMessageConverter byteArrayMessageConverter() {
-<span class="fc" id="L537">        return new ByteArrayMessageConverter();</span>
+<span class="fc" id="L533">        return new ByteArrayMessageConverter();</span>
     }
 
     @Bean
     @ConditionalOnMissingBean(Transformable.class)
     Transformable telegramTransformer(List&lt;TelegramDeserializer&gt; deserializers) {
-<span class="fc" id="L543">        return new TelegramTransformer(deserializers);</span>
+<span class="fc" id="L539">        return new TelegramTransformer(deserializers);</span>
     }
 
     /*~ -------------------- Flows ----------------- */
@@ -549,17 +545,17 @@ import static org.openwms.common.comm.CommConstants.SUFFIX_OUTBOUND;
             MessageChannel inboundChannel,
             MessageChannel transformerOutputChannel,
             Transformable telegramTransformer) {
-<span class="fc" id="L552">        return IntegrationFlows</span>
-<span class="fc" id="L553">                .from(inboundChannel)</span>
-<span class="fc" id="L554">                .transform(telegramTransformer)</span>
-<span class="fc" id="L555">                .channel(transformerOutputChannel)</span>
-<span class="fc" id="L556">                .route(&quot;messageRouter&quot;)</span>
-<span class="fc" id="L557">                .get();</span>
+<span class="fc" id="L548">        return IntegrationFlows</span>
+<span class="fc" id="L549">                .from(inboundChannel)</span>
+<span class="fc" id="L550">                .transform(telegramTransformer)</span>
+<span class="fc" id="L551">                .channel(transformerOutputChannel)</span>
+<span class="fc" id="L552">                .route(&quot;messageRouter&quot;)</span>
+<span class="fc" id="L553">                .get();</span>
     }
 
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-<span class="fc" id="L562">        this.applicationEventPublisher = applicationEventPublisher;</span>
-<span class="fc" id="L563">    }</span>
+<span class="fc" id="L558">        this.applicationEventPublisher = applicationEventPublisher;</span>
+<span class="fc" id="L559">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

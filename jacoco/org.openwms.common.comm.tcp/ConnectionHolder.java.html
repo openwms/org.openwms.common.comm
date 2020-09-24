@@ -131,7 +131,8 @@ public class ConnectionHolder {
 <span class="nc" id="L131">                return factory.getConnection().getConnectionId();</span>
             }
 <span class="nc" id="L133">        } catch (Exception e) {</span>
-<span class="nc" id="L134">            throw new MessageChannelNotFoundException(format(&quot;No Connection found for ConnectionFactory [%s]&quot;, connectionFactoryName));</span>
+<span class="nc" id="L134">            LOGGER.error(e.getMessage(), e);</span>
+<span class="nc" id="L135">            throw new MessageChannelNotFoundException(format(&quot;No Connection found for ConnectionFactory [%s]&quot;, connectionFactoryName));</span>
         }
     }
 }
