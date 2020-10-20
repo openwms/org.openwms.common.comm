@@ -70,7 +70,7 @@ public class ConnectionHolder {
     public void onOpenMessage(TcpConnectionOpenEvent event) {
 <span class="fc" id="L71">        connectionIds.putIfAbsent(event.getConnectionFactoryName(), event.getConnectionId());</span>
 <span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if (LOGGER.isTraceEnabled()) {</span>
-<span class="nc" id="L73">            LOGGER.trace(&quot;New connection for factory [{}] established with id [{}]&quot;, event.getConnectionFactoryName(), event.getConnectionId());</span>
+<span class="fc" id="L73">            LOGGER.trace(&quot;New connection for factory [{}] established with id [{}]&quot;, event.getConnectionFactoryName(), event.getConnectionId());</span>
         }
 <span class="fc" id="L75">    }</span>
 
@@ -111,7 +111,7 @@ public class ConnectionHolder {
 <span class="fc" id="L111">        LOGGER.trace(&quot;Connection Lost for : [{}]&quot;, event.getConnectionFactoryName());</span>
 <span class="fc" id="L112">        String connectionId = connectionIds.remove(event.getConnectionFactoryName());</span>
 <span class="pc bpc" id="L113" title="2 of 4 branches missed.">        if (connectionId != null &amp;&amp; LOGGER.isTraceEnabled()) {</span>
-<span class="nc" id="L114">            LOGGER.trace(&quot;Deregister connection for factory [{}]&quot;, event.getConnectionFactoryName());</span>
+<span class="fc" id="L114">            LOGGER.trace(&quot;Deregister connection for factory [{}]&quot;, event.getConnectionFactoryName());</span>
         }
 <span class="fc" id="L116">    }</span>
 
