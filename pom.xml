@@ -63,7 +63,7 @@
 
     <properties>
         <core.version>1.8.0</core.version>
-        <guava.version>29.0-jre</guava.version>
+        <guava.version>30.0-android</guava.version>
         <spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
     </properties>
 
