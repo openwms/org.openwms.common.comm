@@ -29,15 +29,15 @@ import org.springframework.integration.support.converter.MapMessageConverter;
  */
 @OSIP
 @Configuration
-<span class="fc" id="L32">class OSIPConfiguration {</span>
+<span class="nc" id="L32">class OSIPConfiguration {</span>
 
     @Bean
     MapMessageConverter mapMessageConverter() {
-<span class="fc" id="L36">        MapMessageConverter result = new MapMessageConverter();</span>
-<span class="fc" id="L37">        result.setHeaderNames(OSIPHeader.SYNC_FIELD_NAME, OSIPHeader.SENDER_FIELD_NAME,</span>
+<span class="nc" id="L36">        MapMessageConverter result = new MapMessageConverter();</span>
+<span class="nc" id="L37">        result.setHeaderNames(OSIPHeader.SYNC_FIELD_NAME, OSIPHeader.SENDER_FIELD_NAME,</span>
                 OSIPHeader.MSG_LENGTH_FIELD_NAME, OSIPHeader.SEQUENCE_FIELD_NAME,
                 OSIPHeader.RECEIVER_FIELD_NAME, IpHeaders.CONNECTION_ID);
-<span class="fc" id="L40">        return result;</span>
+<span class="nc" id="L40">        return result;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

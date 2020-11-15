@@ -48,16 +48,16 @@ public class CommonMessageRouter {
     private Map&lt;String, CustomServiceActivator&gt; processorMap;
 
     public CommonMessageRouter(
-<span class="fc" id="L51">            @Autowired(required = false) List&lt;CustomServiceActivator&gt; processors) {</span>
-<span class="fc" id="L52">        this.processors = processors;</span>
-<span class="fc" id="L53">    }</span>
+<span class="nc" id="L51">            @Autowired(required = false) List&lt;CustomServiceActivator&gt; processors) {</span>
+<span class="nc" id="L52">        this.processors = processors;</span>
+<span class="nc" id="L53">    }</span>
 
     @PostConstruct
     void onPostConstruct() {
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        processorMap = processors == null ?</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        processorMap = processors == null ?</span>
 <span class="nc" id="L58">                Collections.emptyMap() :</span>
-<span class="fc" id="L59">                processors.stream().collect(Collectors.toMap(CustomServiceActivator::getChannelName, p -&gt; p));</span>
-<span class="fc" id="L60">    }</span>
+<span class="nc" id="L59">                processors.stream().collect(Collectors.toMap(CustomServiceActivator::getChannelName, p -&gt; p));</span>
+<span class="nc" id="L60">    }</span>
 
     /**
      * Routing method, tries to map an incoming {@link Payload} to a MessageChannel.
@@ -70,11 +70,11 @@ public class CommonMessageRouter {
             defaultOutputChannel = &quot;commonExceptionChannel&quot;,
             resolutionRequired = &quot;false&quot;)
     public MessageChannel resolve(Message&lt;Payload&gt; message) {
-<span class="fc" id="L73">        CustomServiceActivator result = processorMap.get(message.getPayload().getMessageIdentifier() + CommConstants.CHANNEL_SUFFIX);</span>
-<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (result == null) {</span>
+<span class="nc" id="L73">        CustomServiceActivator result = processorMap.get(message.getPayload().getMessageIdentifier() + CommConstants.CHANNEL_SUFFIX);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (result == null) {</span>
 <span class="nc" id="L75">            throw new MessageProcessingException(format(&quot;No processor for message of type [%s] registered&quot;, message.getPayload().getMessageIdentifier()));</span>
         }
-<span class="fc" id="L77">        return result.getChannel();</span>
+<span class="nc" id="L77">        return result.getChannel();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

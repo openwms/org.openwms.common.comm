@@ -29,7 +29,7 @@ import java.util.StringJoiner;
  *
  * @author Heiko Scherrer
  */
-<span class="fc" id="L32">public class RequestMessage extends Payload implements Serializable {</span>
+<span class="nc" id="L32">public class RequestMessage extends Payload implements Serializable {</span>
 
     /** Message identifier {@value} . */
     public static final String IDENTIFIER = &quot;REQ_&quot;;
@@ -39,7 +39,7 @@ import java.util.StringJoiner;
 
     /*~------------ Accessors ------------*/
     public String getBarcode() {
-<span class="fc" id="L42">        return barcode;</span>
+<span class="nc" id="L42">        return barcode;</span>
     }
 
     public void setBarcode(String barcode) {
@@ -47,7 +47,7 @@ import java.util.StringJoiner;
 <span class="nc" id="L47">    }</span>
 
     public String getActualLocation() {
-<span class="fc" id="L50">        return actualLocation;</span>
+<span class="nc" id="L50">        return actualLocation;</span>
     }
 
     public void setActualLocation(String actualLocation) {
@@ -55,7 +55,7 @@ import java.util.StringJoiner;
 <span class="nc" id="L55">    }</span>
 
     public String getTargetLocation() {
-<span class="fc" id="L58">        return targetLocation;</span>
+<span class="nc" id="L58">        return targetLocation;</span>
     }
 
     public void setTargetLocation(String targetLocation) {
@@ -68,7 +68,7 @@ import java.util.StringJoiner;
      */
     @Override
     public String getMessageIdentifier() {
-<span class="fc" id="L71">        return IDENTIFIER;</span>
+<span class="nc" id="L71">        return IDENTIFIER;</span>
     }
 
     /**
@@ -113,7 +113,7 @@ import java.util.StringJoiner;
      */
     @Override
     public String toString() {
-<span class="fc" id="L116">        return new StringJoiner(&quot;, &quot;, RequestMessage.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;barcode='&quot; + barcode + &quot;'&quot;).add(&quot;actualLocation='&quot; + actualLocation + &quot;'&quot;).add(&quot;targetLocation='&quot; + targetLocation + &quot;'&quot;).toString();</span>
+<span class="nc" id="L116">        return new StringJoiner(&quot;, &quot;, RequestMessage.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;barcode='&quot; + barcode + &quot;'&quot;).add(&quot;actualLocation='&quot; + actualLocation + &quot;'&quot;).add(&quot;targetLocation='&quot; + targetLocation + &quot;'&quot;).toString();</span>
     }
 
     /*~------------ Builders ------------*/
@@ -122,10 +122,10 @@ import java.util.StringJoiner;
         private final RequestMessage requestMessage;
         private final FieldLengthProvider provider;
 
-<span class="fc" id="L125">        public Builder(FieldLengthProvider provider) {</span>
-<span class="fc" id="L126">            this.provider = provider;</span>
-<span class="fc" id="L127">            this.requestMessage = new RequestMessage();</span>
-<span class="fc" id="L128">        }</span>
+<span class="nc" id="L125">        public Builder(FieldLengthProvider provider) {</span>
+<span class="nc" id="L126">            this.provider = provider;</span>
+<span class="nc" id="L127">            this.requestMessage = new RequestMessage();</span>
+<span class="nc" id="L128">        }</span>
 
         /**
          * Add an {@code Barcode} to the message.
@@ -134,8 +134,8 @@ import java.util.StringJoiner;
          * @return The builder
          */
         public Builder withBarcode(String barcode) {
-<span class="fc" id="L137">            requestMessage.barcode = barcode;</span>
-<span class="fc" id="L138">            return this;</span>
+<span class="nc" id="L137">            requestMessage.barcode = barcode;</span>
+<span class="nc" id="L138">            return this;</span>
         }
 
         /**
@@ -147,9 +147,9 @@ import java.util.StringJoiner;
          * @return The builder
          */
         public Builder withActualLocation(String actualLocation) {
-<span class="fc" id="L150">            requestMessage.actualLocation = String.join(&quot;/&quot;,</span>
-<span class="fc" id="L151">                    actualLocation.split(&quot;(?&lt;=\\G.{&quot; + provider.locationIdLength() / provider.noLocationIdFields() + &quot;})&quot;));</span>
-<span class="fc" id="L152">            return this;</span>
+<span class="nc" id="L150">            requestMessage.actualLocation = String.join(&quot;/&quot;,</span>
+<span class="nc" id="L151">                    actualLocation.split(&quot;(?&lt;=\\G.{&quot; + provider.locationIdLength() / provider.noLocationIdFields() + &quot;})&quot;));</span>
+<span class="nc" id="L152">            return this;</span>
         }
 
         /**
@@ -161,11 +161,11 @@ import java.util.StringJoiner;
          * @return The builder
          */
         public Builder withTargetLocation(String targetLocation) {
-<span class="pc bpc" id="L164" title="1 of 2 branches missed.">            if (exists(targetLocation)) {</span>
-<span class="fc" id="L165">                requestMessage.targetLocation = String.join(&quot;/&quot;,</span>
-<span class="fc" id="L166">                        targetLocation.split(&quot;(?&lt;=\\G.{&quot; + provider.locationIdLength() / provider.noLocationIdFields() + &quot;})&quot;));</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">            if (exists(targetLocation)) {</span>
+<span class="nc" id="L165">                requestMessage.targetLocation = String.join(&quot;/&quot;,</span>
+<span class="nc" id="L166">                        targetLocation.split(&quot;(?&lt;=\\G.{&quot; + provider.locationIdLength() / provider.noLocationIdFields() + &quot;})&quot;));</span>
             }
-<span class="fc" id="L168">            return this;</span>
+<span class="nc" id="L168">            return this;</span>
         }
 
         /**
@@ -175,10 +175,10 @@ import java.util.StringJoiner;
          * @return The builder
          */
         public Builder withErrorCode(String errorCode) {
-<span class="pc bpc" id="L178" title="1 of 2 branches missed.">            if (exists(errorCode)) {</span>
-<span class="fc" id="L179">                requestMessage.setErrorCode(errorCode);</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">            if (exists(errorCode)) {</span>
+<span class="nc" id="L179">                requestMessage.setErrorCode(errorCode);</span>
             }
-<span class="fc" id="L181">            return this;</span>
+<span class="nc" id="L181">            return this;</span>
         }
 
         /**
@@ -190,8 +190,8 @@ import java.util.StringJoiner;
          * @throws ParseException with invalid pattern
          */
         public Builder withCreateDate(String createDate, String pattern) throws ParseException {
-<span class="fc" id="L193">            requestMessage.setCreated(new SimpleDateFormat(pattern).parse(createDate));</span>
-<span class="fc" id="L194">            return this;</span>
+<span class="nc" id="L193">            requestMessage.setCreated(new SimpleDateFormat(pattern).parse(createDate));</span>
+<span class="nc" id="L194">            return this;</span>
         }
 
         /**
@@ -200,7 +200,7 @@ import java.util.StringJoiner;
          * @return The completed message
          */
         public RequestMessage build() {
-<span class="fc" id="L203">            return requestMessage;</span>
+<span class="nc" id="L203">            return requestMessage;</span>
         }
     }
 }

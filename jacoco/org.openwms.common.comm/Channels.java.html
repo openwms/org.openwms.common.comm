@@ -31,20 +31,20 @@ public class Channels {
 	
 	private Map&lt;String, MessageChannel&gt; outboundChannels;
 
-<span class="fc" id="L34">	public Channels() {</span>
-<span class="fc" id="L35">		outboundChannels = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L36">	}</span>
+<span class="nc" id="L34">	public Channels() {</span>
+<span class="nc" id="L35">		outboundChannels = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L36">	}</span>
 	
 	public void addOutboundChannel(String fullIdentifier, MessageChannel channel) {
-<span class="fc" id="L39">		outboundChannels.put(fullIdentifier, channel);</span>
-<span class="fc" id="L40">	}</span>
+<span class="nc" id="L39">		outboundChannels.put(fullIdentifier, channel);</span>
+<span class="nc" id="L40">	}</span>
 	
 	public MessageChannel getOutboundChannel(String identifiedByField) {
-<span class="fc" id="L43">		MessageChannel channel = outboundChannels.get(&quot;enrichedOutboundChannel_&quot; + identifiedByField);</span>
-<span class="pc bpc" id="L44" title="1 of 2 branches missed.">		if (channel == null) {</span>
+<span class="nc" id="L43">		MessageChannel channel = outboundChannels.get(&quot;enrichedOutboundChannel_&quot; + identifiedByField);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">		if (channel == null) {</span>
 <span class="nc" id="L45">			throw new MessageChannelNotFoundException(format(&quot;No MessageChannel found for identifying value [%s]&quot;, identifiedByField));</span>
 		}
-<span class="fc" id="L47">		return channel;</span>
+<span class="nc" id="L47">		return channel;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

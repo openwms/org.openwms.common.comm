@@ -43,27 +43,27 @@ class AmqpRequestMessageHandler implements Function&lt;GenericMessage&lt;Request
 
     AmqpRequestMessageHandler(AmqpTemplate amqpTemplate,
             @Value(&quot;${owms.driver.osip.req.exchange-name}&quot;) String exchangeName,
-<span class="fc" id="L46">            @Value(&quot;${owms.driver.osip.req.routing-key-out}&quot;) String routingKey) {</span>
-<span class="fc" id="L47">        this.amqpTemplate = amqpTemplate;</span>
-<span class="fc" id="L48">        this.exchangeName = exchangeName;</span>
-<span class="fc" id="L49">        this.routingKey = routingKey;</span>
-<span class="fc" id="L50">    }</span>
+<span class="nc" id="L46">            @Value(&quot;${owms.driver.osip.req.routing-key-out}&quot;) String routingKey) {</span>
+<span class="nc" id="L47">        this.amqpTemplate = amqpTemplate;</span>
+<span class="nc" id="L48">        this.exchangeName = exchangeName;</span>
+<span class="nc" id="L49">        this.routingKey = routingKey;</span>
+<span class="nc" id="L50">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Void apply(GenericMessage&lt;RequestMessage&gt; msg) {
-<span class="fc" id="L57">        msg.getPayload().getHeader().setReceiver((String) msg.getHeaders().get(OSIPHeader.RECEIVER_FIELD_NAME));</span>
-<span class="fc" id="L58">        msg.getPayload().getHeader().setSender((String) msg.getHeaders().get(OSIPHeader.SENDER_FIELD_NAME));</span>
-<span class="fc" id="L59">        msg.getPayload().getHeader().setSequenceNo((Short) msg.getHeaders().get(OSIPHeader.SEQUENCE_FIELD_NAME));</span>
-<span class="fc" id="L60">        msg.getPayload().getHeader().setTenant((String) msg.getHeaders().get(OSIPHeader.TENANT_FIELD_NAME));</span>
-<span class="fc" id="L61">        amqpTemplate.convertAndSend(</span>
+<span class="nc" id="L57">        msg.getPayload().getHeader().setReceiver((String) msg.getHeaders().get(OSIPHeader.RECEIVER_FIELD_NAME));</span>
+<span class="nc" id="L58">        msg.getPayload().getHeader().setSender((String) msg.getHeaders().get(OSIPHeader.SENDER_FIELD_NAME));</span>
+<span class="nc" id="L59">        msg.getPayload().getHeader().setSequenceNo((Short) msg.getHeaders().get(OSIPHeader.SEQUENCE_FIELD_NAME));</span>
+<span class="nc" id="L60">        msg.getPayload().getHeader().setTenant((String) msg.getHeaders().get(OSIPHeader.TENANT_FIELD_NAME));</span>
+<span class="nc" id="L61">        amqpTemplate.convertAndSend(</span>
                 exchangeName,
                 routingKey,
-<span class="fc" id="L64">                RequestHelper.getRequest(msg)</span>
+<span class="nc" id="L64">                RequestHelper.getRequest(msg)</span>
         );
-<span class="fc" id="L66">        return null;</span>
+<span class="nc" id="L66">        return null;</span>
     }
 
 }

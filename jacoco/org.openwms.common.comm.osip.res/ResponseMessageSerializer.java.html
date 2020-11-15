@@ -35,15 +35,15 @@ import static java.lang.String.format;
 public class ResponseMessageSerializer extends OSIPSerializer&lt;ResponseMessage&gt; {
 
     public ResponseMessageSerializer(Driver driver) {
-<span class="fc" id="L38">        super(driver);</span>
-<span class="fc" id="L39">    }</span>
+<span class="nc" id="L38">        super(driver);</span>
+<span class="nc" id="L39">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public String getMessageIdentifier() {
-<span class="fc" id="L46">        return ResponseMessage.IDENTIFIER;</span>
+<span class="nc" id="L46">        return ResponseMessage.IDENTIFIER;</span>
     }
 
     /**
@@ -51,19 +51,19 @@ public class ResponseMessageSerializer extends OSIPSerializer&lt;ResponseMessage
      */
     @Override
     public String serialize(ResponseMessage obj) {
-<span class="fc" id="L54">        short maxTelegramLength = getDriver().getOsip().getTelegramLength();</span>
-<span class="fc" id="L55">        OSIPHeader header = new OSIPHeader.Builder()</span>
-<span class="fc" id="L56">                .sync(getDriver().getOsip().getSyncField())</span>
-<span class="fc" id="L57">                .messageLength(maxTelegramLength)</span>
-<span class="fc" id="L58">                .sender(obj.getHeader().getSender())</span>
-<span class="fc" id="L59">                .receiver(obj.getHeader().getReceiver())</span>
-<span class="fc" id="L60">                .sequenceNo((short) (obj.getHeader().getSequenceNo() + 1))</span>
-<span class="fc" id="L61">                .build();</span>
-<span class="fc" id="L62">        String s = header + convert(obj);</span>
-<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (s.length() &gt; maxTelegramLength) {</span>
+<span class="nc" id="L54">        short maxTelegramLength = getDriver().getOsip().getTelegramLength();</span>
+<span class="nc" id="L55">        OSIPHeader header = new OSIPHeader.Builder()</span>
+<span class="nc" id="L56">                .sync(getDriver().getOsip().getSyncField())</span>
+<span class="nc" id="L57">                .messageLength(maxTelegramLength)</span>
+<span class="nc" id="L58">                .sender(obj.getHeader().getSender())</span>
+<span class="nc" id="L59">                .receiver(obj.getHeader().getReceiver())</span>
+<span class="nc" id="L60">                .sequenceNo((short) (obj.getHeader().getSequenceNo() + 1))</span>
+<span class="nc" id="L61">                .build();</span>
+<span class="nc" id="L62">        String s = header + convert(obj);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        if (s.length() &gt; maxTelegramLength) {</span>
 <span class="nc" id="L64">            throw new MessageMismatchException(format(&quot;Defined telegram length exceeds configured size of owms.driver.osip.telegram-length=[%d]. Actual length is [%d]&quot;, maxTelegramLength, s.length()));</span>
         }
-<span class="fc" id="L66">        return s;</span>
+<span class="nc" id="L66">        return s;</span>
     }
 
     /**
@@ -71,13 +71,13 @@ public class ResponseMessageSerializer extends OSIPSerializer&lt;ResponseMessage
      */
     @Override
     protected String convert(ResponseMessage message) {
-<span class="fc" id="L74">        return getMessageIdentifier() +</span>
-<span class="fc" id="L75">                ParserUtils.nullableBarcode(message.getBarcode()) +</span>
-<span class="fc" id="L76">                ParserUtils.nullableLocation(message.getActualLocation()) +</span>
-<span class="fc" id="L77">                ParserUtils.nullableLocation(message.getTargetLocation()) +</span>
-<span class="fc" id="L78">                ParserUtils.nullableLocationGroup(message.getTargetLocationGroup()) +</span>
-<span class="fc" id="L79">                message.getErrorCode() +</span>
-<span class="fc" id="L80">                new SimpleDateFormat(getDriver().getOsip().getDatePattern()).format(message.getCreated());</span>
+<span class="nc" id="L74">        return getMessageIdentifier() +</span>
+<span class="nc" id="L75">                ParserUtils.nullableBarcode(message.getBarcode()) +</span>
+<span class="nc" id="L76">                ParserUtils.nullableLocation(message.getActualLocation()) +</span>
+<span class="nc" id="L77">                ParserUtils.nullableLocation(message.getTargetLocation()) +</span>
+<span class="nc" id="L78">                ParserUtils.nullableLocationGroup(message.getTargetLocationGroup()) +</span>
+<span class="nc" id="L79">                message.getErrorCode() +</span>
+<span class="nc" id="L80">                new SimpleDateFormat(getDriver().getOsip().getDatePattern()).format(message.getCreated());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -27,26 +27,26 @@ import java.time.ZoneId;
  */
 @Component
 @ConfigurationProperties(&quot;owms.driver&quot;)
-<span class="fc" id="L30">public class Driver {</span>
+<span class="nc" id="L30">public class Driver {</span>
 
     /** Timezone. */
-<span class="fc" id="L33">    private ZoneId timezone = ZoneId.of(&quot;UTC+00:00&quot;);</span>
+<span class="nc" id="L33">    private ZoneId timezone = ZoneId.of(&quot;UTC+00:00&quot;);</span>
     /** Serialization methods (JSON or Byte Array): json, barray. */
-<span class="fc" id="L35">    private String serialization = &quot;json&quot;;</span>
+<span class="nc" id="L35">    private String serialization = &quot;json&quot;;</span>
     /** Port number used for synchronous RESTful communication. */
     private String portRest;
     /** OSIP protocol configuration. */
     private Osip osip;
     /** Global valid and individual connection parameters of the driver instance. */
-<span class="fc" id="L41">    private Connections connections = new Connections();</span>
+<span class="nc" id="L41">    private Connections connections = new Connections();</span>
 
     public ZoneId getTimezone() {
 <span class="nc" id="L44">        return timezone;</span>
     }
 
     public void setTimezone(ZoneId timezone) {
-<span class="fc" id="L48">        this.timezone = timezone;</span>
-<span class="fc" id="L49">    }</span>
+<span class="nc" id="L48">        this.timezone = timezone;</span>
+<span class="nc" id="L49">    }</span>
 
     public String getPortRest() {
 <span class="nc" id="L52">        return portRest;</span>
@@ -61,23 +61,23 @@ import java.time.ZoneId;
     }
 
     public void setSerialization(String serialization) {
-<span class="fc" id="L64">        this.serialization = serialization;</span>
-<span class="fc" id="L65">    }</span>
+<span class="nc" id="L64">        this.serialization = serialization;</span>
+<span class="nc" id="L65">    }</span>
 
     public Osip getOsip() {
-<span class="fc" id="L68">        return osip;</span>
+<span class="nc" id="L68">        return osip;</span>
     }
 
     public void setOsip(Osip osip) {
-<span class="fc" id="L72">        this.osip = osip;</span>
-<span class="fc" id="L73">    }</span>
+<span class="nc" id="L72">        this.osip = osip;</span>
+<span class="nc" id="L73">    }</span>
 
     public Connections getConnections() {
-<span class="fc" id="L76">        return connections;</span>
+<span class="nc" id="L76">        return connections;</span>
     }
 
     public void setConnections(Connections connections) {
-<span class="fc" id="L80">        this.connections = connections;</span>
-<span class="fc" id="L81">    }</span>
+<span class="nc" id="L80">        this.connections = connections;</span>
+<span class="nc" id="L81">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -40,23 +40,23 @@ class AmqpResponseMessageListener {
 
     private final ResponseMessageHandler handler;
 
-<span class="fc" id="L43">    AmqpResponseMessageListener(ResponseMessageHandler handler) {</span>
-<span class="fc" id="L44">        this.handler = handler;</span>
-<span class="fc" id="L45">    }</span>
+<span class="nc" id="L43">    AmqpResponseMessageListener(ResponseMessageHandler handler) {</span>
+<span class="nc" id="L44">        this.handler = handler;</span>
+<span class="nc" id="L45">    }</span>
 
     @Measured
     @RabbitListener(queues = &quot;${owms.driver.osip.res.queue-name}&quot;)
     void handle(@Payload ResponseMessage res, @Headers Map&lt;String, Object&gt; headers) {
         try {
-<span class="fc" id="L51">            TenantHolder.setCurrentTenant((String) headers.get(OSIPHeader.TENANT_FIELD_NAME));</span>
-<span class="fc" id="L52">            MDC.put(&quot;Tenant&quot;, TenantHolder.getCurrentTenant());</span>
-<span class="fc" id="L53">            handler.handle(res, (String) headers.get(OSIPHeader.RECEIVER_FIELD_NAME));</span>
+<span class="nc" id="L51">            TenantHolder.setCurrentTenant((String) headers.get(OSIPHeader.TENANT_FIELD_NAME));</span>
+<span class="nc" id="L52">            MDC.put(&quot;Tenant&quot;, TenantHolder.getCurrentTenant());</span>
+<span class="nc" id="L53">            handler.handle(res, (String) headers.get(OSIPHeader.RECEIVER_FIELD_NAME));</span>
 <span class="nc" id="L54">        } catch (Exception e) {</span>
 <span class="nc" id="L55">            throw new AmqpRejectAndDontRequeueException(e.getMessage(), e);</span>
         } finally {
-<span class="fc" id="L57">            MDC.clear();</span>
-<span class="fc" id="L58">            TenantHolder.destroy();</span>
+<span class="nc" id="L57">            MDC.clear();</span>
+<span class="nc" id="L58">            TenantHolder.destroy();</span>
         }
-<span class="fc" id="L60">    }</span>
+<span class="nc" id="L60">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -42,11 +42,11 @@ class AmqpSystemUpdateMessageHandler implements Function&lt;GenericMessage&lt;Sy
 
     AmqpSystemUpdateMessageHandler(AmqpTemplate amqpTemplate,
             @Value(&quot;${owms.driver.osip.sysu.exchange-name}&quot;) String exchangeName,
-<span class="fc" id="L45">            @Value(&quot;${owms.driver.osip.sysu.routing-key-out}&quot;) String routingKey) {</span>
-<span class="fc" id="L46">        this.amqpTemplate = amqpTemplate;</span>
-<span class="fc" id="L47">        this.exchangeName = exchangeName;</span>
-<span class="fc" id="L48">        this.routingKey = routingKey;</span>
-<span class="fc" id="L49">    }</span>
+<span class="nc" id="L45">            @Value(&quot;${owms.driver.osip.sysu.routing-key-out}&quot;) String routingKey) {</span>
+<span class="nc" id="L46">        this.amqpTemplate = amqpTemplate;</span>
+<span class="nc" id="L47">        this.exchangeName = exchangeName;</span>
+<span class="nc" id="L48">        this.routingKey = routingKey;</span>
+<span class="nc" id="L49">    }</span>
 
     /**
      * {@inheritDoc}

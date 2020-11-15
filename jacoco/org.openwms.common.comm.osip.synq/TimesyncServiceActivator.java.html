@@ -47,10 +47,10 @@ class TimesyncServiceActivator implements NotRespondingServiceActivator&lt;Times
     @Autowired
     public TimesyncServiceActivator(
             Function&lt;GenericMessage&lt;TimesyncRequest&gt;, Void&gt; handler,
-<span class="fc" id="L50">            ApplicationContext ctx) {</span>
-<span class="fc" id="L51">        this.handler = handler;</span>
-<span class="fc" id="L52">        this.ctx = ctx;</span>
-<span class="fc" id="L53">    }</span>
+<span class="nc" id="L50">            ApplicationContext ctx) {</span>
+<span class="nc" id="L51">        this.handler = handler;</span>
+<span class="nc" id="L52">        this.ctx = ctx;</span>
+<span class="nc" id="L53">    }</span>
 
     /**
      * {@inheritDoc}
@@ -76,7 +76,7 @@ class TimesyncServiceActivator implements NotRespondingServiceActivator&lt;Times
      */
     @Override
     public String getChannelName() {
-<span class="fc" id="L79">        return INPUT_CHANNEL_NAME;</span>
+<span class="nc" id="L79">        return INPUT_CHANNEL_NAME;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -42,10 +42,10 @@ class ErrorMessageServiceActivator implements NotRespondingServiceActivator&lt;E
     private final Function&lt;GenericMessage&lt;ErrorMessage&gt;, Void&gt; handler;
     private final ApplicationContext ctx;
 
-<span class="fc" id="L45">    ErrorMessageServiceActivator(Function&lt;GenericMessage&lt;ErrorMessage&gt;, Void&gt; handler, ApplicationContext ctx) {</span>
-<span class="fc" id="L46">        this.handler = handler;</span>
-<span class="fc" id="L47">        this.ctx = ctx;</span>
-<span class="fc" id="L48">    }</span>
+<span class="nc" id="L45">    ErrorMessageServiceActivator(Function&lt;GenericMessage&lt;ErrorMessage&gt;, Void&gt; handler, ApplicationContext ctx) {</span>
+<span class="nc" id="L46">        this.handler = handler;</span>
+<span class="nc" id="L47">        this.ctx = ctx;</span>
+<span class="nc" id="L48">    }</span>
 
     /**
      * {@inheritDoc}
@@ -71,7 +71,7 @@ class ErrorMessageServiceActivator implements NotRespondingServiceActivator&lt;E
      */
     @Override
     public String getChannelName() {
-<span class="fc" id="L74">        return INPUT_CHANNEL_NAME;</span>
+<span class="nc" id="L74">        return INPUT_CHANNEL_NAME;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

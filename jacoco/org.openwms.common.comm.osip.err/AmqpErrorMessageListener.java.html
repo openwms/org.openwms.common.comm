@@ -37,9 +37,9 @@ class AmqpErrorMessageListener {
 
     private final ErrorMessageHandler handler;
 
-<span class="fc" id="L40">    AmqpErrorMessageListener(ErrorMessageHandler handler) {</span>
-<span class="fc" id="L41">        this.handler = handler;</span>
-<span class="fc" id="L42">    }</span>
+<span class="nc" id="L40">    AmqpErrorMessageListener(ErrorMessageHandler handler) {</span>
+<span class="nc" id="L41">        this.handler = handler;</span>
+<span class="nc" id="L42">    }</span>
 
     @Measured
     @RabbitListener(queues = &quot;${owms.driver.osip.err.queue-name}&quot;)

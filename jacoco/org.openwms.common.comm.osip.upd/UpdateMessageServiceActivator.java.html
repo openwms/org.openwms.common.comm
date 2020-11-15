@@ -45,10 +45,10 @@ class UpdateMessageServiceActivator implements NotRespondingServiceActivator&lt;
 
     UpdateMessageServiceActivator(
             Function&lt;GenericMessage&lt;UpdateMessage&gt;, Void&gt; handler,
-<span class="fc" id="L48">            ApplicationContext ctx) {</span>
-<span class="fc" id="L49">        this.handler = handler;</span>
-<span class="fc" id="L50">        this.ctx = ctx;</span>
-<span class="fc" id="L51">    }</span>
+<span class="nc" id="L48">            ApplicationContext ctx) {</span>
+<span class="nc" id="L49">        this.handler = handler;</span>
+<span class="nc" id="L50">        this.ctx = ctx;</span>
+<span class="nc" id="L51">    }</span>
 
     /**
      * {@inheritDoc}
@@ -74,7 +74,7 @@ class UpdateMessageServiceActivator implements NotRespondingServiceActivator&lt;
      */
     @Override
     public String getChannelName() {
-<span class="fc" id="L77">        return INPUT_CHANNEL_NAME;</span>
+<span class="nc" id="L77">        return INPUT_CHANNEL_NAME;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

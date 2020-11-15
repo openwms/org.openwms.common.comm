@@ -37,13 +37,13 @@ public abstract class Payload implements Serializable {
 
     @JsonProperty(&quot;header&quot;)
     private ResponseHeader header;
-<span class="fc" id="L40">    @JsonProperty(&quot;errorCode&quot;)</span>
-<span class="fc" id="L41">    private String errorCode = padRight(&quot;&quot;, ERROR_CODE_LENGTH, &quot;x&quot;);</span>
+<span class="nc" id="L40">    @JsonProperty(&quot;errorCode&quot;)</span>
+<span class="nc" id="L41">    private String errorCode = padRight(&quot;&quot;, ERROR_CODE_LENGTH, &quot;x&quot;);</span>
     @JsonProperty(&quot;created&quot;)
     private Date created;
 
     /*~------------ Constructors ------------*/
-<span class="fc" id="L46">    public Payload() { }</span>
+<span class="nc" id="L46">    public Payload() { }</span>
 
     /*~------------ Methods ------------*/
     /**
@@ -53,15 +53,15 @@ public abstract class Payload implements Serializable {
      * @return true if set
      */
     public static boolean exists(String str) {
-<span class="fc bfc" id="L56" title="All 2 branches covered.">        return !str.startsWith(&quot;*&quot;);</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        return !str.startsWith(&quot;*&quot;);</span>
     }
 
     /*~------------ Accessors ------------*/
     public ResponseHeader getHeader() {
-<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (header == null) {</span>
-<span class="fc" id="L62">            this.header = ResponseHeader.emptyHeader();</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (header == null) {</span>
+<span class="nc" id="L62">            this.header = ResponseHeader.emptyHeader();</span>
         }
-<span class="fc" id="L64">        return header;</span>
+<span class="nc" id="L64">        return header;</span>
     }
 
     protected void setHeader(ResponseHeader header) {
@@ -88,7 +88,7 @@ public abstract class Payload implements Serializable {
      * @return the errorCode.
      */
     public String getErrorCode() {
-<span class="fc" id="L91">        return errorCode;</span>
+<span class="nc" id="L91">        return errorCode;</span>
     }
 
     /**
@@ -107,10 +107,10 @@ public abstract class Payload implements Serializable {
      *            The errorCode to set.
      */
     public void setErrorCode(String errorCode) {
-<span class="pc bpc" id="L110" title="2 of 4 branches missed.">        if (!this.errorCode.equals(errorCode) &amp;&amp; errorCode != null) {</span>
-<span class="fc" id="L111">            this.errorCode = errorCode;</span>
+<span class="nc bnc" id="L110" title="All 4 branches missed.">        if (!this.errorCode.equals(errorCode) &amp;&amp; errorCode != null) {</span>
+<span class="nc" id="L111">            this.errorCode = errorCode;</span>
         }
-<span class="fc" id="L113">    }</span>
+<span class="nc" id="L113">    }</span>
 
     /**
      * Get the created.
@@ -118,7 +118,7 @@ public abstract class Payload implements Serializable {
      * @return the created.
      */
     public Date getCreated() {
-<span class="fc" id="L121">        return created;</span>
+<span class="nc" id="L121">        return created;</span>
     }
 
     /**
@@ -128,8 +128,8 @@ public abstract class Payload implements Serializable {
      *            The created to set.
      */
     protected void setCreated(Date created) {
-<span class="fc" id="L131">        this.created = created;</span>
-<span class="fc" id="L132">    }</span>
+<span class="nc" id="L131">        this.created = created;</span>
+<span class="nc" id="L132">    }</span>
 
     /*~------------ Overrides ------------*/
     /**

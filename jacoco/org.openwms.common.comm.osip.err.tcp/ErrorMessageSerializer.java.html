@@ -34,16 +34,16 @@ public class ErrorMessageSerializer extends OSIPSerializer&lt;ErrorMessage&gt; {
     private final TimeProvider timeProvider;
 
     public ErrorMessageSerializer(Driver driver, TimeProvider timeProvider) {
-<span class="fc" id="L37">        super(driver);</span>
-<span class="fc" id="L38">        this.timeProvider = timeProvider;</span>
-<span class="fc" id="L39">    }</span>
+<span class="nc" id="L37">        super(driver);</span>
+<span class="nc" id="L38">        this.timeProvider = timeProvider;</span>
+<span class="nc" id="L39">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public String getMessageIdentifier() {
-<span class="fc" id="L46">        return ErrorMessage.IDENTIFIER;</span>
+<span class="nc" id="L46">        return ErrorMessage.IDENTIFIER;</span>
     }
 
     /**

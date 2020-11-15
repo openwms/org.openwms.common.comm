@@ -45,16 +45,16 @@ import static org.ameba.LoggingCategories.BOOT;
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration
 @EnableRabbit
-<span class="fc" id="L48">class AsyncConfiguration {</span>
+<span class="nc" id="L48">class AsyncConfiguration {</span>
 
-<span class="fc" id="L50">    private static final Logger BOOT_LOGGER = LoggerFactory.getLogger(BOOT);</span>
+<span class="nc" id="L50">    private static final Logger BOOT_LOGGER = LoggerFactory.getLogger(BOOT);</span>
 
     @ConditionalOnExpression(&quot;'${owms.driver.serialization}'=='json'&quot;)
     @Bean
     MessageConverter messageConverter() {
-<span class="fc" id="L55">        Jackson2JsonMessageConverter messageConverter = new Jackson2JsonMessageConverter();</span>
-<span class="fc" id="L56">        BOOT_LOGGER.info(&quot;Using JSON serialization over AMQP&quot;);</span>
-<span class="fc" id="L57">        return messageConverter;</span>
+<span class="nc" id="L55">        Jackson2JsonMessageConverter messageConverter = new Jackson2JsonMessageConverter();</span>
+<span class="nc" id="L56">        BOOT_LOGGER.info(&quot;Using JSON serialization over AMQP&quot;);</span>
+<span class="nc" id="L57">        return messageConverter;</span>
     }
 
     @ConditionalOnExpression(&quot;'${owms.driver.serialization}'=='barray'&quot;)
@@ -67,10 +67,10 @@ import static org.ameba.LoggingCategories.BOOT;
 
     @Bean
     StatefulRetryOperationsInterceptor interceptor() {
-<span class="fc" id="L70">        return RetryInterceptorBuilder.stateful()</span>
-<span class="fc" id="L71">                .maxAttempts(3)</span>
-<span class="fc" id="L72">                .backOffOptions(1000, 2.0, 10000)</span>
-<span class="fc" id="L73">                .build();</span>
+<span class="nc" id="L70">        return RetryInterceptorBuilder.stateful()</span>
+<span class="nc" id="L71">                .maxAttempts(3)</span>
+<span class="nc" id="L72">                .backOffOptions(1000, 2.0, 10000)</span>
+<span class="nc" id="L73">                .build();</span>
     }
 
     @Bean

@@ -29,19 +29,19 @@ import org.springframework.messaging.Message;
 class TenantInterception extends TcpConnectionInterceptorSupport {
 
     public TenantInterception(ApplicationEventPublisher applicationEventPublisher) {
-<span class="fc" id="L32">        super(applicationEventPublisher);</span>
-<span class="fc" id="L33">    }</span>
+<span class="nc" id="L32">        super(applicationEventPublisher);</span>
+<span class="nc" id="L33">    }</span>
 
     @Override
     public boolean onMessage(Message&lt;?&gt; message) {
-<span class="fc" id="L37">        String cfName = getTheConnection().getConnectionFactoryName();</span>
-<span class="fc" id="L38">        TenantHolder.setCurrentTenant(cfName.substring(cfName.indexOf('_') + 1, cfName.lastIndexOf('_')));</span>
-<span class="fc" id="L39">        MDC.put(&quot;Tenant&quot;, TenantHolder.getCurrentTenant());</span>
+<span class="nc" id="L37">        String cfName = getTheConnection().getConnectionFactoryName();</span>
+<span class="nc" id="L38">        TenantHolder.setCurrentTenant(cfName.substring(cfName.indexOf('_') + 1, cfName.lastIndexOf('_')));</span>
+<span class="nc" id="L39">        MDC.put(&quot;Tenant&quot;, TenantHolder.getCurrentTenant());</span>
         try {
-<span class="fc" id="L41">            return super.onMessage(message);</span>
+<span class="nc" id="L41">            return super.onMessage(message);</span>
         } finally {
-<span class="fc" id="L43">            MDC.clear();</span>
-<span class="fc" id="L44">            TenantHolder.destroy();</span>
+<span class="nc" id="L43">            MDC.clear();</span>
+<span class="nc" id="L44">            TenantHolder.destroy();</span>
         }
     }
 }

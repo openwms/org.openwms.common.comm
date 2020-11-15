@@ -33,18 +33,18 @@ import org.springframework.messaging.MessageChannel;
  */
 @OSIP
 @Configuration
-<span class="fc" id="L36">class SystemUpdateMessageConfiguration {</span>
+<span class="nc" id="L36">class SystemUpdateMessageConfiguration {</span>
 
     @Bean(name = SystemUpdateServiceActivator.INPUT_CHANNEL_NAME)
     public MessageChannel getMessageChannel() {
-<span class="fc" id="L40">        return new DirectChannel();</span>
+<span class="nc" id="L40">        return new DirectChannel();</span>
     }
 
     @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
     @Bean
     TopicExchange sysuExchange(
             @Value(&quot;${owms.driver.osip.sysu.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L47">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="nc" id="L47">        return new TopicExchange(exchangeName, true, false);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

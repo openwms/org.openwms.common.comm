@@ -43,13 +43,13 @@ import static org.openwms.common.comm.osip.OSIPHeader.LENGTH_HEADER;
 @OSIPComponent
 class LocationUpdateTelegramDeserializer implements TelegramDeserializer&lt;LocationUpdateMessage&gt; {
 
-<span class="fc" id="L46">    private static final Logger LOGGER = LoggerFactory.getLogger(LocationUpdateTelegramDeserializer.class);</span>
-<span class="fc" id="L47">    private static final Logger TELEGRAM_LOGGER = LoggerFactory.getLogger(CommConstants.CORE_INTEGRATION_MESSAGING);</span>
+<span class="nc" id="L46">    private static final Logger LOGGER = LoggerFactory.getLogger(LocationUpdateTelegramDeserializer.class);</span>
+<span class="nc" id="L47">    private static final Logger TELEGRAM_LOGGER = LoggerFactory.getLogger(CommConstants.CORE_INTEGRATION_MESSAGING);</span>
     private final Driver driver;
 
-<span class="fc" id="L50">    LocationUpdateTelegramDeserializer(Driver driver) {</span>
-<span class="fc" id="L51">        this.driver = driver;</span>
-<span class="fc" id="L52">    }</span>
+<span class="nc" id="L50">    LocationUpdateTelegramDeserializer(Driver driver) {</span>
+<span class="nc" id="L51">        this.driver = driver;</span>
+<span class="nc" id="L52">    }</span>
 
     /**
      * {@inheritDoc}
@@ -91,7 +91,7 @@ class LocationUpdateTelegramDeserializer implements TelegramDeserializer&lt;Loca
      */
     @Override
     public String forType() {
-<span class="fc" id="L94">        return LocationUpdateMessage.IDENTIFIER;</span>
+<span class="nc" id="L94">        return LocationUpdateMessage.IDENTIFIER;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

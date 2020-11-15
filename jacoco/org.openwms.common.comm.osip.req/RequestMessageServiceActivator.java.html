@@ -42,10 +42,10 @@ class RequestMessageServiceActivator implements NotRespondingServiceActivator&lt
     private final Function&lt;GenericMessage&lt;RequestMessage&gt;, Void&gt; handler;
     private final ApplicationContext ctx;
 
-<span class="fc" id="L45">    RequestMessageServiceActivator(Function&lt;GenericMessage&lt;RequestMessage&gt;, Void&gt; handler, ApplicationContext ctx) {</span>
-<span class="fc" id="L46">        this.handler = handler;</span>
-<span class="fc" id="L47">        this.ctx = ctx;</span>
-<span class="fc" id="L48">    }</span>
+<span class="nc" id="L45">    RequestMessageServiceActivator(Function&lt;GenericMessage&lt;RequestMessage&gt;, Void&gt; handler, ApplicationContext ctx) {</span>
+<span class="nc" id="L46">        this.handler = handler;</span>
+<span class="nc" id="L47">        this.ctx = ctx;</span>
+<span class="nc" id="L48">    }</span>
 
     /**
      * {@inheritDoc}
@@ -55,15 +55,15 @@ class RequestMessageServiceActivator implements NotRespondingServiceActivator&lt
     @OSIP
     @ServiceActivator(inputChannel = INPUT_CHANNEL_NAME)
     public void wakeUp(GenericMessage&lt;RequestMessage&gt; message) {
-<span class="fc" id="L58">        handler.apply(message);</span>
-<span class="fc" id="L59">    }</span>
+<span class="nc" id="L58">        handler.apply(message);</span>
+<span class="nc" id="L59">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public MessageChannel getChannel() {
-<span class="fc" id="L66">        return ctx.getBean(INPUT_CHANNEL_NAME, MessageChannel.class);</span>
+<span class="nc" id="L66">        return ctx.getBean(INPUT_CHANNEL_NAME, MessageChannel.class);</span>
     }
 
     /**
@@ -71,7 +71,7 @@ class RequestMessageServiceActivator implements NotRespondingServiceActivator&lt
      */
     @Override
     public String getChannelName() {
-<span class="fc" id="L74">        return INPUT_CHANNEL_NAME;</span>
+<span class="nc" id="L74">        return INPUT_CHANNEL_NAME;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
