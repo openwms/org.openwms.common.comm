@@ -85,7 +85,7 @@ public class TelegramTransformer&lt;T&gt; implements Transformable&lt;T&gt; {
 <span class="nc" id="L85">        MDC.put(CommConstants.LOG_TELEGRAM_TYPE, telegramType);</span>
 <span class="nc" id="L86">        TelegramDeserializer&lt;T&gt; deserializer = deserializersMap.get(telegramType);</span>
 <span class="nc bnc" id="L87" title="All 2 branches missed.">        if (deserializer == null) {</span>
-<span class="nc" id="L88">            throw new MessageMismatchException(format(&quot;No deserializer found for telegram type [%s]. Is that type supported?&quot;, OSIPSerializer.getTelegramType(telegram)));</span>
+<span class="nc" id="L88">            throw new MessageMismatchException(format(&quot;No deserializer found for telegram type [%s]. Is that type supported?&quot;, telegramType));</span>
         }
 <span class="nc" id="L90">        return deserializer.deserialize(telegram, headers);</span>
     }

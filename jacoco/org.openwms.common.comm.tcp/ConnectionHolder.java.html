@@ -19,6 +19,7 @@ import org.openwms.common.comm.MessageChannelNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.EventListener;
 import org.springframework.integration.ip.tcp.connection.AbstractConnectionFactory;
 import org.springframework.integration.ip.tcp.connection.AbstractServerConnectionFactory;
@@ -45,20 +46,21 @@ import static org.openwms.common.comm.CommConstants.SUFFIX_OUTBOUND;
  *
  * @author Heiko Scherrer
  */
+@Lazy
 @Component
 public class ConnectionHolder {
 
-<span class="nc" id="L51">    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionHolder.class);</span>
-<span class="nc" id="L52">    private Map&lt;String, String&gt; connectionIds = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="nc" id="L53">    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionHolder.class);</span>
+<span class="nc" id="L54">    private Map&lt;String, String&gt; connectionIds = new ConcurrentHashMap&lt;&gt;();</span>
     private final Map&lt;String, AbstractConnectionFactory&gt; factories;
 
-<span class="nc" id="L55">    public ConnectionHolder(@Autowired(required = false) List&lt;AbstractConnectionFactory&gt; factories) {</span>
-<span class="nc bnc" id="L56" title="All 2 branches missed.">        this.factories = factories == null ?</span>
-<span class="nc" id="L57">                Collections.emptyMap() :</span>
+<span class="nc" id="L57">    public ConnectionHolder(@Autowired(required = false) List&lt;AbstractConnectionFactory&gt; factories) {</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        this.factories = factories == null ?</span>
+<span class="nc" id="L59">                Collections.emptyMap() :</span>
                 factories
-<span class="nc" id="L59">                        .stream()</span>
-<span class="nc" id="L60">                        .collect(Collectors.toMap(AbstractConnectionFactory::getComponentName, m -&gt; m));</span>
-<span class="nc" id="L61">    }</span>
+<span class="nc" id="L61">                        .stream()</span>
+<span class="nc" id="L62">                        .collect(Collectors.toMap(AbstractConnectionFactory::getComponentName, m -&gt; m));</span>
+<span class="nc" id="L63">    }</span>
 
     /**
      * On an {@link TcpConnectionOpenEvent} we store the connectionId along with the name
@@ -68,11 +70,11 @@ public class ConnectionHolder {
      */
     @EventListener
     public void onOpenMessage(TcpConnectionOpenEvent event) {
-<span class="nc" id="L71">        connectionIds.putIfAbsent(event.getConnectionFactoryName(), event.getConnectionId());</span>
-<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (LOGGER.isTraceEnabled()) {</span>
-<span class="nc" id="L73">            LOGGER.trace(&quot;New connection for factory [{}] established with id [{}]&quot;, event.getConnectionFactoryName(), event.getConnectionId());</span>
+<span class="nc" id="L73">        connectionIds.putIfAbsent(event.getConnectionFactoryName(), event.getConnectionId());</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (LOGGER.isTraceEnabled()) {</span>
+<span class="nc" id="L75">            LOGGER.trace(&quot;New connection for factory [{}] established with id [{}]&quot;, event.getConnectionFactoryName(), event.getConnectionId());</span>
         }
-<span class="nc" id="L75">    }</span>
+<span class="nc" id="L77">    }</span>
 
     /**
      * On an {@link TcpConnectionCloseEvent} we try to remove the existing assignment.
@@ -81,11 +83,11 @@ public class ConnectionHolder {
      */
     @EventListener
     public void onClosedMessage(TcpConnectionCloseEvent event) {
-<span class="nc" id="L84">        String connectionId = connectionIds.remove(event.getConnectionFactoryName());</span>
-<span class="nc bnc" id="L85" title="All 4 branches missed.">        if (connectionId != null &amp;&amp; LOGGER.isTraceEnabled()) {</span>
-<span class="nc" id="L86">            LOGGER.trace(&quot;Deregister connection for factory [{}] with id [{}]&quot;, event.getConnectionFactoryName(), event.getConnectionId());</span>
+<span class="nc" id="L86">        String connectionId = connectionIds.remove(event.getConnectionFactoryName());</span>
+<span class="nc bnc" id="L87" title="All 4 branches missed.">        if (connectionId != null &amp;&amp; LOGGER.isTraceEnabled()) {</span>
+<span class="nc" id="L88">            LOGGER.trace(&quot;Deregister connection for factory [{}] with id [{}]&quot;, event.getConnectionFactoryName(), event.getConnectionId());</span>
         }
-<span class="nc" id="L88">    }</span>
+<span class="nc" id="L90">    }</span>
 
     /**
      * On an {@link TcpConnectionCloseEvent} we try to remove the existing assignment.
@@ -94,12 +96,12 @@ public class ConnectionHolder {
      */
     @EventListener
     public void onFailedMessage(TcpConnectionFailedEvent event) {
-<span class="nc" id="L97">        LOGGER.trace(&quot;Connection Lost for : {}&quot;, ((AbstractConnectionFactory)event.getSource()).getComponentName());</span>
-<span class="nc" id="L98">        String connectionId = connectionIds.remove(((AbstractConnectionFactory)event.getSource()).getComponentName());</span>
-<span class="nc bnc" id="L99" title="All 4 branches missed.">        if (connectionId != null &amp;&amp; LOGGER.isTraceEnabled()) {</span>
-<span class="nc" id="L100">            LOGGER.trace(&quot;Deregister connection for factory [{}]&quot;, ((AbstractConnectionFactory)event.getSource()).getComponentName());</span>
+<span class="nc" id="L99">        LOGGER.trace(&quot;Connection Lost for : {}&quot;, ((AbstractConnectionFactory)event.getSource()).getComponentName());</span>
+<span class="nc" id="L100">        String connectionId = connectionIds.remove(((AbstractConnectionFactory)event.getSource()).getComponentName());</span>
+<span class="nc bnc" id="L101" title="All 4 branches missed.">        if (connectionId != null &amp;&amp; LOGGER.isTraceEnabled()) {</span>
+<span class="nc" id="L102">            LOGGER.trace(&quot;Deregister connection for factory [{}]&quot;, ((AbstractConnectionFactory)event.getSource()).getComponentName());</span>
         }
-<span class="nc" id="L102">    }</span>
+<span class="nc" id="L104">    }</span>
 
     /**
      * On an {@link TcpConnectionCloseEvent} we try to remove the existing assignment.
@@ -108,12 +110,12 @@ public class ConnectionHolder {
      */
     @EventListener
     public void onFailedConnectionMessage(TcpConnectionExceptionEvent event) {
-<span class="nc" id="L111">        LOGGER.trace(&quot;Connection Lost for : [{}]&quot;, event.getConnectionFactoryName());</span>
-<span class="nc" id="L112">        String connectionId = connectionIds.remove(event.getConnectionFactoryName());</span>
-<span class="nc bnc" id="L113" title="All 4 branches missed.">        if (connectionId != null &amp;&amp; LOGGER.isTraceEnabled()) {</span>
-<span class="nc" id="L114">            LOGGER.trace(&quot;Deregister connection for factory [{}]&quot;, event.getConnectionFactoryName());</span>
+<span class="nc" id="L113">        LOGGER.trace(&quot;Connection Lost for : [{}]&quot;, event.getConnectionFactoryName());</span>
+<span class="nc" id="L114">        String connectionId = connectionIds.remove(event.getConnectionFactoryName());</span>
+<span class="nc bnc" id="L115" title="All 4 branches missed.">        if (connectionId != null &amp;&amp; LOGGER.isTraceEnabled()) {</span>
+<span class="nc" id="L116">            LOGGER.trace(&quot;Deregister connection for factory [{}]&quot;, event.getConnectionFactoryName());</span>
         }
-<span class="nc" id="L116">    }</span>
+<span class="nc" id="L118">    }</span>
 
     /**
      * Return the current active connectionId for the ConnectionFactory given by the
@@ -124,15 +126,15 @@ public class ConnectionHolder {
      */
     public String getConnectionId(String connectionFactoryName) {
         try {
-<span class="nc" id="L127">            AbstractConnectionFactory factory = factories.get(PREFIX_CONNECTION_FACTORY + connectionFactoryName + SUFFIX_OUTBOUND);</span>
-<span class="nc bnc" id="L128" title="All 2 branches missed.">            if (factory instanceof AbstractServerConnectionFactory) {</span>
-<span class="nc" id="L129">                return connectionIds.get(PREFIX_CONNECTION_FACTORY + connectionFactoryName + SUFFIX_OUTBOUND);</span>
+<span class="nc" id="L129">            AbstractConnectionFactory factory = factories.get(PREFIX_CONNECTION_FACTORY + connectionFactoryName + SUFFIX_OUTBOUND);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">            if (factory instanceof AbstractServerConnectionFactory) {</span>
+<span class="nc" id="L131">                return connectionIds.get(PREFIX_CONNECTION_FACTORY + connectionFactoryName + SUFFIX_OUTBOUND);</span>
             } else {
-<span class="nc" id="L131">                return factory.getConnection().getConnectionId();</span>
+<span class="nc" id="L133">                return factory.getConnection().getConnectionId();</span>
             }
-<span class="nc" id="L133">        } catch (Exception e) {</span>
-<span class="nc" id="L134">            LOGGER.error(e.getMessage(), e);</span>
-<span class="nc" id="L135">            throw new MessageChannelNotFoundException(format(&quot;No Connection found for ConnectionFactory [%s]&quot;, connectionFactoryName));</span>
+<span class="nc" id="L135">        } catch (Exception e) {</span>
+<span class="nc" id="L136">            LOGGER.error(e.getMessage(), e);</span>
+<span class="nc" id="L137">            throw new MessageChannelNotFoundException(format(&quot;No Connection found for ConnectionFactory [%s]&quot;, connectionFactoryName));</span>
         }
     }
 }
