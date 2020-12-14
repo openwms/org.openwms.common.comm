@@ -56,13 +56,13 @@ public class OSIPHeader implements Serializable {
                     LENGTH_SENDER_FIELD +
                     LENGTH_SEQUENCE_NO_FIELD;
 
-<span class="nc" id="L59">    private OSIPHeader(Builder builder) {</span>
-<span class="nc" id="L60">        sync = builder.sync;</span>
-<span class="nc" id="L61">        messageLength = builder.messageLength;</span>
-<span class="nc" id="L62">        setSender(builder.sender);</span>
-<span class="nc" id="L63">        setReceiver(builder.receiver);</span>
-<span class="nc" id="L64">        sequenceNo = builder.sequenceNo;</span>
-<span class="nc" id="L65">    }</span>
+<span class="fc" id="L59">    private OSIPHeader(Builder builder) {</span>
+<span class="fc" id="L60">        sync = builder.sync;</span>
+<span class="fc" id="L61">        messageLength = builder.messageLength;</span>
+<span class="fc" id="L62">        setSender(builder.sender);</span>
+<span class="fc" id="L63">        setReceiver(builder.receiver);</span>
+<span class="fc" id="L64">        sequenceNo = builder.sequenceNo;</span>
+<span class="fc" id="L65">    }</span>
 
     public Iterable&lt;Map.Entry&lt;String, Object&gt;&gt; getAll() {
 <span class="nc" id="L68">        return Arrays.asList(</span>
@@ -107,8 +107,8 @@ public class OSIPHeader implements Serializable {
      * @param sender The sender to set.
      */
     public void setSender(String sender) {
-<span class="nc" id="L110">        this.sender = sender;</span>
-<span class="nc" id="L111">    }</span>
+<span class="fc" id="L110">        this.sender = sender;</span>
+<span class="fc" id="L111">    }</span>
 
     /**
      * Get the receiver.
@@ -125,8 +125,8 @@ public class OSIPHeader implements Serializable {
      * @param receiver The receiver to set.
      */
     public void setReceiver(String receiver) {
-<span class="nc" id="L128">        this.receiver = receiver;</span>
-<span class="nc" id="L129">    }</span>
+<span class="fc" id="L128">        this.receiver = receiver;</span>
+<span class="fc" id="L129">    }</span>
 
     /**
      * Get the sequenceNo.
@@ -171,10 +171,10 @@ public class OSIPHeader implements Serializable {
 
     @Override
     public String toString() {
-<span class="nc" id="L174">        return sync + padLeft(String.valueOf(messageLength), OSIPHeader.LENGTH_MESSAGE_LENGTH_FIELD, &quot;0&quot;) + sender + receiver + padLeft(String.valueOf(sequenceNo), LENGTH_SEQUENCE_NO_FIELD, &quot;0&quot;);</span>
+<span class="fc" id="L174">        return sync + padLeft(String.valueOf(messageLength), OSIPHeader.LENGTH_MESSAGE_LENGTH_FIELD, &quot;0&quot;) + sender + receiver + padLeft(String.valueOf(sequenceNo), LENGTH_SEQUENCE_NO_FIELD, &quot;0&quot;);</span>
     }
 
-<span class="nc" id="L177">    public static final class Builder {</span>
+<span class="fc" id="L177">    public static final class Builder {</span>
         private String sync;
         private short messageLength;
         private String sender;
@@ -182,32 +182,32 @@ public class OSIPHeader implements Serializable {
         private short sequenceNo;
 
         public Builder sync(String val) {
-<span class="nc" id="L185">            sync = val;</span>
-<span class="nc" id="L186">            return this;</span>
+<span class="fc" id="L185">            sync = val;</span>
+<span class="fc" id="L186">            return this;</span>
         }
 
         public Builder messageLength(short val) {
-<span class="nc" id="L190">            messageLength = val;</span>
-<span class="nc" id="L191">            return this;</span>
+<span class="fc" id="L190">            messageLength = val;</span>
+<span class="fc" id="L191">            return this;</span>
         }
 
         public Builder sender(String val) {
-<span class="nc" id="L195">            sender = val;</span>
-<span class="nc" id="L196">            return this;</span>
+<span class="fc" id="L195">            sender = val;</span>
+<span class="fc" id="L196">            return this;</span>
         }
 
         public Builder receiver(String val) {
-<span class="nc" id="L200">            receiver = val;</span>
-<span class="nc" id="L201">            return this;</span>
+<span class="fc" id="L200">            receiver = val;</span>
+<span class="fc" id="L201">            return this;</span>
         }
 
         public Builder sequenceNo(short val) {
-<span class="nc" id="L205">            sequenceNo = val;</span>
-<span class="nc" id="L206">            return this;</span>
+<span class="fc" id="L205">            sequenceNo = val;</span>
+<span class="fc" id="L206">            return this;</span>
         }
 
         public OSIPHeader build() {
-<span class="nc" id="L210">            return new OSIPHeader(this);</span>
+<span class="fc" id="L210">            return new OSIPHeader(this);</span>
         }
     }
 }

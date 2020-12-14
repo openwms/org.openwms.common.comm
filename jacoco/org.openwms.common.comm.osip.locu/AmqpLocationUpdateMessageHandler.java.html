@@ -43,11 +43,11 @@ class AmqpLocationUpdateMessageHandler implements Function&lt;GenericMessage&lt;
 
     AmqpLocationUpdateMessageHandler(AmqpTemplate amqpTemplate,
             @Value(&quot;${owms.driver.osip.locu.exchange-name}&quot;) String exchangeName,
-<span class="nc" id="L46">            @Value(&quot;${owms.driver.osip.locu.routing-key-out}&quot;) String routingKey) {</span>
-<span class="nc" id="L47">        this.amqpTemplate = amqpTemplate;</span>
-<span class="nc" id="L48">        this.exchangeName = exchangeName;</span>
-<span class="nc" id="L49">        this.routingKey = routingKey;</span>
-<span class="nc" id="L50">    }</span>
+<span class="fc" id="L46">            @Value(&quot;${owms.driver.osip.locu.routing-key-out}&quot;) String routingKey) {</span>
+<span class="fc" id="L47">        this.amqpTemplate = amqpTemplate;</span>
+<span class="fc" id="L48">        this.exchangeName = exchangeName;</span>
+<span class="fc" id="L49">        this.routingKey = routingKey;</span>
+<span class="fc" id="L50">    }</span>
 
     /**
      * {@inheritDoc}

@@ -44,11 +44,11 @@ class TimesyncHandler implements Function&lt;GenericMessage&lt;TimesyncRequest&g
     private final ConnectionHolder connectionHolder;
     private final TimeProvider timeProvider;
 
-<span class="nc" id="L47">    TimesyncHandler(Channels channels, ConnectionHolder connectionHolder, TimeProvider timeProvider) {</span>
-<span class="nc" id="L48">        this.channels = channels;</span>
-<span class="nc" id="L49">        this.connectionHolder = connectionHolder;</span>
-<span class="nc" id="L50">        this.timeProvider = timeProvider;</span>
-<span class="nc" id="L51">    }</span>
+<span class="fc" id="L47">    TimesyncHandler(Channels channels, ConnectionHolder connectionHolder, TimeProvider timeProvider) {</span>
+<span class="fc" id="L48">        this.channels = channels;</span>
+<span class="fc" id="L49">        this.connectionHolder = connectionHolder;</span>
+<span class="fc" id="L50">        this.timeProvider = timeProvider;</span>
+<span class="fc" id="L51">    }</span>
 
     /**
      * Builds response message with the current time and the same request header to preserve header information (seq. number etc.) in post

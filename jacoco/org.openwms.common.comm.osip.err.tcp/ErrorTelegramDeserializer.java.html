@@ -47,15 +47,15 @@ import static org.openwms.common.comm.osip.Payload.ERROR_CODE_LENGTH;
 @OSIPComponent
 class ErrorTelegramDeserializer implements TelegramDeserializer&lt;ErrorMessage&gt; {
 
-<span class="nc" id="L50">    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorTelegramDeserializer.class);</span>
-<span class="nc" id="L51">    private static final Logger TELEGRAM_LOGGER = LoggerFactory.getLogger(CommConstants.CORE_INTEGRATION_MESSAGING);</span>
+<span class="fc" id="L50">    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorTelegramDeserializer.class);</span>
+<span class="fc" id="L51">    private static final Logger TELEGRAM_LOGGER = LoggerFactory.getLogger(CommConstants.CORE_INTEGRATION_MESSAGING);</span>
     private final Driver driver;
     private final FieldLengthProvider lengthProvider;
 
-<span class="nc" id="L55">    ErrorTelegramDeserializer(Driver driver, FieldLengthProvider lengthProvider) {</span>
-<span class="nc" id="L56">        this.driver = driver;</span>
-<span class="nc" id="L57">        this.lengthProvider = lengthProvider;</span>
-<span class="nc" id="L58">    }</span>
+<span class="fc" id="L55">    ErrorTelegramDeserializer(Driver driver, FieldLengthProvider lengthProvider) {</span>
+<span class="fc" id="L56">        this.driver = driver;</span>
+<span class="fc" id="L57">        this.lengthProvider = lengthProvider;</span>
+<span class="fc" id="L58">    }</span>
 
     /**
      * {@inheritDoc}
@@ -96,7 +96,7 @@ class ErrorTelegramDeserializer implements TelegramDeserializer&lt;ErrorMessage&
      */
     @Override
     public String forType() {
-<span class="nc" id="L99">        return ErrorMessage.IDENTIFIER;</span>
+<span class="fc" id="L99">        return ErrorMessage.IDENTIFIER;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

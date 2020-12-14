@@ -45,11 +45,11 @@ class AmqpUpdateMessageHandler implements Function&lt;GenericMessage&lt;UpdateMe
     AmqpUpdateMessageHandler(
             AmqpTemplate amqpTemplate,
             @Value(&quot;${owms.driver.osip.upd.exchange-name}&quot;) String exchangeName,
-<span class="nc" id="L48">            @Value(&quot;${owms.driver.osip.upd.routing-key-out}&quot;) String routingKey) {</span>
-<span class="nc" id="L49">        this.amqpTemplate = amqpTemplate;</span>
-<span class="nc" id="L50">        this.exchangeName = exchangeName;</span>
-<span class="nc" id="L51">        this.routingKey = routingKey;</span>
-<span class="nc" id="L52">    }</span>
+<span class="fc" id="L48">            @Value(&quot;${owms.driver.osip.upd.routing-key-out}&quot;) String routingKey) {</span>
+<span class="fc" id="L49">        this.amqpTemplate = amqpTemplate;</span>
+<span class="fc" id="L50">        this.exchangeName = exchangeName;</span>
+<span class="fc" id="L51">        this.routingKey = routingKey;</span>
+<span class="fc" id="L52">    }</span>
 
     /**
      * {@inheritDoc}

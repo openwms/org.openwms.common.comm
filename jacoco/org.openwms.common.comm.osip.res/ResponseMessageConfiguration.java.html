@@ -35,17 +35,17 @@ import org.springframework.context.annotation.Profile;
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @OSIP
 @Configuration
-<span class="nc" id="L38">class ResponseMessageConfiguration {</span>
+<span class="fc" id="L38">class ResponseMessageConfiguration {</span>
 
     @Bean
     TopicExchange resExchange(
             @Value(&quot;${owms.driver.osip.res.exchange-name}&quot;) String exchangeName) {
-<span class="nc" id="L43">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="fc" id="L43">        return new TopicExchange(exchangeName, true, false);</span>
     }
 
     @Bean
     Queue resQueue(@Value(&quot;${owms.driver.osip.res.queue-name}&quot;) String queueName) {
-<span class="nc" id="L48">        return new Queue(queueName);</span>
+<span class="fc" id="L48">        return new Queue(queueName);</span>
     }
 
     @Bean
@@ -54,10 +54,10 @@ import org.springframework.context.annotation.Profile;
             Queue resQueue,
             @Value(&quot;${owms.driver.osip.res.routing-key-in}&quot;) String routingKey
     ) {
-<span class="nc" id="L57">        return BindingBuilder</span>
-<span class="nc" id="L58">                .bind(resQueue)</span>
-<span class="nc" id="L59">                .to(resExchange)</span>
-<span class="nc" id="L60">                .with(routingKey);</span>
+<span class="fc" id="L57">        return BindingBuilder</span>
+<span class="fc" id="L58">                .bind(resQueue)</span>
+<span class="fc" id="L59">                .to(resExchange)</span>
+<span class="fc" id="L60">                .with(routingKey);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

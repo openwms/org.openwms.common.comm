@@ -48,15 +48,15 @@ import static org.openwms.common.comm.osip.Payload.ERROR_CODE_LENGTH;
 @OSIPComponent
 class SystemUpdateTelegramDeserializer implements TelegramDeserializer&lt;SystemUpdateMessage&gt; {
 
-<span class="nc" id="L51">    private static final Logger LOGGER = LoggerFactory.getLogger(SystemUpdateTelegramDeserializer.class);</span>
-<span class="nc" id="L52">    private static final Logger TELEGRAM_LOGGER = LoggerFactory.getLogger(CommConstants.CORE_INTEGRATION_MESSAGING);</span>
+<span class="fc" id="L51">    private static final Logger LOGGER = LoggerFactory.getLogger(SystemUpdateTelegramDeserializer.class);</span>
+<span class="fc" id="L52">    private static final Logger TELEGRAM_LOGGER = LoggerFactory.getLogger(CommConstants.CORE_INTEGRATION_MESSAGING);</span>
     @Autowired(required = false)
     private FieldLengthProvider provider;
     private final Driver driver;
 
-<span class="nc" id="L57">    SystemUpdateTelegramDeserializer(Driver driver) {</span>
-<span class="nc" id="L58">        this.driver = driver;</span>
-<span class="nc" id="L59">    }</span>
+<span class="fc" id="L57">    SystemUpdateTelegramDeserializer(Driver driver) {</span>
+<span class="fc" id="L58">        this.driver = driver;</span>
+<span class="fc" id="L59">    }</span>
 
     /**
      * {@inheritDoc}
@@ -100,7 +100,7 @@ class SystemUpdateTelegramDeserializer implements TelegramDeserializer&lt;System
      */
     @Override
     public String forType() {
-<span class="nc" id="L103">        return SystemUpdateMessage.IDENTIFIER;</span>
+<span class="fc" id="L103">        return SystemUpdateMessage.IDENTIFIER;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

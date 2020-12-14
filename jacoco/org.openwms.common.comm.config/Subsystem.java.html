@@ -20,28 +20,28 @@ package org.openwms.common.comm.config;
  *
  * @author Heiko Scherrer
  */
-<span class="nc" id="L23">public class Subsystem {</span>
+<span class="fc" id="L23">public class Subsystem {</span>
     /** Unique subsystem name, that is used to identify the receiver. */
     private String name;
     /**
      * The type the driver instance is used for. Different types allow processing
      * different kind of telegrams.
      */
-<span class="nc" id="L30">    private TYPE type = TYPE.conveyor;</span>
+<span class="fc" id="L30">    private TYPE type = TYPE.conveyor;</span>
     /** The subsystem can be configured in bi-directional duplex mode. */
     private Duplex duplex;
     /** All inbound connection configuration. */
-<span class="nc" id="L34">    private Inbound inbound = new Inbound();</span>
+<span class="fc" id="L34">    private Inbound inbound = new Inbound();</span>
     /** All outbound connection configuration. */
-<span class="nc" id="L36">    private Outbound outbound = new Outbound();</span>
+<span class="fc" id="L36">    private Outbound outbound = new Outbound();</span>
 
     public String getName() {
-<span class="nc" id="L39">        return name;</span>
+<span class="fc" id="L39">        return name;</span>
     }
 
     public void setName(String name) {
-<span class="nc" id="L43">        this.name = name;</span>
-<span class="nc" id="L44">    }</span>
+<span class="fc" id="L43">        this.name = name;</span>
+<span class="fc" id="L44">    }</span>
 
     public TYPE getType() {
 <span class="nc" id="L47">        return type;</span>
@@ -52,55 +52,55 @@ package org.openwms.common.comm.config;
 <span class="nc" id="L52">    }</span>
 
     public Duplex getDuplex() {
-<span class="nc" id="L55">        return duplex;</span>
+<span class="fc" id="L55">        return duplex;</span>
     }
 
     public void setDuplex(Duplex duplex) {
-<span class="nc" id="L59">        this.duplex = duplex;</span>
-<span class="nc" id="L60">    }</span>
+<span class="fc" id="L59">        this.duplex = duplex;</span>
+<span class="fc" id="L60">    }</span>
 
     public Inbound getInbound() {
-<span class="nc" id="L63">        return inbound;</span>
+<span class="fc" id="L63">        return inbound;</span>
     }
 
     public void setInbound(Inbound inbound) {
-<span class="nc" id="L67">        this.inbound = inbound;</span>
-<span class="nc" id="L68">    }</span>
+<span class="fc" id="L67">        this.inbound = inbound;</span>
+<span class="fc" id="L68">    }</span>
 
     public Outbound getOutbound() {
-<span class="nc" id="L71">        return outbound;</span>
+<span class="fc" id="L71">        return outbound;</span>
     }
 
     public void setOutbound(Outbound outbound) {
-<span class="nc" id="L75">        this.outbound = outbound;</span>
-<span class="nc" id="L76">    }</span>
+<span class="fc" id="L75">        this.outbound = outbound;</span>
+<span class="fc" id="L76">    }</span>
 
-<span class="nc" id="L78">    public enum MODE {</span>
-<span class="nc" id="L79">        client, server;</span>
+<span class="fc" id="L78">    public enum MODE {</span>
+<span class="fc" id="L79">        client, server;</span>
     }
 
-<span class="nc" id="L82">    public enum TYPE {</span>
+<span class="fc" id="L82">    public enum TYPE {</span>
         /** Conveyor instance with latest telegram specification. */
-<span class="nc" id="L84">        conveyor(&quot;1&quot;),</span>
+<span class="fc" id="L84">        conveyor(&quot;1&quot;),</span>
         /** Crane instance with latest telegram specification. */
-<span class="nc" id="L86">        crane(&quot;1&quot;),</span>
+<span class="fc" id="L86">        crane(&quot;1&quot;),</span>
         /** Conveyor instance with telegram spec version 1. */
-<span class="nc" id="L88">        conveyor_1(&quot;1&quot;),</span>
+<span class="fc" id="L88">        conveyor_1(&quot;1&quot;),</span>
         /** Crane instance with telegram spec version 1. */
-<span class="nc" id="L90">        crane_1(&quot;1&quot;);</span>
+<span class="fc" id="L90">        crane_1(&quot;1&quot;);</span>
 
         private String version;
 
-<span class="nc" id="L94">        TYPE(String version) {</span>
-<span class="nc" id="L95">            this.version = version;</span>
-<span class="nc" id="L96">        }</span>
+<span class="fc" id="L94">        TYPE(String version) {</span>
+<span class="fc" id="L95">            this.version = version;</span>
+<span class="fc" id="L96">        }</span>
     }
 
-<span class="nc" id="L99">    public static class Inbound {</span>
+<span class="fc" id="L99">    public static class Inbound {</span>
         /** Whether the inbound connection channel is operated in client or server mode. */
-<span class="nc" id="L101">        private MODE mode = MODE.server;</span>
+<span class="fc" id="L101">        private MODE mode = MODE.server;</span>
         /** The hostname to connect to in client mode. */
-<span class="nc" id="L103">        private String hostname = &quot;localhost&quot;;</span>
+<span class="fc" id="L103">        private String hostname = &quot;localhost&quot;;</span>
         /** The port to connect to in client mode. */
         private Integer port;
         /** Socket timeout in [ms], the idle time when to close the connection. */
@@ -109,31 +109,31 @@ package org.openwms.common.comm.config;
         private Integer soReceiveBufferSize;
 
         public MODE getMode() {
-<span class="nc" id="L112">            return mode;</span>
+<span class="fc" id="L112">            return mode;</span>
         }
 
         public void setMode(MODE mode) {
-<span class="nc" id="L116">            this.mode = mode;</span>
-<span class="nc" id="L117">        }</span>
+<span class="fc" id="L116">            this.mode = mode;</span>
+<span class="fc" id="L117">        }</span>
 
         public String getHostname() {
-<span class="nc" id="L120">            return hostname;</span>
+<span class="fc" id="L120">            return hostname;</span>
         }
 
         public void setHostname(String hostname) {
-<span class="nc" id="L124">            this.hostname = hostname;</span>
-<span class="nc" id="L125">        }</span>
+<span class="fc" id="L124">            this.hostname = hostname;</span>
+<span class="fc" id="L125">        }</span>
 
         public Integer getPort() {
-<span class="nc" id="L128">            return port;</span>
+<span class="fc" id="L128">            return port;</span>
         }
 
         public void setPort(Integer port) {
-<span class="nc" id="L132">            this.port = port;</span>
-<span class="nc" id="L133">        }</span>
+<span class="fc" id="L132">            this.port = port;</span>
+<span class="fc" id="L133">        }</span>
 
         public Integer getSoTimeout() {
-<span class="nc" id="L136">            return soTimeout;</span>
+<span class="fc" id="L136">            return soTimeout;</span>
         }
 
         public void setSoTimeout(Integer soTimeout) {
@@ -141,17 +141,17 @@ package org.openwms.common.comm.config;
 <span class="nc" id="L141">        }</span>
 
         public Integer getSoReceiveBufferSize() {
-<span class="nc" id="L144">            return soReceiveBufferSize;</span>
+<span class="fc" id="L144">            return soReceiveBufferSize;</span>
         }
 
         public void setSoReceiveBufferSize(Integer soReceiveBufferSize) {
-<span class="nc" id="L148">            this.soReceiveBufferSize = soReceiveBufferSize;</span>
-<span class="nc" id="L149">        }</span>
+<span class="fc" id="L148">            this.soReceiveBufferSize = soReceiveBufferSize;</span>
+<span class="fc" id="L149">        }</span>
     }
 
-<span class="nc" id="L152">    public static class Outbound {</span>
+<span class="fc" id="L152">    public static class Outbound {</span>
         /** Whether the outbound connection channel is operated in client or server mode. */
-<span class="nc" id="L154">        private MODE mode = MODE.client;</span>
+<span class="fc" id="L154">        private MODE mode = MODE.client;</span>
         /** The hostname to connect to in client mode. */
         private String hostname;
         /** The port to connect to in client mode. */
@@ -166,31 +166,31 @@ package org.openwms.common.comm.config;
         private String identifiedByValue;
 
         public MODE getMode() {
-<span class="nc" id="L169">            return mode;</span>
+<span class="fc" id="L169">            return mode;</span>
         }
 
         public void setMode(MODE mode) {
-<span class="nc" id="L173">            this.mode = mode;</span>
-<span class="nc" id="L174">        }</span>
+<span class="fc" id="L173">            this.mode = mode;</span>
+<span class="fc" id="L174">        }</span>
 
         public String getHostname() {
-<span class="nc" id="L177">            return hostname;</span>
+<span class="fc" id="L177">            return hostname;</span>
         }
 
         public void setHostname(String hostname) {
-<span class="nc" id="L181">            this.hostname = hostname;</span>
-<span class="nc" id="L182">        }</span>
+<span class="fc" id="L181">            this.hostname = hostname;</span>
+<span class="fc" id="L182">        }</span>
 
         public Integer getPort() {
-<span class="nc" id="L185">            return port;</span>
+<span class="fc" id="L185">            return port;</span>
         }
 
         public void setPort(Integer port) {
-<span class="nc" id="L189">            this.port = port;</span>
-<span class="nc" id="L190">        }</span>
+<span class="fc" id="L189">            this.port = port;</span>
+<span class="fc" id="L190">        }</span>
 
         public Integer getSoTimeout() {
-<span class="nc" id="L193">            return soTimeout;</span>
+<span class="fc" id="L193">            return soTimeout;</span>
         }
 
         public void setSoTimeout(Integer soTimeout) {
@@ -198,33 +198,33 @@ package org.openwms.common.comm.config;
 <span class="nc" id="L198">        }</span>
 
         public Integer getSoSendBufferSize() {
-<span class="nc" id="L201">            return soSendBufferSize;</span>
+<span class="fc" id="L201">            return soSendBufferSize;</span>
         }
 
         public void setSoSendBufferSize(Integer soSendBufferSize) {
-<span class="nc" id="L205">            this.soSendBufferSize = soSendBufferSize;</span>
-<span class="nc" id="L206">        }</span>
+<span class="fc" id="L205">            this.soSendBufferSize = soSendBufferSize;</span>
+<span class="fc" id="L206">        }</span>
 
         public String getIdentifiedByField() {
 <span class="nc" id="L209">            return identifiedByField;</span>
         }
 
         public void setIdentifiedByField(String identifiedByField) {
-<span class="nc" id="L213">            this.identifiedByField = identifiedByField;</span>
-<span class="nc" id="L214">        }</span>
+<span class="fc" id="L213">            this.identifiedByField = identifiedByField;</span>
+<span class="fc" id="L214">        }</span>
 
         public String getIdentifiedByValue() {
-<span class="nc" id="L217">            return identifiedByValue;</span>
+<span class="fc" id="L217">            return identifiedByValue;</span>
         }
 
         public void setIdentifiedByValue(String identifiedByValue) {
-<span class="nc" id="L221">            this.identifiedByValue = identifiedByValue;</span>
-<span class="nc" id="L222">        }</span>
+<span class="fc" id="L221">            this.identifiedByValue = identifiedByValue;</span>
+<span class="fc" id="L222">        }</span>
     }
 
-<span class="nc" id="L225">    public static class Duplex {</span>
+<span class="fc" id="L225">    public static class Duplex {</span>
         /** Whether the inbound connection channel is operated in client or server mode. */
-<span class="nc" id="L227">        private MODE mode = MODE.server;</span>
+<span class="fc" id="L227">        private MODE mode = MODE.server;</span>
         /** The hostname to connect to in client mode. */
         private String hostname;
         /** The port to connect to in client mode. */
@@ -241,68 +241,68 @@ package org.openwms.common.comm.config;
         private String identifiedByValue;
 
         public MODE getMode() {
-<span class="nc" id="L244">            return mode;</span>
+<span class="fc" id="L244">            return mode;</span>
         }
 
         public void setMode(MODE mode) {
-<span class="nc" id="L248">            this.mode = mode;</span>
-<span class="nc" id="L249">        }</span>
+<span class="fc" id="L248">            this.mode = mode;</span>
+<span class="fc" id="L249">        }</span>
 
         public String getHostname() {
-<span class="nc" id="L252">            return hostname;</span>
+<span class="fc" id="L252">            return hostname;</span>
         }
 
         public void setHostname(String hostname) {
-<span class="nc" id="L256">            this.hostname = hostname;</span>
-<span class="nc" id="L257">        }</span>
+<span class="fc" id="L256">            this.hostname = hostname;</span>
+<span class="fc" id="L257">        }</span>
 
         public Integer getPort() {
-<span class="nc" id="L260">            return port;</span>
+<span class="fc" id="L260">            return port;</span>
         }
 
         public void setPort(Integer port) {
-<span class="nc" id="L264">            this.port = port;</span>
-<span class="nc" id="L265">        }</span>
+<span class="fc" id="L264">            this.port = port;</span>
+<span class="fc" id="L265">        }</span>
 
         public Integer getSoTimeout() {
-<span class="nc" id="L268">            return soTimeout;</span>
+<span class="fc" id="L268">            return soTimeout;</span>
         }
 
         public void setSoTimeout(Integer soTimeout) {
-<span class="nc" id="L272">            this.soTimeout = soTimeout;</span>
-<span class="nc" id="L273">        }</span>
+<span class="fc" id="L272">            this.soTimeout = soTimeout;</span>
+<span class="fc" id="L273">        }</span>
 
         public Integer getSoSendBufferSize() {
-<span class="nc" id="L276">            return soSendBufferSize;</span>
+<span class="fc" id="L276">            return soSendBufferSize;</span>
         }
 
         public void setSoSendBufferSize(Integer soSendBufferSize) {
-<span class="nc" id="L280">            this.soSendBufferSize = soSendBufferSize;</span>
-<span class="nc" id="L281">        }</span>
+<span class="fc" id="L280">            this.soSendBufferSize = soSendBufferSize;</span>
+<span class="fc" id="L281">        }</span>
 
         public Integer getSoReceiveBufferSize() {
-<span class="nc" id="L284">            return soReceiveBufferSize;</span>
+<span class="fc" id="L284">            return soReceiveBufferSize;</span>
         }
 
         public void setSoReceiveBufferSize(Integer soReceiveBufferSize) {
-<span class="nc" id="L288">            this.soReceiveBufferSize = soReceiveBufferSize;</span>
-<span class="nc" id="L289">        }</span>
+<span class="fc" id="L288">            this.soReceiveBufferSize = soReceiveBufferSize;</span>
+<span class="fc" id="L289">        }</span>
 
         public String getIdentifiedByField() {
 <span class="nc" id="L292">            return identifiedByField;</span>
         }
 
         public void setIdentifiedByField(String identifiedByField) {
-<span class="nc" id="L296">            this.identifiedByField = identifiedByField;</span>
-<span class="nc" id="L297">        }</span>
+<span class="fc" id="L296">            this.identifiedByField = identifiedByField;</span>
+<span class="fc" id="L297">        }</span>
 
         public String getIdentifiedByValue() {
-<span class="nc" id="L300">            return identifiedByValue;</span>
+<span class="fc" id="L300">            return identifiedByValue;</span>
         }
 
         public void setIdentifiedByValue(String identifiedByValue) {
-<span class="nc" id="L304">            this.identifiedByValue = identifiedByValue;</span>
-<span class="nc" id="L305">        }</span>
+<span class="fc" id="L304">            this.identifiedByValue = identifiedByValue;</span>
+<span class="fc" id="L305">        }</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

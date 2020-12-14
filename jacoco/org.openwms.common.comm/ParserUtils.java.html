@@ -34,7 +34,7 @@ public final class ParserUtils {
      * @return A new padded String instance
      */
     public static String padRight(String s, int n, String chr) {
-<span class="nc" id="L37">        return String.format(&quot;%1$-&quot; + n + &quot;s&quot;, s).replace(&quot; &quot;, chr);</span>
+<span class="fc" id="L37">        return String.format(&quot;%1$-&quot; + n + &quot;s&quot;, s).replace(&quot; &quot;, chr);</span>
     }
 
     /**
@@ -57,7 +57,7 @@ public final class ParserUtils {
      * @return A new padded String instance
      */
     public static String padLeft(String s, int n, String chr) {
-<span class="nc" id="L60">        return String.format(&quot;%1$&quot; + n + &quot;s&quot;, s).replace(&quot; &quot;, chr);</span>
+<span class="fc" id="L60">        return String.format(&quot;%1$&quot; + n + &quot;s&quot;, s).replace(&quot; &quot;, chr);</span>
     }
 
     /**
@@ -67,10 +67,10 @@ public final class ParserUtils {
      * @return The barcode or ????????????????????
      */
     public static String nullableBarcode(String barcode) {
-<span class="nc bnc" id="L70" title="All 4 branches missed.">        if (barcode == null || barcode.isEmpty()) {</span>
+<span class="pc bpc" id="L70" title="2 of 4 branches missed.">        if (barcode == null || barcode.isEmpty()) {</span>
 <span class="nc" id="L71">            return padLeft(&quot;&quot;, 20, &quot;?&quot;);</span>
         }
-<span class="nc" id="L73">        return barcode;</span>
+<span class="fc" id="L73">        return barcode;</span>
     }
 
     /**
@@ -81,10 +81,10 @@ public final class ParserUtils {
      * @return The normalized LocationId or ********************
      */
     public static String nullableLocation(String locationId) {
-<span class="nc bnc" id="L84" title="All 4 branches missed.">        if (locationId == null || locationId.isEmpty()) {</span>
+<span class="pc bpc" id="L84" title="2 of 4 branches missed.">        if (locationId == null || locationId.isEmpty()) {</span>
 <span class="nc" id="L85">            return padLeft(&quot;&quot;, 20, &quot;*&quot;);</span>
         }
-<span class="nc" id="L87">        return locationId.replace(&quot;/&quot;, &quot;&quot;);</span>
+<span class="fc" id="L87">        return locationId.replace(&quot;/&quot;, &quot;&quot;);</span>
     }
 
     /**
@@ -95,8 +95,8 @@ public final class ParserUtils {
      * @return The normalized name or ********************
      */
     public static String nullableLocationGroup(String locationGroup) {
-<span class="nc bnc" id="L98" title="All 4 branches missed.">        if (locationGroup == null || locationGroup.isEmpty()) {</span>
-<span class="nc" id="L99">            return padLeft(&quot;&quot;, 20, &quot;*&quot;);</span>
+<span class="pc bpc" id="L98" title="3 of 4 branches missed.">        if (locationGroup == null || locationGroup.isEmpty()) {</span>
+<span class="fc" id="L99">            return padLeft(&quot;&quot;, 20, &quot;*&quot;);</span>
         }
 <span class="nc" id="L101">        return locationGroup;</span>
     }

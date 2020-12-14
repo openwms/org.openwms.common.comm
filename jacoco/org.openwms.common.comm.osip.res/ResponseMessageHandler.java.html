@@ -38,22 +38,22 @@ class ResponseMessageHandler {
     private final Channels channels;
     private final ConnectionHolder connectionHolder;
 
-<span class="nc" id="L41">    ResponseMessageHandler(Channels channels, ConnectionHolder connectionHolder) {</span>
-<span class="nc" id="L42">        this.channels = channels;</span>
-<span class="nc" id="L43">        this.connectionHolder = connectionHolder;</span>
-<span class="nc" id="L44">    }</span>
+<span class="fc" id="L41">    ResponseMessageHandler(Channels channels, ConnectionHolder connectionHolder) {</span>
+<span class="fc" id="L42">        this.channels = channels;</span>
+<span class="fc" id="L43">        this.connectionHolder = connectionHolder;</span>
+<span class="fc" id="L44">    }</span>
 
     public void handle(ResponseMessage msg, String receiver) {
-<span class="nc" id="L47">        MessageChannel channel = channels.getOutboundChannel(receiver);</span>
-<span class="nc" id="L48">        MessagingTemplate template = new MessagingTemplate();</span>
-<span class="nc" id="L49">        Message&lt;ResponseMessage&gt; message =</span>
+<span class="fc" id="L47">        MessageChannel channel = channels.getOutboundChannel(receiver);</span>
+<span class="fc" id="L48">        MessagingTemplate template = new MessagingTemplate();</span>
+<span class="fc" id="L49">        Message&lt;ResponseMessage&gt; message =</span>
                 MessageBuilder
-<span class="nc" id="L51">                        .withPayload(msg)</span>
-<span class="nc" id="L52">                        .copyHeaders(msg.getHeader().getAll())</span>
-<span class="nc" id="L53">                .setHeader(MessageHeaders.REPLY_CHANNEL, &quot;inboundChannel&quot;)</span>
-<span class="nc" id="L54">                .setHeader(IpHeaders.CONNECTION_ID, connectionHolder.getConnectionId(receiver))</span>
-<span class="nc" id="L55">                .build();</span>
-<span class="nc" id="L56">        template.send(channel, message);</span>
-<span class="nc" id="L57">    }</span>
+<span class="fc" id="L51">                        .withPayload(msg)</span>
+<span class="fc" id="L52">                        .copyHeaders(msg.getHeader().getAll())</span>
+<span class="fc" id="L53">                .setHeader(MessageHeaders.REPLY_CHANNEL, &quot;inboundChannel&quot;)</span>
+<span class="fc" id="L54">                .setHeader(IpHeaders.CONNECTION_ID, connectionHolder.getConnectionId(receiver))</span>
+<span class="fc" id="L55">                .build();</span>
+<span class="fc" id="L56">        template.send(channel, message);</span>
+<span class="fc" id="L57">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -42,10 +42,10 @@ class LocationUpdateMessageServiceActivator implements NotRespondingServiceActiv
     private final ApplicationContext ctx;
     private final Function&lt;GenericMessage&lt;LocationUpdateMessage&gt;, Void&gt; handler;
 
-<span class="nc" id="L45">    LocationUpdateMessageServiceActivator(ApplicationContext ctx, Function&lt;GenericMessage&lt;LocationUpdateMessage&gt;, Void&gt; handler) {</span>
-<span class="nc" id="L46">        this.ctx = ctx;</span>
-<span class="nc" id="L47">        this.handler = handler;</span>
-<span class="nc" id="L48">    }</span>
+<span class="fc" id="L45">    LocationUpdateMessageServiceActivator(ApplicationContext ctx, Function&lt;GenericMessage&lt;LocationUpdateMessage&gt;, Void&gt; handler) {</span>
+<span class="fc" id="L46">        this.ctx = ctx;</span>
+<span class="fc" id="L47">        this.handler = handler;</span>
+<span class="fc" id="L48">    }</span>
 
     /**
      * {@inheritDoc}
@@ -71,7 +71,7 @@ class LocationUpdateMessageServiceActivator implements NotRespondingServiceActiv
      */
     @Override
     public String getChannelName() {
-<span class="nc" id="L74">        return INPUT_CHANNEL_NAME;</span>
+<span class="fc" id="L74">        return INPUT_CHANNEL_NAME;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

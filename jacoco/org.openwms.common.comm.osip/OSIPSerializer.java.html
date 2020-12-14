@@ -34,9 +34,9 @@ public abstract class OSIPSerializer&lt;T extends Payload&gt; {
 
     private final Driver driver;
 
-<span class="nc" id="L37">    protected OSIPSerializer(Driver driver) {</span>
-<span class="nc" id="L38">        this.driver = driver;</span>
-<span class="nc" id="L39">    }</span>
+<span class="fc" id="L37">    protected OSIPSerializer(Driver driver) {</span>
+<span class="fc" id="L38">        this.driver = driver;</span>
+<span class="fc" id="L39">    }</span>
 
     /**
      * Subclasses have to return an unique, case-sensitive message identifier.
@@ -75,16 +75,16 @@ public abstract class OSIPSerializer&lt;T extends Payload&gt; {
      * @return The telegram type as case-insensitive String
      */
     public static String getTelegramType(String telegram) {
-<span class="nc bnc" id="L78" title="All 4 branches missed.">        if (telegram == null || telegram.length() &lt; LENGTH_HEADER) {</span>
+<span class="pc bpc" id="L78" title="2 of 4 branches missed.">        if (telegram == null || telegram.length() &lt; LENGTH_HEADER) {</span>
 <span class="nc" id="L79">            throw new MessageMismatchException(&quot;Received an invalid OSIP telegram type&quot;);</span>
         }
-<span class="nc" id="L81">        return telegram.substring(LENGTH_HEADER, LENGTH_HEADER + Payload.MESSAGE_IDENTIFIER_LENGTH);</span>
+<span class="fc" id="L81">        return telegram.substring(LENGTH_HEADER, LENGTH_HEADER + Payload.MESSAGE_IDENTIFIER_LENGTH);</span>
     }
 
     protected abstract String convert(T message);
 
     protected Driver getDriver() {
-<span class="nc" id="L87">        return driver;</span>
+<span class="fc" id="L87">        return driver;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

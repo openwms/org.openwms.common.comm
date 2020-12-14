@@ -37,9 +37,9 @@ import static org.ameba.LoggingCategories.BOOT;
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration
-<span class="nc" id="L40">class AsynchronousConfiguration {</span>
+<span class="fc" id="L40">class AsynchronousConfiguration {</span>
 
-<span class="nc" id="L42">    private static final Logger BOOT_LOGGER = LoggerFactory.getLogger(BOOT);</span>
+<span class="fc" id="L42">    private static final Logger BOOT_LOGGER = LoggerFactory.getLogger(BOOT);</span>
 
     @Bean
     @OSIP
@@ -49,9 +49,9 @@ import static org.ameba.LoggingCategories.BOOT;
             @Value(&quot;${owms.driver.osip.res.exchange-name}&quot;) String exchangeMapping,
             @Value(&quot;${owms.driver.osip.res.routing-key-in}&quot;) String routingKey
     ) {
-<span class="nc" id="L52">        Map&lt;String, Integer&gt; res = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L53">        BOOT_LOGGER.info(&quot;In ASYNCHRONOUS mode. OSIP RES bound to Queue [{}], Exchange [{}] and using Routing Key [{}]&quot;, queueName, exchangeMapping, routingKey);</span>
-<span class="nc" id="L54">        return res;</span>
+<span class="fc" id="L52">        Map&lt;String, Integer&gt; res = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L53">        BOOT_LOGGER.info(&quot;In ASYNCHRONOUS mode. OSIP RES bound to Queue [{}], Exchange [{}] and using Routing Key [{}]&quot;, queueName, exchangeMapping, routingKey);</span>
+<span class="fc" id="L54">        return res;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

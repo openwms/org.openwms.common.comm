@@ -36,24 +36,24 @@ import org.springframework.messaging.MessageChannel;
  */
 @OSIP
 @Configuration
-<span class="nc" id="L39">class ErrorMessageConfiguration {</span>
+<span class="fc" id="L39">class ErrorMessageConfiguration {</span>
 
     @Bean(name = ErrorMessageServiceActivator.INPUT_CHANNEL_NAME)
     public MessageChannel getMessageChannel() {
-<span class="nc" id="L43">        return new DirectChannel();</span>
+<span class="fc" id="L43">        return new DirectChannel();</span>
     }
 
     @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
     @Bean
     TopicExchange errExchange(
             @Value(&quot;${owms.driver.osip.err.exchange-name}&quot;) String exchangeName) {
-<span class="nc" id="L50">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="fc" id="L50">        return new TopicExchange(exchangeName, true, false);</span>
     }
 
     @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
     @Bean
     Queue errQueue(@Value(&quot;${owms.driver.osip.err.queue-name}&quot;) String queueName) {
-<span class="nc" id="L56">        return new Queue(queueName);</span>
+<span class="fc" id="L56">        return new Queue(queueName);</span>
     }
 
     @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
@@ -63,10 +63,10 @@ import org.springframework.messaging.MessageChannel;
             Queue errQueue,
             @Value(&quot;${owms.driver.osip.err.routing-key-in}&quot;) String routingKey
     ) {
-<span class="nc" id="L66">        return BindingBuilder</span>
-<span class="nc" id="L67">                .bind(errQueue)</span>
-<span class="nc" id="L68">                .to(errExchange)</span>
-<span class="nc" id="L69">                .with(routingKey);</span>
+<span class="fc" id="L66">        return BindingBuilder</span>
+<span class="fc" id="L67">                .bind(errQueue)</span>
+<span class="fc" id="L68">                .to(errExchange)</span>
+<span class="fc" id="L69">                .with(routingKey);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

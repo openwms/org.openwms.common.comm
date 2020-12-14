@@ -48,22 +48,22 @@ import static java.lang.String.format;
  */
 public class TelegramTransformer&lt;T&gt; implements Transformable&lt;T&gt; {
 
-<span class="nc" id="L51">    private static final Logger LOGGER = LoggerFactory.getLogger(TelegramTransformer.class);</span>
+<span class="fc" id="L51">    private static final Logger LOGGER = LoggerFactory.getLogger(TelegramTransformer.class);</span>
     private final List&lt;TelegramDeserializer&lt;T&gt;&gt; deserializers;
     private Map&lt;String, TelegramDeserializer&lt;T&gt;&gt; deserializersMap;
 
-<span class="nc" id="L55">    public TelegramTransformer(@Autowired(required = false) List&lt;TelegramDeserializer&lt;T&gt;&gt; deserializers) {</span>
-<span class="nc" id="L56">        this.deserializers = deserializers;</span>
-<span class="nc" id="L57">    }</span>
+<span class="fc" id="L55">    public TelegramTransformer(@Autowired(required = false) List&lt;TelegramDeserializer&lt;T&gt;&gt; deserializers) {</span>
+<span class="fc" id="L56">        this.deserializers = deserializers;</span>
+<span class="fc" id="L57">    }</span>
 
     @PostConstruct
     void onPostConstruct() {
-<span class="nc bnc" id="L61" title="All 2 branches missed.">        deserializersMap = deserializers == null ?</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        deserializersMap = deserializers == null ?</span>
 <span class="nc" id="L62">                Collections.emptyMap() :</span>
                 deserializers
-<span class="nc" id="L64">                        .stream()</span>
-<span class="nc" id="L65">                        .collect(Collectors.toMap(TelegramDeserializer::forType, m -&gt; m));</span>
-<span class="nc" id="L66">    }</span>
+<span class="fc" id="L64">                        .stream()</span>
+<span class="fc" id="L65">                        .collect(Collectors.toMap(TelegramDeserializer::forType, m -&gt; m));</span>
+<span class="fc" id="L66">    }</span>
 
     /**
      * Transformer method to transform a telegram String {@code telegram} into a {@link Payload}.
@@ -75,19 +75,19 @@ public class TelegramTransformer&lt;T&gt; implements Transformable&lt;T&gt; {
     @Transformer
     @Override
     public Message&lt;T&gt; transform(String telegram, @Headers Map&lt;String, Object&gt; headers) {
-<span class="nc bnc" id="L78" title="All 4 branches missed.">        if (telegram == null || telegram.isEmpty()) {</span>
+<span class="pc bpc" id="L78" title="2 of 4 branches missed.">        if (telegram == null || telegram.isEmpty()) {</span>
 <span class="nc bnc" id="L79" title="All 2 branches missed.">            if (LOGGER.isInfoEnabled()) {</span>
 <span class="nc" id="L80">                LOGGER.info(&quot;Received telegram was null or of length == 0, just skip&quot;);</span>
             }
 <span class="nc" id="L82">            return null;</span>
         }
-<span class="nc" id="L84">        String telegramType = OSIPSerializer.getTelegramType(telegram);</span>
-<span class="nc" id="L85">        MDC.put(CommConstants.LOG_TELEGRAM_TYPE, telegramType);</span>
-<span class="nc" id="L86">        TelegramDeserializer&lt;T&gt; deserializer = deserializersMap.get(telegramType);</span>
-<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (deserializer == null) {</span>
+<span class="fc" id="L84">        String telegramType = OSIPSerializer.getTelegramType(telegram);</span>
+<span class="fc" id="L85">        MDC.put(CommConstants.LOG_TELEGRAM_TYPE, telegramType);</span>
+<span class="fc" id="L86">        TelegramDeserializer&lt;T&gt; deserializer = deserializersMap.get(telegramType);</span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if (deserializer == null) {</span>
 <span class="nc" id="L88">            throw new MessageMismatchException(format(&quot;No deserializer found for telegram type [%s]. Is that type supported?&quot;, telegramType));</span>
         }
-<span class="nc" id="L90">        return deserializer.deserialize(telegram, headers);</span>
+<span class="fc" id="L90">        return deserializer.deserialize(telegram, headers);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

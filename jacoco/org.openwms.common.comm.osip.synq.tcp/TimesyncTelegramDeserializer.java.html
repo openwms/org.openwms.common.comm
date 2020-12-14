@@ -44,13 +44,13 @@ import static org.openwms.common.comm.osip.Payload.DATE_LENGTH;
 @OSIPComponent
 class TimesyncTelegramDeserializer implements TelegramDeserializer&lt;TimesyncRequest&gt; {
 
-<span class="nc" id="L47">    private static final Logger LOGGER = LoggerFactory.getLogger(TimesyncTelegramDeserializer.class);</span>
-<span class="nc" id="L48">    private static final Logger TELEGRAM_LOGGER = LoggerFactory.getLogger(CommConstants.CORE_INTEGRATION_MESSAGING);</span>
+<span class="fc" id="L47">    private static final Logger LOGGER = LoggerFactory.getLogger(TimesyncTelegramDeserializer.class);</span>
+<span class="fc" id="L48">    private static final Logger TELEGRAM_LOGGER = LoggerFactory.getLogger(CommConstants.CORE_INTEGRATION_MESSAGING);</span>
     private final Driver driver;
 
-<span class="nc" id="L51">    TimesyncTelegramDeserializer(Driver driver) {</span>
-<span class="nc" id="L52">        this.driver = driver;</span>
-<span class="nc" id="L53">    }</span>
+<span class="fc" id="L51">    TimesyncTelegramDeserializer(Driver driver) {</span>
+<span class="fc" id="L52">        this.driver = driver;</span>
+<span class="fc" id="L53">    }</span>
 
     /**
      * {@inheritDoc}
@@ -89,7 +89,7 @@ class TimesyncTelegramDeserializer implements TelegramDeserializer&lt;TimesyncRe
      */
     @Override
     public String forType() {
-<span class="nc" id="L92">        return TimesyncRequest.IDENTIFIER;</span>
+<span class="fc" id="L92">        return TimesyncRequest.IDENTIFIER;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

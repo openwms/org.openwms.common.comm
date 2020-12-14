@@ -49,8 +49,8 @@ public class GenericMessage&lt;T&gt; implements Message&lt;T&gt;, Serializable {
      * @param payload the message payload (never {@code null})
      */
     public GenericMessage(T payload) {
-<span class="nc" id="L52">        this(payload, new MessageHeaders(null));</span>
-<span class="nc" id="L53">    }</span>
+<span class="fc" id="L52">        this(payload, new MessageHeaders(null));</span>
+<span class="fc" id="L53">    }</span>
 
     /**
      * Create a new message with the given payload and headers.
@@ -60,8 +60,8 @@ public class GenericMessage&lt;T&gt; implements Message&lt;T&gt;, Serializable {
      */
     @JsonCreator
     public GenericMessage(@JsonProperty(&quot;payload&quot;) T payload, @JsonProperty(&quot;headers&quot;) Map&lt;String, Object&gt; headers) {
-<span class="nc" id="L63">        this(payload, new MessageHeaders(headers));</span>
-<span class="nc" id="L64">    }</span>
+<span class="fc" id="L63">        this(payload, new MessageHeaders(headers));</span>
+<span class="fc" id="L64">    }</span>
 
     /**
      * A constructor with the {@link MessageHeaders} instance to use.
@@ -70,20 +70,20 @@ public class GenericMessage&lt;T&gt; implements Message&lt;T&gt;, Serializable {
      * @param payload the message payload (never {@code null})
      * @param headers message headers
      */
-<span class="nc" id="L73">    public GenericMessage(T payload, MessageHeaders headers) {</span>
-<span class="nc" id="L74">        Assert.notNull(payload, &quot;Payload must not be null&quot;);</span>
-<span class="nc" id="L75">        Assert.notNull(headers, &quot;MessageHeaders must not be null&quot;);</span>
-<span class="nc" id="L76">        this.payload = payload;</span>
-<span class="nc" id="L77">        this.headers = headers;</span>
-<span class="nc" id="L78">    }</span>
+<span class="fc" id="L73">    public GenericMessage(T payload, MessageHeaders headers) {</span>
+<span class="fc" id="L74">        Assert.notNull(payload, &quot;Payload must not be null&quot;);</span>
+<span class="fc" id="L75">        Assert.notNull(headers, &quot;MessageHeaders must not be null&quot;);</span>
+<span class="fc" id="L76">        this.payload = payload;</span>
+<span class="fc" id="L77">        this.headers = headers;</span>
+<span class="fc" id="L78">    }</span>
 
 
     public T getPayload() {
-<span class="nc" id="L82">        return this.payload;</span>
+<span class="fc" id="L82">        return this.payload;</span>
     }
 
     public MessageHeaders getHeaders() {
-<span class="nc" id="L86">        return this.headers;</span>
+<span class="fc" id="L86">        return this.headers;</span>
     }
 
 
@@ -105,16 +105,16 @@ public class GenericMessage&lt;T&gt; implements Message&lt;T&gt;, Serializable {
     }
 
     public String toString() {
-<span class="nc" id="L108">        StringBuilder sb = new StringBuilder(getClass().getSimpleName());</span>
-<span class="nc" id="L109">        sb.append(&quot; [payload=&quot;);</span>
-<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (this.payload instanceof byte[]) {</span>
+<span class="fc" id="L108">        StringBuilder sb = new StringBuilder(getClass().getSimpleName());</span>
+<span class="fc" id="L109">        sb.append(&quot; [payload=&quot;);</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">        if (this.payload instanceof byte[]) {</span>
 <span class="nc" id="L111">            sb.append(&quot;byte[&quot;).append(((byte[]) this.payload).length).append(&quot;]&quot;);</span>
         }
         else {
-<span class="nc" id="L114">            sb.append(this.payload);</span>
+<span class="fc" id="L114">            sb.append(this.payload);</span>
         }
-<span class="nc" id="L116">        sb.append(&quot;, headers=&quot;).append(this.headers).append(&quot;]&quot;);</span>
-<span class="nc" id="L117">        return sb.toString();</span>
+<span class="fc" id="L116">        sb.append(&quot;, headers=&quot;).append(this.headers).append(&quot;]&quot;);</span>
+<span class="fc" id="L117">        return sb.toString();</span>
     }
 
 }
