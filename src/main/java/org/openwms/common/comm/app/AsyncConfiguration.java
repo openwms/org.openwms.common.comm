@@ -15,14 +15,13 @@
  */
 package org.openwms.common.comm.app;
 
-import org.ameba.tenancy.TenantHolder;
-import org.openwms.common.comm.osip.OSIPHeader;
 import org.openwms.core.SpringProfiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
@@ -32,6 +31,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.amqp.support.converter.SerializerMessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
@@ -80,7 +80,8 @@ class AsyncConfiguration {
     }
 
     @Bean
-    RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, MessageConverter messageConverter) {
+    RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, MessageConverter messageConverter,
+            @Autowired(required = false) MessagePostProcessor... messagePostProcessors) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
 
         ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();
@@ -93,12 +94,9 @@ class AsyncConfiguration {
         rabbitTemplate.setRetryTemplate(retryTemplate);
 
         rabbitTemplate.setMessageConverter(messageConverter);
-        rabbitTemplate.setBeforePublishPostProcessors(
-                m -> {
-                    m.getMessageProperties().getHeaders().put(OSIPHeader.TENANT_FIELD_NAME, TenantHolder.getCurrentTenant());
-                    return m;
-                }
-        );
+        if (messagePostProcessors != null) {
+            rabbitTemplate.setBeforePublishPostProcessors(messagePostProcessors);
+        }
         return rabbitTemplate;
     }
 

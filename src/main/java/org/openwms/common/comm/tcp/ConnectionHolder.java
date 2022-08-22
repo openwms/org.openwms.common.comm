@@ -40,9 +40,8 @@ import static org.openwms.common.comm.CommConstants.PREFIX_CONNECTION_FACTORY;
 import static org.openwms.common.comm.CommConstants.SUFFIX_OUTBOUND;
 
 /**
- * A ConnectionHolder keeps track of established connections per ConnectionFactory. It
- * listens on events whenever a new Connection is opened and stores the ConnectionId
- * that can be used as header argument in outbound messages.
+ * A ConnectionHolder keeps track of established connections per ConnectionFactory. It listens on events whenever a new Connection is opened
+ * and stores the ConnectionId that can be used as header argument in outbound messages.
  *
  * @author Heiko Scherrer
  */
@@ -63,8 +62,7 @@ public class ConnectionHolder {
     }
 
     /**
-     * On an {@link TcpConnectionOpenEvent} we store the connectionId along with the name
-     * of the ConnectionFactory.
+     * On an {@link TcpConnectionOpenEvent} we store the connectionId along with the name of the ConnectionFactory.
      *
      * @param event The event
      */
@@ -118,8 +116,7 @@ public class ConnectionHolder {
     }
 
     /**
-     * Return the current active connectionId for the ConnectionFactory given by the
-     * {@code connectionFactoryName}.
+     * Return the current active connectionId for the ConnectionFactory given by the {@code connectionFactoryName}.
      *
      * @param connectionFactoryName Name of the ConnectionFactory
      * @return The connectionId of the active Connection

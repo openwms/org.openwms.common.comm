@@ -66,6 +66,8 @@
 
     <properties>
         <commons-configuration.version>1.10</commons-configuration.version>
+        <comm.lib.version>1.0.0-SNAPSHOT</comm.lib.version>
+        <comm.osip.version>1.0.0-SNAPSHOT</comm.osip.version>
         <core.version>2.0.0-SNAPSHOT</core.version>
         <guava.version>30.0-jre</guava.version>
         <servo-core.version>0.12.21</servo-core.version>
@@ -151,6 +153,16 @@
                 <version>${core.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.openwms</groupId>
+                <artifactId>org.openwms.common.comm.lib</artifactId>
+                <version>${comm.lib.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openwms</groupId>
+                <artifactId>org.openwms.common.comm.osip</artifactId>
+                <version>${comm.osip.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud-dependencies.version}</version>
@@ -165,6 +177,14 @@
         <dependency>
             <groupId>org.openwms</groupId>
             <artifactId>org.openwms.core.util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openwms</groupId>
+            <artifactId>org.openwms.common.comm.lib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openwms</groupId>
+            <artifactId>org.openwms.common.comm.osip</artifactId>
         </dependency>
 
         <!-- Spring Dependencies -->

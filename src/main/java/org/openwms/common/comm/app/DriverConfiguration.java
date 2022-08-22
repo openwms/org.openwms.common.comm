@@ -15,8 +15,7 @@
  */
 package org.openwms.common.comm.app;
 
-import org.openwms.common.comm.Channels;
-import org.openwms.common.comm.ConfigurationException;
+import org.openwms.common.comm.TelegramResolver;
 import org.openwms.common.comm.config.Connections;
 import org.openwms.common.comm.config.Subsystem;
 import org.openwms.common.comm.tcp.TelegramDeserializer;
@@ -535,8 +534,8 @@ public class DriverConfiguration implements ApplicationEventPublisherAware {
 
     @Bean
     @ConditionalOnMissingBean(Transformable.class)
-    Transformable telegramTransformer(List<TelegramDeserializer> deserializers) {
-        return new TelegramTransformer(deserializers);
+    Transformable telegramTransformer(List<TelegramDeserializer> deserializers, TelegramResolver telegramResolver) {
+        return new TelegramTransformer(telegramResolver, deserializers);
     }
 
     /*~ -------------------- Flows ----------------- */

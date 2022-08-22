@@ -16,7 +16,6 @@
 package org.openwms.common.comm;
 
 import org.ameba.annotation.EnableAspects;
-import org.ameba.app.SolutionApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -26,7 +25,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  *
  * @author Heiko Scherrer
  */
-@SpringBootApplication(scanBasePackageClasses = {DriverStarter.class, SolutionApp.class})
+@SpringBootApplication//(scanBasePackages = {"org.openwms.common.comm", "org.openwms.common.comm.osip"})
 @EnableConfigurationProperties
 @EnableAspects
 public class DriverStarter {

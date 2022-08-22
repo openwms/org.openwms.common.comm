@@ -15,8 +15,6 @@
  */
 package org.openwms.common.comm.transformer;
 
-import org.openwms.common.comm.MessageMismatchException;
-import org.openwms.common.comm.osip.Payload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.integration.annotation.MessageEndpoint;
@@ -41,8 +39,7 @@ public class MessageTransformer<T> {
      *
      * @param message The incoming message
      * @param headers The message headers
-     * @return The {@link Payload} is transformable
-     * @throws MessageMismatchException if no appropriate type was found.
+     * @return The {@code Payload} is transformable
      */
     @Transformer
     public Message<T> transform(Message<T> message, @Headers Map<String, Object> headers) {

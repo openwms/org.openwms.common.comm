@@ -20,8 +20,7 @@ import org.springframework.messaging.Message;
 import java.util.Map;
 
 /**
- * A TelegramDeserializer is able to deserialize an incoming telegram String to a known
- * type of {@link Message}.
+ * A TelegramDeserializer is able to deserialize an incoming telegram String to a known type of {@link Message}.
  *
  * @author Heiko Scherrer
  * @see Message
