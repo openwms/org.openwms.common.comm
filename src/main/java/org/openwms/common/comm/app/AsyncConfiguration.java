@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2020 the original author or authors.
+ * Copyright 2005-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,17 +58,15 @@ class AsyncConfiguration {
     @ConditionalOnExpression("'${owms.driver.serialization}'=='json'")
     @Bean
     MessageConverter messageConverter() {
-        Jackson2JsonMessageConverter messageConverter = new Jackson2JsonMessageConverter();
         BOOT_LOGGER.info("Using JSON serialization over AMQP");
-        return messageConverter;
+        return new Jackson2JsonMessageConverter();
     }
 
     @ConditionalOnExpression("'${owms.driver.serialization}'=='barray'")
     @Bean
     MessageConverter serializerMessageConverter() {
-        SerializerMessageConverter messageConverter = new SerializerMessageConverter();
         BOOT_LOGGER.info("Using byte array serialization over AMQP");
-        return messageConverter;
+        return new SerializerMessageConverter();
     }
 
     @Bean
@@ -82,14 +80,14 @@ class AsyncConfiguration {
     @Bean
     RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, MessageConverter messageConverter,
             @Autowired(required = false) MessagePostProcessor... messagePostProcessors) {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        var rabbitTemplate = new RabbitTemplate(connectionFactory);
 
-        ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();
+        var backOffPolicy = new ExponentialBackOffPolicy();
         backOffPolicy.setMultiplier(2);
         backOffPolicy.setMaxInterval(15000);
         backOffPolicy.setInitialInterval(500);
 
-        RetryTemplate retryTemplate = new RetryTemplate();
+        var retryTemplate = new RetryTemplate();
         retryTemplate.setBackOffPolicy(backOffPolicy);
         rabbitTemplate.setRetryTemplate(retryTemplate);
 

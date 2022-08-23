@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2020 the original author or authors.
+ * Copyright 2005-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,19 +23,21 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * A AppConfiguration is a Spring configuration class used when no ASYNCHRONOUS profile is active and synchronous RESTful communication
- * is used.
+ * A SynchronousConfiguration is a Spring configuration class used when NO ASYNCHRONOUS profile is active and synchronous RESTful
+ * communication is used instead.
  *
  * @author Heiko Scherrer
+ * @deprecated use ameba-lib instead
  */
+@Deprecated
 @Profile("!"+ SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration
-class AppConfiguration {
+class SynchronousConfiguration {
 
     @LoadBalanced
     @Bean
     RestTemplate aLoadBalanced() {
-        RestTemplate restTemplate = new RestTemplate();
+        var restTemplate = new RestTemplate();
         restTemplate.getInterceptors().add(new RestTemplateInterceptor());
         return restTemplate;
     }

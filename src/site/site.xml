@@ -31,7 +31,6 @@
     <body>
         <menu name="Documentation">
             <item name="Home" href="index.html" />
-            <item name="OSIP" href="https://interface21-io.gitbook.io/osip/" />
             <item name="Wiki" href="https://wiki.butan092.startdedicated.de/projects/common-osip-tcp-slash-ip-driver/wiki/main-page" />
             <item name="Javadoc" href="apidocs/index.html" />
             <item name="Sonarcloud" href="https://sonarcloud.io/dashboard?id=org.openwms:${project.artifactId}" />

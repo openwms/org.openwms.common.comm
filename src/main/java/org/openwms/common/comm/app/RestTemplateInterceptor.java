@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2020 the original author or authors.
+ * Copyright 2005-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,12 +28,14 @@ import java.io.IOException;
  * A RestTemplateInterceptor adds the meta information to outgoing HTTP request headers, like the Tenant ID.
  *
  * @author Heiko Scherrer
+ * @deprecated use ameba-lib instead
  */
+@Deprecated
 class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        ClientHttpResponse response = execution.execute(request, body);
+        var response = execution.execute(request, body);
         response.getHeaders().add(Constants.HEADER_VALUE_X_TENANT, TenantHolder.getCurrentTenant());
         return response;
     }
