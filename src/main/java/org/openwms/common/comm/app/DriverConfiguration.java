@@ -16,6 +16,7 @@
 package org.openwms.common.comm.app;
 
 import org.ameba.annotation.EnableAspects;
+import org.ameba.http.identity.EnableIdentityAwareness;
 import org.openwms.common.comm.TelegramResolver;
 import org.openwms.common.comm.config.Connections;
 import org.openwms.common.comm.config.Subsystem;
@@ -77,8 +78,9 @@ import static org.openwms.common.comm.CommConstants.SUFFIX_OUTBOUND;
 @Configuration
 @EnableConfigurationProperties
 @EnableAspects
-@IntegrationComponentScan
+@EnableIdentityAwareness
 @EnableIntegration
+@IntegrationComponentScan
 public class DriverConfiguration implements ApplicationEventPublisherAware {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DriverConfiguration.class);
