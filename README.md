@@ -1,13 +1,15 @@
 # Purpose
 
-This standalone and runnable Spring Boot application is an implementation of the [OSIP specification](https://interface21-io.gitbook.io/osip/)
-that communicates with the subsystems, like a PLC or a Raspberry Pi, using the OSIP TCP/IP message format.
-This kind of subsystems lack of resources and do not provide a higher level protocol on top of TCP/IP.
-The implementation is aware of multiple tenants (e.g. projects) and may run in the cloud with different
-port settings.
-Note: Instantiating multiple instances of the driver component with same port settings is not possible.
-Each instance must have its own configuration, in particular its own TCP/IP port settings. A project
-(tenant) may have multiple drivers deployed, all running on different ports.
+This standalone and runnable Spring Boot application communicates with automation subsystems, like a PLC or a Raspberry Pi. This kind of
+subsystems lack of resources and do most often not provide a higher level protocol on top of TCP/IP. Nowadays PLC do also support protocols
+like MQTT, but this is used rarely.
+
+In essence this module consists of Spring configuration to bootstrap the driver component in different configured flavors (see below). It is
+aware of multiple tenants (i.e. clients) and might run in the cloud with many instances and different configurations.
+
+Note: Instantiating multiple instances of the driver component with same port settings on the same hosting machine is not possible, each
+driver instance blocks one TCP/IP socket (host/port) like configured in custom configuration. Each instance must have its own configuration,
+in particular its own TCP/IP port settings. A project (tenant) may have multiple drivers deployed, all running on different ports.
 
 # Resources
 Find further documentation in the [Wiki](https://wiki.butan092.startdedicated.de/projects/common-osip-tcp-slash-ip-driver/wiki/main-page)
@@ -20,22 +22,16 @@ Find further documentation in the [Wiki](https://wiki.butan092.startdedicated.de
 [![Join the chat at https://gitter.im/openwms/org.openwms](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/openwms/org.openwms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # Operation Modes
-
-A driver instance can be started in different operation modes: **Simplex** or **Duplex**
-communication with either **Client** or **Server** connection mode. All four can be arbitrary combined.
+A driver instance can be started in different operation modes: **Simplex** or **Duplex** communication with either **Client** or **Server**
+connection mode. All four can be combined in an arbitrary way.
 
 ## Simplex Communication
+In the simplex communication mode a client application connects to the driver with one socket for inbound and a seperate socket for the
+outbound communication. Sending and receiving messages is handled through separated and dedicated socket connections.
 
-Simplex communication means a client application connecting to the driver uses one socket
-for inbound communication and another socket for the outbound. So sending and receiving
-messages is handled through separated and dedicated socket connections.
-
-With the simplex communication mode the inbound communication is configured differently as
-the outbound communication. This way the driver creates two separate `ConnectionFactories`,
-one for inbound and one for outbound. Each socket can be configured either in **Client**
-or **Server** mode. A _Client_ configured Socket tries to connect to a listening server
-whereas configured as _Server_ the driver opens a socket itself and listens for incoming
-connections. 
+With the simplex communication mode the inbound and outbound communication modes are configured differently. By this the driver creates two
+separate `ConnectionFactories`, one for inbound and one for outbound. Each socket can be configured either in **Client** or **Server** mode.
+A _Client_ configured socket tries to connect to a listening server whereas the driver opens a listening socket when configured as _Server_. 
 
 A typical simplex configuration looks like:
 ```
@@ -57,16 +53,12 @@ owms:
             identified-by-value: "SPS01"
 ```
 
-Each communication direction is configured with a different port setting and with _mode_
-set to _server_ and _client_. To correlate outbound messages with previously received
-ones, the _identified-by-*_ fields are used.
+Each communication direction is configured with a different port setting and with _mode_ set to _server_ or _client_. To correlate outbound
+messages with previously received ones, the _identified-by-*_ fields are used.
 
 ## Duplex Communication
-
-In contrast to simplex connections the driver instance can also be configured for
-bidirectional duplex mode where only one socket is used for inbound and outbound
-communication. Instead of configuring _inbound_ or _outbound_ only one _duplex_ configuration
-must be present. 
+In contrast to simplex connection the driver instance can also be configured for bidirectional (duplex) mode where only one socket is used
+for inbound and outbound communication. Instead of configuring _inbound_ or _outbound_ only one _duplex_ configuration is required. 
 
 ```
 owms:
@@ -85,34 +77,31 @@ owms:
 ```
 
 # Architecture
+The module uses a couple of well known Enterprise Integration Patterns ([EIP](http://www.enterpriseintegrationpatterns.com)), like _Router_,
+_Transformer_ or the _Enricher_. For that reason [Spring Integration](https://projects.spring.io/spring-integration) is used as supporting 
+integration framework. Additionally, this is a very convenient and flexible way to adopt new transport channels beside TCP/IP.
 
-The module uses a couple of the well known Enterprise Integration Patterns ([EIP](http://www.enterpriseintegrationpatterns.com)), like a Router, Transformer or an Enricher. For that reason
-[Spring Integration](https://projects.spring.io/spring-integration) is used as integration framework. In addition this is a very convenient and flexible way to adopt new transport channels
-beside TCP/IP.
+The overall integration architecture is shown below. The entry point is the `inboundAdapter` that is connected to a `TcpNetServerConnectionFactory`
+(not shown) and forwards incoming messages (synonym telegrams) to the `inboundChannel`. A first transformer (`telegramTransformer`)
+terminates the ASCII string and converts it into a Spring [Message](http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/messaging/Message.html).
+This is done with support of the appropriate `MessageMapper` that must exist for each telegram type. After the telegram is transformed into
+a valid message type the generic _messageRouter_ picks up the right queue and activates the proper `ServiceActivator`.
 
-The overall integration architecture is shown below. The entry point is the `inboundAdapter` that is connected to a `TcpNetServerConnectionFactory` (not shown) and forwards incoming telegrams
-to the `inboundChannel`. A first transformer (`telegramTransformer`) terminates the ASCII string and converts into a Spring [Message](http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/messaging/Message.html).
-This is done with support of the appropriate `MessageMapper` that must exist for each telegram type. For instance the [TimesyncTelegramMapper](src/main/java/org/openwms/common/comm/osip/synq/tcp/TimesyncTelegramMapper.java) knows best
-how to transform a String into a [TimesyncRequest](src/main/java/org/openwms/common/comm/osip/synq/TimesyncRequest.java). After the telegram is transformed into a valid message type the generic 
-[`messageRouter`](src/main/java/org/openwms/common/comm/router/CommonMessageRouter.java) picks up the right queue and activates the proper `ServiceActivator`. Notice that the service activators
-queue name is built on the fly and follows a naming convention. This is one aspect to support requirements NR003.
+Notice that the service activators queue name is built on the fly and follows a naming convention. This is one aspect to support requirement
+NR003.
 
 ![Architecture][4]
 
 # Deployment
-
-The TCP/IP driver can run completely independent of cloud infrastructure services. This
-could be the appropriate deployment model during development or for small projects where
-no central infrastructure services are required. In a larger project setup with lots of
-subsystems and where the driver component is instantiated multiple times it makes sense to
-keep configuration on a central config server, this is where [OpenWMS.org Configuration](https://github.com/spring-labs/org.openwms.configuration)
-comes into play.
+The TCP/IP driver can run on locally, completely independent of cloud infrastructure services. The local setup is the appropriate deployment
+model during development or for small projects where no central infrastructure services are required. In a larger project setup with lots of
+subsystems and where the driver component is instantiated multiple times it makes sense to keep configuration on a central config server,
+this is where [OpenWMS.org Configuration](https://github.com/spring-labs/org.openwms.configuration) comes into play and requires to run in a
+distributed environment.
 
 ## Standalone Deployment
-
-As said all required configuration must be passed at startup time because no
-infrastructure services are required to access. Without any configuration the driver is
-started with the provided default configuration that is suitable for one driver instance:
+As already mentioned, all required configuration must be passed at startup time because no infrastructure services are required to access.
+Without any configuration the driver is started with the provided default configuration that is suitable for one driver instance:
 
 ```yaml
 owms:
@@ -123,18 +112,17 @@ owms:
 
 Property | Description
 -------- | ---
-owms.driver.server.port | The unique port number the driver receives connections on. Multiple driver instances must have different port numbers.
+owms.driver.server.port | The unique port number the driver receives connections on. Multiple driver instances must have different portnumbers.
 
-In case you want to override the port number on startup just set the environment variable
-accordingly. In the following example 2 drivers are started, with different ports.
+In case you want to override the port number or other default configs at startup just set the environment variables accordingly. In the
+following example 2 drivers are instantiated, with different ports.
 
 ```
 $ java -Dowms.driver.server.port=30001 -jar tcpip-driver-exec.jar
 $ java -Dowms.driver.server.port=30002 -jar tcpip-driver-exec.jar
 ```
 
-Afterwards simply send a OSIP SYNQ telegram to driver with port 30001 to get a response
-telegram:
+One could simply send an OSIP SYNQ telegram to the driver with port 30001 to get a response telegram:
 
 ```
 $ telnet localhost 30001
@@ -148,7 +136,6 @@ The first telegram string (SYNQ) is sent to the driver, whereas the driver respo
 SYNC telegram to synchronize the current system time.
 
 ## Distributed Deployment
-
 In case of multiple driver components and lots of microservices it makes sense to keep
 service configuration at a central place and the [OpenWMS.org Configuration](https://github.com/spring-labs/org.openwms.configuration)
 server is the right choice. This infrastructure service takes the configuration of each
