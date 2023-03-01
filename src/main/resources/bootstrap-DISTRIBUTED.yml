@@ -14,3 +14,10 @@ spring:
       fail-fast: true # true means retry
     discovery:
       enabled: true
+
+eureka:
+  instance:
+    statusPageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${owms.driver.connections.port-rest}/actuator/info
+    healthCheckUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${owms.driver.connections.port-rest}/actuator/health
+    homePageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${owms.driver.connections.port-rest}/
+
