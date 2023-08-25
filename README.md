@@ -1,18 +1,17 @@
 # Purpose
-
-This standalone and runnable Spring Boot application communicates with automation subsystems, like a PLC or a Raspberry Pi. This kind of
-subsystems lack of resources and do most often not provide a higher level protocol on top of TCP/IP. Nowadays PLC do also support protocols
+This standalone and runnable Spring Boot application communicates with automation subsystems, like a PLC or a Raspberry Pi. These kind of
+subsystems lack of resources and do most often not provide a higher level protocol on top of TCP/IP. Nowadays, PLC do also support protocols
 like MQTT, but this is used rarely.
 
 In essence this module consists of Spring configuration to bootstrap the driver component in different configured flavors (see below). It is
-aware of multiple tenants (i.e. clients) and might run in the cloud with many instances and different configurations.
+aware of multiple tenants (i.e. clients) and might run in the cloud with multiple instances and different configurations.
 
 Note: Instantiating multiple instances of the driver component with same port settings on the same hosting machine is not possible, each
 driver instance blocks one TCP/IP socket (host/port) like configured in custom configuration. Each instance must have its own configuration,
 in particular its own TCP/IP port settings. A project (tenant) may have multiple drivers deployed, all running on different ports.
 
 # Resources
-Find further documentation in the [Wiki](https://wiki.butan092.startdedicated.de/projects/common-osip-tcp-slash-ip-driver/wiki/main-page)
+Find further documentation in the [Wiki](https://wiki.butan092.startdedicated.de/projects/common-tcp-slash-ip-driver/wiki)
 
 [![Build status](https://github.com/openwms/org.openwms.common.comm/actions/workflows/master-build.yml/badge.svg)](https://github.com/openwms/org.openwms.common.comm/actions/workflows/master-build.yml)
 [![Quality](https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.common.comm&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.common.comm)

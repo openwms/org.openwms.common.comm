@@ -19,6 +19,7 @@
     <logger name="org.ameba" level="WARN"/>
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.springframework.integration" level="WARN"/>
+    <logger name="org.springframework.web.client.ResourceAccessException" level="ERROR"/>
     <logger name="org.openwms" level="INFO"/>
 
     <logger name="CORE_INTEGRATION_MESSAGING" level="INFO"/>
