@@ -27,10 +27,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v1
         with:
-          java-version: 17
+          java-version: 21
       - name: Cache SonarQube packages
         uses: actions/cache@v1
         with:
@@ -59,9 +59,9 @@ jobs:
           -Dscmpublish.pubScmUrl=scm:git:https://openwms:$PUSHKEY@github.com/openwms/org.openwms.common.comm.git
           -DdeveloperConnectionUrl=scm:git:https://openwms:$PUSHKEY@github.com/openwms/org.openwms.common.comm.git
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
-          -B $MAVEN_OPTS
+          -Prelease,coverage -B $MAVEN_OPTS
         env:
-          PUSHKEY: ${{ secrets.PUSHKEY }}
+          PUSHKEY: ${{ secrets.GITHUB_TOKEN }}
       - name: Sonar
         run: >
           ./mvnw clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar

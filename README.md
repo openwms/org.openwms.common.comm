@@ -11,7 +11,7 @@ driver instance blocks one TCP/IP socket (host/port) like configured in custom c
 in particular its own TCP/IP port settings. A project (tenant) may have multiple drivers deployed, all running on different ports.
 
 # Resources
-Find further documentation in the [Wiki](https://wiki.butan092.startdedicated.de/projects/common-tcp-slash-ip-driver/wiki)
+Find further documentation in the [Wiki](https://wiki.openwms.cloud/projects/common-tcp-slash-ip-driver/wiki)
 
 [![Build status](https://github.com/openwms/org.openwms.common.comm/actions/workflows/master-build.yml/badge.svg)](https://github.com/openwms/org.openwms.common.comm/actions/workflows/master-build.yml)
 [![Quality](https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.common.comm&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.common.comm)
