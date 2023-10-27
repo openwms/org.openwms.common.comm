@@ -1,0 +1,5 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+OpenWMS.org COMMON: TCP/IP Driver OSIP,org.openwms.common.comm.app,AsyncConfiguration,7,85,1,1,2,23,2,8,1,8
+OpenWMS.org COMMON: TCP/IP Driver OSIP,org.openwms.common.comm.app,DriverConfiguration,217,1078,26,40,25,239,26,39,4,28
+OpenWMS.org COMMON: TCP/IP Driver OSIP,org.openwms.common.comm.app,RestTemplateInterceptor,15,0,0,0,4,0,2,0,2,0
+OpenWMS.org COMMON: TCP/IP Driver OSIP,org.openwms.common.comm,DriverStarter,5,3,0,0,2,1,1,1,1,1
