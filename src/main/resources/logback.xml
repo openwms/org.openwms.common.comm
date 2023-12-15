@@ -53,8 +53,8 @@
             <appender-ref ref="EXCFILE"/>
             <appender-ref ref="LOGFILE"/>
         </logger>
-            <logger name="CALLCONTEXT" level="DEBUG"/>
-            <logger name="MEASURED" level="INFO">
+        <logger name="CALLCONTEXT" level="DEBUG"/>
+        <logger name="MEASURED" level="INFO">
             <appender-ref ref="STDOUT"/>
             <appender-ref ref="TSL"/>
         </logger>
