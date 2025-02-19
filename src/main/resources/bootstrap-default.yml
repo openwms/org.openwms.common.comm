@@ -9,13 +9,7 @@ spring:
         enabled: false
       enabled: false
       fail-fast: false # true means retry
-      import-check:
-        enabled: false
       retry:
         max-attempts: 120
-      username: user
-      password: sa
-      headers:
-        protocol: ${owms.cfgsrv.protocol:http}
     discovery:
       enabled: false
